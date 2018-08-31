@@ -45,14 +45,14 @@ var (
 )
 
 type blockfileMgr struct {
-	rootDir           string
-	conf              *Conf
-	db                *leveldbhelper.DBHandle
-	index             index
-	cpInfo            *checkpointInfo
-	cpInfoCond        *sync.Cond
-	currentFileWriter *blockfileWriter
-	bcInfo            atomic.Value
+	rootDir           string  //ledger文件存储目录，如/var/hyperledger/production/ledgersData/chains/chains/mychannel
+	conf              *Conf  //即type Conf struct，存放路径和区块文件大小
+	db                *leveldbhelper.DBHandle  //用于操作index
+	index             index  //type index interface，其实现为blockIndex结构体interface方法
+	cpInfo            *checkpointInfo //type checkpointInfo struct
+	cpInfoCond        *sync.Cond //定期唤醒锁
+	currentFileWriter *blockfileWriter  //type blockfileWriter struct
+	bcInfo            atomic.Value //原子操作
 }
 
 /*
@@ -96,34 +96,38 @@ At start up a new manager:
 		-- If index and file system are not in sync, syncs index from the FS
   *)  Updates blockchain info used by the APIs
 */
+//构建blockfileMgr
 func newBlockfileMgr(id string, conf *Conf, indexConfig *blkstorage.IndexConfig, indexStore *leveldbhelper.DBHandle) *blockfileMgr {
 	logger.Debugf("newBlockfileMgr() initializing file-based block storage for ledger: %s ", id)
 	//Determine the root directory for the blockfile storage, if it does not exist create it
-	rootDir := conf.getLedgerBlockDir(id)
-	_, err := util.CreateDirIfMissing(rootDir)
+	rootDir := conf.getLedgerBlockDir(id)//如/var/hyperledger/production/ledgersData/chains/chains/mychannel
+	_, err := util.CreateDirIfMissing(rootDir) //检查rootDir是否存在，如不存在则创建
 	if err != nil {
 		panic(fmt.Sprintf("Error: %s", err))
 	}
 	// Instantiate the manager, i.e. blockFileMgr structure
+	//构造blockfileMgr，包括ledger路径、块文件大小、index目录leveldb句柄
 	mgr := &blockfileMgr{rootDir: rootDir, conf: conf, db: indexStore}
 
 	// cp = checkpointInfo, retrieve from the database the file suffix or number of where blocks were stored.
 	// It also retrieves the current size of that file and the last block number that was written to that file.
 	// At init checkpointInfo:latestFileChunkSuffixNum=[0], latestFileChunksize=[0], lastBlockNumber=[0]
+	//获取存储在index库中最新检查点信息，key为"blkMgrInfo"
 	cpInfo, err := mgr.loadCurrentInfo()
 	if err != nil {
 		panic(fmt.Sprintf("Could not get block file info for current block file from db: %s", err))
 	}
-	if cpInfo == nil {
+	if cpInfo == nil {   //找不到，第一次创建ledger或index被删除
 		logger.Info(`Getting block information from block storage`)
-		if cpInfo, err = constructCheckpointInfoFromBlockFiles(rootDir); err != nil {
+		if cpInfo, err = constructCheckpointInfoFromBlockFiles(rootDir); err != nil { //扫描最新的blockfile，并重新构造检查点信息
 			panic(fmt.Sprintf("Could not build checkpoint info from block files: %s", err))
 		}
 		logger.Debugf("Info constructed by scanning the blocks dir = %s", spew.Sdump(cpInfo))
 	} else {
 		logger.Debug(`Synching block information from block storage (if needed)`)
-		syncCPInfoFromFS(rootDir, cpInfo)
+		syncCPInfoFromFS(rootDir, cpInfo) //从文件系统中更新检查点信息
 	}
+	//将最新检查点信息，序列化后存入index库
 	err = mgr.saveCurrentInfo(cpInfo, true)
 	if err != nil {
 		panic(fmt.Sprintf("Could not save next block file info to db: %s", err))
@@ -142,6 +146,7 @@ func newBlockfileMgr(id string, conf *Conf, indexConfig *blkstorage.IndexConfig,
 	}
 
 	// Create a new KeyValue store database handler for the blocks index in the keyvalue database
+	//构造blockIndex
 	mgr.index = newBlockIndex(indexConfig, indexStore)
 
 	// Update the manager with the checkpoint info and the file writer
@@ -160,17 +165,22 @@ func newBlockfileMgr(id string, conf *Conf, indexConfig *blkstorage.IndexConfig,
 	if !cpInfo.isChainEmpty {
 		//If start up is a restart of an existing storage, sync the index from block storage and update BlockchainInfo for external API's
 		mgr.syncIndex()
+		//获取最后一个块的Header
 		lastBlockHeader, err := mgr.retrieveBlockHeaderByNumber(cpInfo.lastBlockNumber)
 		if err != nil {
 			panic(fmt.Sprintf("Could not retrieve header of the last block form file: %s", err))
 		}
+		//最后一个块的哈希
 		lastBlockHash := lastBlockHeader.Hash()
+		//前一个块的哈希
 		previousBlockHash := lastBlockHeader.PreviousHash
+		//构造区块链信息
 		bcInfo = &common.BlockchainInfo{
 			Height:            cpInfo.lastBlockNumber + 1,
 			CurrentBlockHash:  lastBlockHash,
 			PreviousBlockHash: previousBlockHash}
 	}
+	//bcInfo赋值给mgr.bcInfo
 	mgr.bcInfo.Store(bcInfo)
 	return mgr
 }
@@ -179,9 +189,11 @@ func newBlockfileMgr(id string, conf *Conf, indexConfig *blkstorage.IndexConfig,
 // the file of where the last block was written.  Also retrieves contains the
 // last block number that was written.  At init
 //checkpointInfo:latestFileChunkSuffixNum=[0], latestFileChunksize=[0], lastBlockNumber=[0]
+//从文件系统中更新检查点信息
 func syncCPInfoFromFS(rootDir string, cpInfo *checkpointInfo) {
 	logger.Debugf("Starting checkpoint=%s", cpInfo)
 	//Checks if the file suffix of where the last block was written exists
+	//最新区块文件路径
 	filePath := deriveBlockfilePath(rootDir, cpInfo.latestFileChunkSuffixNum)
 	exists, size, err := util.FileExists(filePath)
 	if err != nil {
@@ -196,33 +208,35 @@ func syncCPInfoFromFS(rootDir string, cpInfo *checkpointInfo) {
 		return
 	}
 	//Scan the file system to verify that the checkpoint info stored in db is correct
+	//扫描最后一个完整块
 	_, endOffsetLastBlock, numBlocks, err := scanForLastCompleteBlock(
 		rootDir, cpInfo.latestFileChunkSuffixNum, int64(cpInfo.latestFileChunksize))
 	if err != nil {
 		panic(fmt.Sprintf("Could not open current file for detecting last block in the file: %s", err))
 	}
+	//最新的区块文件大小
 	cpInfo.latestFileChunksize = int(endOffsetLastBlock)
 	if numBlocks == 0 {
 		return
 	}
 	//Updates the checkpoint info for the actual last block number stored and it's end location
 	if cpInfo.isChainEmpty {
-		cpInfo.lastBlockNumber = uint64(numBlocks - 1)
+		cpInfo.lastBlockNumber = uint64(numBlocks - 1) //最新的区块编号
 	} else {
 		cpInfo.lastBlockNumber += uint64(numBlocks)
 	}
 	cpInfo.isChainEmpty = false
 	logger.Debugf("Checkpoint after updates by scanning the last file segment:%s", cpInfo)
 }
-
+//构造Blockfile路径
 func deriveBlockfilePath(rootDir string, suffixNum int) string {
 	return rootDir + "/" + blockfilePrefix + fmt.Sprintf("%06d", suffixNum)
 }
-
+//关闭blockfileWriter
 func (mgr *blockfileMgr) close() {
 	mgr.currentFileWriter.close()
 }
-
+//转至下个新区块文件，打开新文件、并更新检查点信息
 func (mgr *blockfileMgr) moveToNextFile() {
 	cpInfo := &checkpointInfo{
 		latestFileChunkSuffixNum: mgr.cpInfo.latestFileChunkSuffixNum + 1,
@@ -243,19 +257,21 @@ func (mgr *blockfileMgr) moveToNextFile() {
 	mgr.currentFileWriter = nextFileWriter
 	mgr.updateCheckpoint(cpInfo)
 }
-
+//添加区块，区块写入文件，索引区块
 func (mgr *blockfileMgr) addBlock(block *common.Block) error {
 	if block.Header.Number != mgr.getBlockchainInfo().Height {
 		return fmt.Errorf("Block number should have been %d but was %d", mgr.getBlockchainInfo().Height, block.Header.Number)
 	}
+
+	//序列化区块，返回序列化后字节，以及serializedBlockInfo（含BlockHeader和交易索引信息）
 	blockBytes, info, err := serializeBlock(block)
 	if err != nil {
 		return fmt.Errorf("Error while serializing block: %s", err)
 	}
 	blockHash := block.Header.Hash()
 	//Get the location / offset where each transaction starts in the block and where the block ends
-	txOffsets := info.txOffsets
-	currentOffset := mgr.cpInfo.latestFileChunksize
+	txOffsets := info.txOffsets //交易索引信息
+	currentOffset := mgr.cpInfo.latestFileChunksize  //最新的区块文件大小
 	if err != nil {
 		return fmt.Errorf("Error while serializing block: %s", err)
 	}
@@ -265,16 +281,20 @@ func (mgr *blockfileMgr) addBlock(block *common.Block) error {
 
 	//Determine if we need to start a new file since the size of this block
 	//exceeds the amount of space left in the current file
+	//超出文件大小限定，创建新文件
 	if currentOffset+totalBytesToAppend > mgr.conf.maxBlockfileSize {
 		mgr.moveToNextFile()
 		currentOffset = 0
 	}
 	//append blockBytesEncodedLen to the file
+	//追加写入blockBytesLen
 	err = mgr.currentFileWriter.append(blockBytesEncodedLen, false)
 	if err == nil {
 		//append the actual block bytes to the file
+		//追加写入blockBytes
 		err = mgr.currentFileWriter.append(blockBytes, true)
 	}
+	//追加写入失败，回滚按原大小截取文件
 	if err != nil {
 		truncateErr := mgr.currentFileWriter.truncateFile(mgr.cpInfo.latestFileChunksize)
 		if truncateErr != nil {
@@ -291,7 +311,9 @@ func (mgr *blockfileMgr) addBlock(block *common.Block) error {
 		isChainEmpty:             false,
 		lastBlockNumber:          block.Header.Number}
 	//save the checkpoint information in the database
+	//更新检查点信息
 	if err = mgr.saveCurrentInfo(newCPInfo, false); err != nil {
+		//更新失败，回滚按原大小截取文件
 		truncateErr := mgr.currentFileWriter.truncateFile(currentCPInfo.latestFileChunksize)
 		if truncateErr != nil {
 			panic(fmt.Sprintf("Error in truncating current file to known size after an error in saving checkpoint info: %s", err))
@@ -303,6 +325,7 @@ func (mgr *blockfileMgr) addBlock(block *common.Block) error {
 	blockFLP := &fileLocPointer{fileSuffixNum: newCPInfo.latestFileChunkSuffixNum}
 	blockFLP.offset = currentOffset
 	// shift the txoffset because we prepend length of bytes before block bytes
+	//更新文件交易指针
 	for _, txOffset := range txOffsets {
 		txOffset.loc.offset += len(blockBytesEncodedLen)
 	}
@@ -316,7 +339,7 @@ func (mgr *blockfileMgr) addBlock(block *common.Block) error {
 	mgr.updateBlockchainInfo(blockHash, block)
 	return nil
 }
-
+//同步区块索引
 func (mgr *blockfileMgr) syncIndex() error {
 	var lastBlockIndexed uint64
 	var indexEmpty bool
@@ -418,11 +441,11 @@ func (mgr *blockfileMgr) syncIndex() error {
 	logger.Infof("Finished building index. Last block indexed [%d]", blockIdxInfo.blockNum)
 	return nil
 }
-
+//获取 BlockchainInfo
 func (mgr *blockfileMgr) getBlockchainInfo() *common.BlockchainInfo {
 	return mgr.bcInfo.Load().(*common.BlockchainInfo)
 }
-
+//更新检查点信息
 func (mgr *blockfileMgr) updateCheckpoint(cpInfo *checkpointInfo) {
 	mgr.cpInfoCond.L.Lock()
 	defer mgr.cpInfoCond.L.Unlock()
@@ -430,7 +453,7 @@ func (mgr *blockfileMgr) updateCheckpoint(cpInfo *checkpointInfo) {
 	logger.Debugf("Broadcasting about update checkpointInfo: %s", cpInfo)
 	mgr.cpInfoCond.Broadcast()
 }
-
+//更新BlockchainInfo
 func (mgr *blockfileMgr) updateBlockchainInfo(latestBlockHash []byte, latestBlock *common.Block) {
 	currentBCInfo := mgr.getBlockchainInfo()
 	newBCInfo := &common.BlockchainInfo{
@@ -440,7 +463,7 @@ func (mgr *blockfileMgr) updateBlockchainInfo(latestBlockHash []byte, latestBloc
 
 	mgr.bcInfo.Store(newBCInfo)
 }
-
+//按区块哈希获取块，mgr.index.getBlockLocByHash(blockHash)，mgr.fetchBlock(loc)
 func (mgr *blockfileMgr) retrieveBlockByHash(blockHash []byte) (*common.Block, error) {
 	logger.Debugf("retrieveBlockByHash() - blockHash = [%#v]", blockHash)
 	loc, err := mgr.index.getBlockLocByHash(blockHash)
@@ -449,7 +472,7 @@ func (mgr *blockfileMgr) retrieveBlockByHash(blockHash []byte) (*common.Block, e
 	}
 	return mgr.fetchBlock(loc)
 }
-
+//按区块编号获取块，mgr.index.getBlockLocByBlockNum(blockNum)，mgr.fetchBlock(loc)
 func (mgr *blockfileMgr) retrieveBlockByNumber(blockNum uint64) (*common.Block, error) {
 	logger.Debugf("retrieveBlockByNumber() - blockNum = [%d]", blockNum)
 
@@ -464,7 +487,7 @@ func (mgr *blockfileMgr) retrieveBlockByNumber(blockNum uint64) (*common.Block, 
 	}
 	return mgr.fetchBlock(loc)
 }
-
+//按交易ID获取块，mgr.index.getBlockLocByTxID(txID)，mgr.fetchBlock(loc)
 func (mgr *blockfileMgr) retrieveBlockByTxID(txID string) (*common.Block, error) {
 	logger.Debugf("retrieveBlockByTxID() - txID = [%s]", txID)
 
@@ -475,12 +498,12 @@ func (mgr *blockfileMgr) retrieveBlockByTxID(txID string) (*common.Block, error)
 	}
 	return mgr.fetchBlock(loc)
 }
-
+//按交易ID获取交易验证代码，mgr.index.getTxValidationCodeByTxID(txID)
 func (mgr *blockfileMgr) retrieveTxValidationCodeByTxID(txID string) (peer.TxValidationCode, error) {
 	logger.Debugf("retrieveTxValidationCodeByTxID() - txID = [%s]", txID)
 	return mgr.index.getTxValidationCodeByTxID(txID)
 }
-
+//按区块编号获取BlockHeader：按区块编号从索引中取文件区块指针，按文件指针取区块Bytes，按区块Bytes构建serializedBlockInfo，取serializedBlockInfo.blockHeader
 func (mgr *blockfileMgr) retrieveBlockHeaderByNumber(blockNum uint64) (*common.BlockHeader, error) {
 	logger.Debugf("retrieveBlockHeaderByNumber() - blockNum = [%d]", blockNum)
 	loc, err := mgr.index.getBlockLocByBlockNum(blockNum)
@@ -497,11 +520,11 @@ func (mgr *blockfileMgr) retrieveBlockHeaderByNumber(blockNum uint64) (*common.B
 	}
 	return info.blockHeader, nil
 }
-
+//构造blocksItr
 func (mgr *blockfileMgr) retrieveBlocks(startNum uint64) (*blocksItr, error) {
 	return newBlockItr(mgr, startNum), nil
 }
-
+//按交易ID获取交易，mgr.index.getTxLoc(txID)，mgr.fetchTransactionEnvelope(loc)
 func (mgr *blockfileMgr) retrieveTransactionByID(txID string) (*common.Envelope, error) {
 	logger.Debugf("retrieveTransactionByID() - txId = [%s]", txID)
 	loc, err := mgr.index.getTxLoc(txID)
@@ -510,7 +533,7 @@ func (mgr *blockfileMgr) retrieveTransactionByID(txID string) (*common.Envelope,
 	}
 	return mgr.fetchTransactionEnvelope(loc)
 }
-
+//按区块编号和交易编号获取交易，mgr.index.getTXLocByBlockNumTranNum(blockNum, tranNum)，mgr.fetchTransactionEnvelope(loc)
 func (mgr *blockfileMgr) retrieveTransactionByBlockNumTranNum(blockNum uint64, tranNum uint64) (*common.Envelope, error) {
 	logger.Debugf("retrieveTransactionByBlockNumTranNum() - blockNum = [%d], tranNum = [%d]", blockNum, tranNum)
 	loc, err := mgr.index.getTXLocByBlockNumTranNum(blockNum, tranNum)
@@ -519,7 +542,7 @@ func (mgr *blockfileMgr) retrieveTransactionByBlockNumTranNum(blockNum uint64, t
 	}
 	return mgr.fetchTransactionEnvelope(loc)
 }
-
+//获取下一个块
 func (mgr *blockfileMgr) fetchBlock(lp *fileLocPointer) (*common.Block, error) {
 	blockBytes, err := mgr.fetchBlockBytes(lp)
 	if err != nil {
@@ -531,7 +554,11 @@ func (mgr *blockfileMgr) fetchBlock(lp *fileLocPointer) (*common.Block, error) {
 	}
 	return block, nil
 }
-
+//获取交易
+//type Envelope struct {
+//  Payload []byte
+//  Signature []byte
+//}
 func (mgr *blockfileMgr) fetchTransactionEnvelope(lp *fileLocPointer) (*common.Envelope, error) {
 	logger.Debugf("Entering fetchTransactionEnvelope() %v\n", lp)
 	var err error
@@ -542,7 +569,7 @@ func (mgr *blockfileMgr) fetchTransactionEnvelope(lp *fileLocPointer) (*common.E
 	_, n := proto.DecodeVarint(txEnvelopeBytes)
 	return putil.GetEnvelopeFromBlock(txEnvelopeBytes[n:])
 }
-
+//按文件指针获取区块Bytes
 func (mgr *blockfileMgr) fetchBlockBytes(lp *fileLocPointer) ([]byte, error) {
 	stream, err := newBlockfileStream(mgr.rootDir, lp.fileSuffixNum, int64(lp.offset))
 	if err != nil {
@@ -555,7 +582,7 @@ func (mgr *blockfileMgr) fetchBlockBytes(lp *fileLocPointer) ([]byte, error) {
 	}
 	return b, nil
 }
-
+//按文件指针获取原始字节
 func (mgr *blockfileMgr) fetchRawBytes(lp *fileLocPointer) ([]byte, error) {
 	filePath := deriveBlockfilePath(mgr.rootDir, lp.fileSuffixNum)
 	reader, err := newBlockfileReader(filePath)
@@ -569,7 +596,7 @@ func (mgr *blockfileMgr) fetchRawBytes(lp *fileLocPointer) ([]byte, error) {
 	}
 	return b, nil
 }
-
+//获取存储在index库中最新检查点信息，key为"blkMgrInfo"
 //Get the current checkpoint information that is stored in the database
 func (mgr *blockfileMgr) loadCurrentInfo() (*checkpointInfo, error) {
 	var b []byte
@@ -584,7 +611,7 @@ func (mgr *blockfileMgr) loadCurrentInfo() (*checkpointInfo, error) {
 	logger.Debugf("loaded checkpointInfo:%s", i)
 	return i, nil
 }
-
+//将最新检查点信息，序列化后存入index库
 func (mgr *blockfileMgr) saveCurrentInfo(i *checkpointInfo, sync bool) error {
 	b, err := i.marshal()
 	if err != nil {
@@ -595,7 +622,7 @@ func (mgr *blockfileMgr) saveCurrentInfo(i *checkpointInfo, sync bool) error {
 	}
 	return nil
 }
-
+//扫描给定的块文件并检测文件中的最后完整块，返回最后一个块字节、文件最新偏移量、块数
 // scanForLastCompleteBlock scan a given block file and detects the last offset in the file
 // after which there may lie a block partially written (towards the end of the file in a crash scenario).
 func scanForLastCompleteBlock(rootDir string, fileNum int, startingOffset int64) ([]byte, int64, int, error) {
@@ -627,12 +654,12 @@ func scanForLastCompleteBlock(rootDir string, fileNum int, startingOffset int64)
 	return lastBlockBytes, blockStream.currentOffset, numBlocks, errRead
 }
 
-// checkpointInfo
+// checkpointInfo 检查点信息
 type checkpointInfo struct {
-	latestFileChunkSuffixNum int
-	latestFileChunksize      int
-	isChainEmpty             bool
-	lastBlockNumber          uint64
+	latestFileChunkSuffixNum int //最新的区块文件后缀，如blockfile_000000
+	latestFileChunksize      int  //最新区块文件大小，区块文件默认<64M
+	isChainEmpty             bool  //是否空链
+	lastBlockNumber          uint64 //最新区块编号
 }
 
 func (i *checkpointInfo) marshal() ([]byte, error) {
@@ -683,7 +710,7 @@ func (i *checkpointInfo) unmarshal(b []byte) error {
 	i.isChainEmpty = chainEmptyMarker == 1
 	return nil
 }
-
+//转换为string
 func (i *checkpointInfo) String() string {
 	return fmt.Sprintf("latestFileChunkSuffixNum=[%d], latestFileChunksize=[%d], isChainEmpty=[%t], lastBlockNumber=[%d]",
 		i.latestFileChunkSuffixNum, i.latestFileChunksize, i.isChainEmpty, i.lastBlockNumber)

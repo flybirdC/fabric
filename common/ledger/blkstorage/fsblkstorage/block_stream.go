@@ -33,16 +33,18 @@ var ErrUnexpectedEndOfBlockfile = errors.New("unexpected end of blockfile")
 
 // blockfileStream reads blocks sequentially from a single file.
 // It starts from the given offset and can traverse till the end of the file
+//单个文件读块
 type blockfileStream struct {
-	fileNum       int
-	file          *os.File
-	reader        *bufio.Reader
-	currentOffset int64
+	fileNum       int //blockfile文件后缀
+	file          *os.File  //输出file
+	reader        *bufio.Reader  //读
+	currentOffset int64  //当前偏移量
 }
 
 // blockStream reads blocks sequentially from multiple files.
 // it starts from a given file offset and continues with the next
 // file segment until the end of the last segment (`endFileNum`)
+//多个文件读块
 type blockStream struct {
 	rootDir           string
 	currentFileNum    int
@@ -52,15 +54,17 @@ type blockStream struct {
 
 // blockPlacementInfo captures the information related
 // to block's placement in the file.
+//块位置信息
 type blockPlacementInfo struct {
-	fileNum          int
-	blockStartOffset int64
-	blockBytesOffset int64
+	fileNum          int  //块文件后缀
+	blockStartOffset int64  //n+lenth， n之前
+	blockBytesOffset int64  //n+lenth，  lenth之前
 }
 
 ///////////////////////////////////
 // blockfileStream functions
 ////////////////////////////////////
+//构造blockfilestream
 func newBlockfileStream(rootDir string, fileNum int, startOffset int64) (*blockfileStream, error) {
 	filePath := deriveBlockfilePath(rootDir, fileNum)
 	logger.Debugf("newBlockfileStream(): filePath=[%s], startOffset=[%d]", filePath, startOffset)
@@ -81,6 +85,7 @@ func newBlockfileStream(rootDir string, fileNum int, startOffset int64) (*blockf
 	return s, nil
 }
 
+//下一个块，调取s.nextBlockBytesAndPlacementInfo()
 func (s *blockfileStream) nextBlockBytes() ([]byte, error) {
 	blockBytes, _, err := s.nextBlockBytesAndPlacementInfo()
 	return blockBytes, err
@@ -96,6 +101,7 @@ func (s *blockfileStream) nextBlockBytesAndPlacementInfo() ([]byte, *blockPlacem
 	var fileInfo os.FileInfo
 	moreContentAvailable := true
 
+	//获取文件状态
 	if fileInfo, err = s.file.Stat(); err != nil {
 		return nil, nil, err
 	}
@@ -103,18 +109,22 @@ func (s *blockfileStream) nextBlockBytesAndPlacementInfo() ([]byte, *blockPlacem
 		logger.Debugf("Finished reading file number [%d]", s.fileNum)
 		return nil, nil, nil
 	}
+	//文件读取剩余字节
 	remainingBytes := fileInfo.Size() - s.currentOffset
 	// Peek 8 or smaller number of bytes (if remaining bytes are less than 8)
 	// Assumption is that a block size would be small enough to be represented in 8 bytes varint
+	//剩余字节小于8，按实际剩余字节，否则按8
 	peekBytes := 8
 	if remainingBytes < int64(peekBytes) {
 		peekBytes = int(remainingBytes)
 		moreContentAvailable = false
 	}
 	logger.Debugf("Remaining bytes=[%d], Going to peek [%d] bytes", remainingBytes, peekBytes)
-	if lenBytes, err = s.reader.Peek(peekBytes); err != nil {
+	//存储形式：前n位存储block长度length，之后length位为实际block
+	if lenBytes, err = s.reader.Peek(peekBytes); err != nil {   //Peek 返回缓存的一个切片，该切片引用缓存中前 peekBytes 个字节的数据
 		return nil, nil, err
 	}
+	//从切片中读取 varint 编码的整数，它返回整数和被消耗的字节数。
 	length, n := proto.DecodeVarint(lenBytes)
 	if n == 0 {
 		// proto.DecodeVarint did not consume any byte at all which means that the bytes
@@ -131,7 +141,7 @@ func (s *blockfileStream) nextBlockBytesAndPlacementInfo() ([]byte, *blockPlacem
 		return nil, nil, ErrUnexpectedEndOfBlockfile
 	}
 	// skip the bytes representing the block size
-	if _, err = s.reader.Discard(n); err != nil {
+	if _, err = s.reader.Discard(n); err != nil {  //丢弃存储block长度length的前n位
 		return nil, nil, err
 	}
 	blockBytes := make([]byte, length)

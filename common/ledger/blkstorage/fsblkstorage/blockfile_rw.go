@@ -22,15 +22,16 @@ import (
 
 ////  WRITER ////
 type blockfileWriter struct {
-	filePath string
-	file     *os.File
+	filePath string  //路径
+	file     *os.File   //os.file
 }
 
+//构造blockfileWriter，并调用writer.open()
 func newBlockfileWriter(filePath string) (*blockfileWriter, error) {
 	writer := &blockfileWriter{filePath: filePath}
 	return writer, writer.open()
 }
-
+//截取文件
 func (w *blockfileWriter) truncateFile(targetSize int) error {
 	fileStat, err := w.file.Stat()
 	if err != nil {
@@ -41,7 +42,7 @@ func (w *blockfileWriter) truncateFile(targetSize int) error {
 	}
 	return nil
 }
-
+//追加文件
 func (w *blockfileWriter) append(b []byte, sync bool) error {
 	_, err := w.file.Write(b)
 	if err != nil {
@@ -52,7 +53,7 @@ func (w *blockfileWriter) append(b []byte, sync bool) error {
 	}
 	return nil
 }
-
+//打开文件
 func (w *blockfileWriter) open() error {
 	file, err := os.OpenFile(w.filePath, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0660)
 	if err != nil {
@@ -61,7 +62,7 @@ func (w *blockfileWriter) open() error {
 	w.file = file
 	return nil
 }
-
+//关闭文件
 func (w *blockfileWriter) close() error {
 	return w.file.Close()
 }

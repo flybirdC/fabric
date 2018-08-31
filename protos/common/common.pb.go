@@ -17,6 +17,7 @@ var _ = math.Inf
 // These status codes are intended to resemble selected HTTP status codes
 type Status int32
 
+//网络状态结果
 const (
 	Status_UNKNOWN                  Status = 0
 	Status_SUCCESS                  Status = 200
@@ -392,9 +393,9 @@ func (m *Envelope) GetSignature() []byte {
 // in the BlockHeader.  This makes it natural and obvious that the Data is included in the hash, but
 // the Metadata is not.
 type Block struct {
-	Header   *BlockHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"`
-	Data     *BlockData     `protobuf:"bytes,2,opt,name=data" json:"data,omitempty"`
-	Metadata *BlockMetadata `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"`
+	Header   *BlockHeader   `protobuf:"bytes,1,opt,name=header" json:"header,omitempty"` //区块头
+	Data     *BlockData     `protobuf:"bytes,2,opt,name=data" json:"data,omitempty"`  //区块数据
+	Metadata *BlockMetadata `protobuf:"bytes,3,opt,name=metadata" json:"metadata,omitempty"` //区块元数据
 }
 
 func (m *Block) Reset()                    { *m = Block{} }
@@ -402,13 +403,14 @@ func (m *Block) String() string            { return proto.CompactTextString(m) }
 func (*Block) ProtoMessage()               {}
 func (*Block) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{8} }
 
+//单例：获得区块头
 func (m *Block) GetHeader() *BlockHeader {
 	if m != nil {
 		return m.Header
 	}
 	return nil
 }
-
+//单例：获得区块数据
 func (m *Block) GetData() *BlockData {
 	if m != nil {
 		return m.Data
@@ -416,6 +418,7 @@ func (m *Block) GetData() *BlockData {
 	return nil
 }
 
+//单例：获得区块元数据
 func (m *Block) GetMetadata() *BlockMetadata {
 	if m != nil {
 		return m.Metadata
@@ -426,10 +429,11 @@ func (m *Block) GetMetadata() *BlockMetadata {
 // BlockHeader is the element of the block which forms the block chain
 // The block header is hashed using the configured chain hashing algorithm
 // over the ASN.1 encoding of the BlockHeader
+//定义区块头
 type BlockHeader struct {
-	Number       uint64 `protobuf:"varint,1,opt,name=number" json:"number,omitempty"`
-	PreviousHash []byte `protobuf:"bytes,2,opt,name=previous_hash,json=previousHash,proto3" json:"previous_hash,omitempty"`
-	DataHash     []byte `protobuf:"bytes,3,opt,name=data_hash,json=dataHash,proto3" json:"data_hash,omitempty"`
+	Number       uint64 `protobuf:"varint,1,opt,name=number" json:"number,omitempty"` //区块编号：高度
+	PreviousHash []byte `protobuf:"bytes,2,opt,name=previous_hash,json=previousHash,proto3" json:"previous_hash,omitempty"` //前一区块hash
+	DataHash     []byte `protobuf:"bytes,3,opt,name=data_hash,json=dataHash,proto3" json:"data_hash,omitempty"`  //当前区块hash
 }
 
 func (m *BlockHeader) Reset()                    { *m = BlockHeader{} }
@@ -437,6 +441,7 @@ func (m *BlockHeader) String() string            { return proto.CompactTextStrin
 func (*BlockHeader) ProtoMessage()               {}
 func (*BlockHeader) Descriptor() ([]byte, []int) { return fileDescriptor1, []int{9} }
 
+//区块头参数的单例获取
 func (m *BlockHeader) GetNumber() uint64 {
 	if m != nil {
 		return m.Number
@@ -459,7 +464,7 @@ func (m *BlockHeader) GetDataHash() []byte {
 }
 
 type BlockData struct {
-	Data [][]byte `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	Data [][]byte `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`  //存储交易信息
 }
 
 func (m *BlockData) Reset()                    { *m = BlockData{} }
@@ -475,7 +480,7 @@ func (m *BlockData) GetData() [][]byte {
 }
 
 type BlockMetadata struct {
-	Metadata [][]byte `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty"`
+	Metadata [][]byte `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty"` //元数据k/v
 }
 
 func (m *BlockMetadata) Reset()                    { *m = BlockMetadata{} }

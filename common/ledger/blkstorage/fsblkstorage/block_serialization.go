@@ -23,16 +23,18 @@ import (
 	"github.com/hyperledger/fabric/protos/utils"
 )
 
+//块信息序列化
 type serializedBlockInfo struct {
-	blockHeader *common.BlockHeader
-	txOffsets   []*txindexInfo
-	metadata    *common.BlockMetadata
+	blockHeader *common.BlockHeader  //block header
+	txOffsets   []*txindexInfo  //交易索引信息
+	metadata    *common.BlockMetadata  //meta
 }
 
 //The order of the transactions must be maintained for history
+//交易排序进历史记录
 type txindexInfo struct {
-	txID string
-	loc  *locPointer
+	txID string   //交易ID
+	loc  *locPointer   //文件指针
 }
 
 func serializeBlock(block *common.Block) ([]byte, *serializedBlockInfo, error) {

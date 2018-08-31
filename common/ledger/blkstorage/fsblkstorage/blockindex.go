@@ -44,29 +44,29 @@ var indexCheckpointKey = []byte(indexCheckpointKeyStr)
 var errIndexEmpty = errors.New("NoBlockIndexed")
 
 type index interface {
-	getLastBlockIndexed() (uint64, error)
-	indexBlock(blockIdxInfo *blockIdxInfo) error
-	getBlockLocByHash(blockHash []byte) (*fileLocPointer, error)
-	getBlockLocByBlockNum(blockNum uint64) (*fileLocPointer, error)
-	getTxLoc(txID string) (*fileLocPointer, error)
-	getTXLocByBlockNumTranNum(blockNum uint64, tranNum uint64) (*fileLocPointer, error)
-	getBlockLocByTxID(txID string) (*fileLocPointer, error)
-	getTxValidationCodeByTxID(txID string) (peer.TxValidationCode, error)
+	getLastBlockIndexed() (uint64, error)//获取最后一个块索引（或编号）
+	indexBlock(blockIdxInfo *blockIdxInfo) error //索引区块
+	getBlockLocByHash(blockHash []byte) (*fileLocPointer, error) //根据区块hash，获取区块文件指针
+	getBlockLocByBlockNum(blockNum uint64) (*fileLocPointer, error) //根据区块编号，获取区块文件指针
+	getTxLoc(txID string) (*fileLocPointer, error) //根据交易ID，获取区块文件指针
+	getTXLocByBlockNumTranNum(blockNum uint64, tranNum uint64) (*fileLocPointer, error) //根据区块编号和交易编号，获取区块文件指针
+	getBlockLocByTxID(txID string) (*fileLocPointer, error) //根据区块文件交易ID，获取区块文件指针
+	getTxValidationCodeByTxID(txID string) (peer.TxValidationCode, error) //根据交易ID，获取交易验证代码
 }
 
 type blockIdxInfo struct {
-	blockNum  uint64
-	blockHash []byte
-	flp       *fileLocPointer
-	txOffsets []*txindexInfo
+	blockNum  uint64 //区块编号
+	blockHash []byte //区块hash
+	flp       *fileLocPointer //文件指针
+	txOffsets []*txindexInfo //交易索引信息
 	metadata  *common.BlockMetadata
 }
 
 type blockIndex struct {
-	indexItemsMap map[blkstorage.IndexableAttr]bool
-	db            *leveldbhelper.DBHandle
+	indexItemsMap map[blkstorage.IndexableAttr]bool //index属性映射
+	db            *leveldbhelper.DBHandle  //index leveldb操作
 }
-
+//构造blockindex
 func newBlockIndex(indexConfig *blkstorage.IndexConfig, db *leveldbhelper.DBHandle) *blockIndex {
 	indexItems := indexConfig.AttrsToIndex
 	logger.Debugf("newBlockIndex() - indexItems:[%s]", indexItems)
@@ -76,7 +76,7 @@ func newBlockIndex(indexConfig *blkstorage.IndexConfig, db *leveldbhelper.DBHand
 	}
 	return &blockIndex{indexItemsMap, db}
 }
-
+//获取最后一个块索引（或编号），取key为"indexCheckpointKey"的值，即为最新的区块编号
 func (index *blockIndex) getLastBlockIndexed() (uint64, error) {
 	var blockNumBytes []byte
 	var err error
@@ -88,7 +88,7 @@ func (index *blockIndex) getLastBlockIndexed() (uint64, error) {
 	}
 	return decodeBlockNum(blockNumBytes), nil
 }
-
+//索引区块
 func (index *blockIndex) indexBlock(blockIdxInfo *blockIdxInfo) error {
 	// do not index anything
 	if len(index.indexItemsMap) == 0 {
@@ -96,27 +96,27 @@ func (index *blockIndex) indexBlock(blockIdxInfo *blockIdxInfo) error {
 		return nil
 	}
 	logger.Debugf("Indexing block [%s]", blockIdxInfo)
-	flp := blockIdxInfo.flp
-	txOffsets := blockIdxInfo.txOffsets
+	flp := blockIdxInfo.flp  //文件指针
+	txOffsets := blockIdxInfo.txOffsets //交易索引信息
 	txsfltr := ledgerUtil.TxValidationFlags(blockIdxInfo.metadata.Metadata[common.BlockMetadataIndex_TRANSACTIONS_FILTER])
-	batch := leveldbhelper.NewUpdateBatch()
-	flpBytes, err := flp.marshal()
+	batch := leveldbhelper.NewUpdateBatch() //leveldb批量更新
+	flpBytes, err := flp.marshal() //文件指针序列化，含文件后缀、偏移位置、字节长度
 	if err != nil {
 		return err
 	}
 
 	//Index1
-	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockHash]; ok {
-		batch.Put(constructBlockHashKey(blockIdxInfo.blockHash), flpBytes)
+	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockHash]; ok {    //使用区块哈希索引文件区块指针
+		batch.Put(constructBlockHashKey(blockIdxInfo.blockHash), flpBytes) //区块哈希，blockHash：flpBytes存入leveldb
 	}
 
 	//Index2
-	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNum]; ok {
-		batch.Put(constructBlockNumKey(blockIdxInfo.blockNum), flpBytes)
+	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNum]; ok { //使用区块编号索引文件区块指针
+		batch.Put(constructBlockNumKey(blockIdxInfo.blockNum), flpBytes)  //区块编号，blockNum：flpBytes存入leveldb
 	}
 
 	//Index3 Used to find a transaction by it's transaction id
-	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrTxID]; ok {
+	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrTxID]; ok { //使用交易ID索引文件交易指针
 		for _, txoffset := range txOffsets {
 			txFlp := newFileLocationPointer(flp.fileSuffixNum, flp.offset, txoffset.loc)
 			logger.Debugf("Adding txLoc [%s] for tx ID: [%s] to index", txFlp, txoffset.txID)
@@ -124,12 +124,12 @@ func (index *blockIndex) indexBlock(blockIdxInfo *blockIdxInfo) error {
 			if marshalErr != nil {
 				return marshalErr
 			}
-			batch.Put(constructTxIDKey(txoffset.txID), txFlpBytes)
+			batch.Put(constructTxIDKey(txoffset.txID), txFlpBytes) //交易ID，txID：txFlpBytes存入leveldb
 		}
 	}
 
-	//Index4 - Store BlockNumTranNum will be used to query history data
-	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNumTranNum]; ok {
+	//Index4 - Store BlockNumTranNum will be used to query history data 用于查询历史数据
+	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNumTranNum]; ok {  //使用区块编号索引文件区块指针
 		for txIterator, txoffset := range txOffsets {
 			txFlp := newFileLocationPointer(flp.fileSuffixNum, flp.offset, txoffset.loc)
 			logger.Debugf("Adding txLoc [%s] for tx number:[%d] ID: [%s] to blockNumTranNum index", txFlp, txIterator, txoffset.txID)
@@ -137,12 +137,13 @@ func (index *blockIndex) indexBlock(blockIdxInfo *blockIdxInfo) error {
 			if marshalErr != nil {
 				return marshalErr
 			}
+			//区块编号和交易编号，blockNum+txIterator：txFlpBytes
 			batch.Put(constructBlockNumTranNumKey(blockIdxInfo.blockNum, uint64(txIterator)), txFlpBytes)
 		}
 	}
 
 	// Index5 - Store BlockNumber will be used to find block by transaction id
-	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockTxID]; ok {
+	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockTxID]; ok {  //使用交易ID索引交易验证代码
 		for _, txoffset := range txOffsets {
 			batch.Put(constructBlockTxIDKey(txoffset.txID), flpBytes)
 		}
@@ -155,14 +156,15 @@ func (index *blockIndex) indexBlock(blockIdxInfo *blockIdxInfo) error {
 		}
 	}
 
-	batch.Put(indexCheckpointKey, encodeBlockNum(blockIdxInfo.blockNum))
+	batch.Put(indexCheckpointKey, encodeBlockNum(blockIdxInfo.blockNum))  //key为"indexCheckpointKey"的值，即为最新的区块编号
 	// Setting snyc to true as a precaution, false may be an ok optimization after further testing.
+	//批量更新
 	if err := index.db.WriteBatch(batch, true); err != nil {
 		return err
 	}
 	return nil
 }
-
+//根据区块哈希，获取文件区块指针
 func (index *blockIndex) getBlockLocByHash(blockHash []byte) (*fileLocPointer, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockHash]; !ok {
 		return nil, blkstorage.ErrAttrNotIndexed
@@ -178,7 +180,7 @@ func (index *blockIndex) getBlockLocByHash(blockHash []byte) (*fileLocPointer, e
 	blkLoc.unmarshal(b)
 	return blkLoc, nil
 }
-
+//根据区块编号，获取文件区块指针
 func (index *blockIndex) getBlockLocByBlockNum(blockNum uint64) (*fileLocPointer, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNum]; !ok {
 		return nil, blkstorage.ErrAttrNotIndexed
@@ -194,7 +196,7 @@ func (index *blockIndex) getBlockLocByBlockNum(blockNum uint64) (*fileLocPointer
 	blkLoc.unmarshal(b)
 	return blkLoc, nil
 }
-
+//根据交易ID，获取文件交易指针
 func (index *blockIndex) getTxLoc(txID string) (*fileLocPointer, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrTxID]; !ok {
 		return nil, blkstorage.ErrAttrNotIndexed
@@ -210,7 +212,7 @@ func (index *blockIndex) getTxLoc(txID string) (*fileLocPointer, error) {
 	txFLP.unmarshal(b)
 	return txFLP, nil
 }
-
+//根据交易ID，获取文件区块指针
 func (index *blockIndex) getBlockLocByTxID(txID string) (*fileLocPointer, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockTxID]; !ok {
 		return nil, blkstorage.ErrAttrNotIndexed
@@ -226,7 +228,7 @@ func (index *blockIndex) getBlockLocByTxID(txID string) (*fileLocPointer, error)
 	txFLP.unmarshal(b)
 	return txFLP, nil
 }
-
+//根据区块编号和交易编号，获取文件交易指针
 func (index *blockIndex) getTXLocByBlockNumTranNum(blockNum uint64, tranNum uint64) (*fileLocPointer, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrBlockNumTranNum]; !ok {
 		return nil, blkstorage.ErrAttrNotIndexed
@@ -242,7 +244,7 @@ func (index *blockIndex) getTXLocByBlockNumTranNum(blockNum uint64, tranNum uint
 	txFLP.unmarshal(b)
 	return txFLP, nil
 }
-
+//根据交易ID，获取交易验证代码
 func (index *blockIndex) getTxValidationCodeByTxID(txID string) (peer.TxValidationCode, error) {
 	if _, ok := index.indexItemsMap[blkstorage.IndexableAttrTxValidationCode]; !ok {
 		return peer.TxValidationCode(-1), blkstorage.ErrAttrNotIndexed
@@ -262,28 +264,28 @@ func (index *blockIndex) getTxValidationCodeByTxID(txID string) (peer.TxValidati
 
 	return result, nil
 }
-
+//构造区块num key
 func constructBlockNumKey(blockNum uint64) []byte {
 	blkNumBytes := util.EncodeOrderPreservingVarUint64(blockNum)
 	return append([]byte{blockNumIdxKeyPrefix}, blkNumBytes...)
 }
-
+//构造区块hash key
 func constructBlockHashKey(blockHash []byte) []byte {
 	return append([]byte{blockHashIdxKeyPrefix}, blockHash...)
 }
-
+//构造交易ID key
 func constructTxIDKey(txID string) []byte {
 	return append([]byte{txIDIdxKeyPrefix}, []byte(txID)...)
 }
-
+//构造区块IDkey
 func constructBlockTxIDKey(txID string) []byte {
 	return append([]byte{blockTxIDIdxKeyPrefix}, []byte(txID)...)
 }
-
+//构造区块验证代码key
 func constructTxValidationCodeIDKey(txID string) []byte {
 	return append([]byte{txValidationResultIdxKeyPrefix}, []byte(txID)...)
 }
-
+//构造区块编号交易编号key
 func constructBlockNumTranNumKey(blockNum uint64, txNum uint64) []byte {
 	blkNumBytes := util.EncodeOrderPreservingVarUint64(blockNum)
 	tranNumBytes := util.EncodeOrderPreservingVarUint64(txNum)
@@ -299,10 +301,10 @@ func decodeBlockNum(blockNumBytes []byte) uint64 {
 	blockNum, _ := proto.DecodeVarint(blockNumBytes)
 	return blockNum
 }
-
+//定义指针
 type locPointer struct {
-	offset      int
-	bytesLength int
+	offset      int //偏移位置
+	bytesLength int  //字节长度
 }
 
 func (lp *locPointer) String() string {
@@ -310,10 +312,10 @@ func (lp *locPointer) String() string {
 		lp.offset, lp.bytesLength)
 }
 
-// fileLocPointer
+// fileLocPointer 文件指针
 type fileLocPointer struct {
-	fileSuffixNum int
-	locPointer
+	fileSuffixNum int //文件后缀
+	locPointer  //嵌入指针
 }
 
 func newFileLocationPointer(fileSuffixNum int, beginningOffset int, relativeLP *locPointer) *fileLocPointer {

@@ -25,13 +25,13 @@ import (
 // blocksItr - an iterator for iterating over a sequence of blocks
 type blocksItr struct {
 	mgr                  *blockfileMgr
-	maxBlockNumAvailable uint64
-	blockNumToRetrieve   uint64
-	stream               *blockStream
+	maxBlockNumAvailable uint64 //最大区块编号
+	blockNumToRetrieve   uint64 //起始区块编号
+	stream               *blockStream //流
 	closeMarker          bool
 	closeMarkerLock      *sync.Mutex
 }
-
+//构造
 func newBlockItr(mgr *blockfileMgr, startBlockNum uint64) *blocksItr {
 	return &blocksItr{mgr, mgr.cpInfo.lastBlockNumber, startBlockNum, nil, false, &sync.Mutex{}}
 }
