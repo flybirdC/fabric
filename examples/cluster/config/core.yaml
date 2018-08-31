@@ -89,7 +89,7 @@ peer:
     # Gossip related configuration
     gossip:
         # Bootstrap set to initialize gossip with
-        bootstrap: 127.0.0.1:7051
+        bootstrap: 127.0.0.1:7051  //初始化，启动连接节点
 
         # NOTE: orgLeader and useLeaderElection parameters are mutual exclusive
         # setting both to true would result in the termination of the peer, since this is undefined
@@ -99,73 +99,73 @@ peer:
         # "leader" selection, where leader is the peer to establish
         # connection with ordering service and use delivery protocol
         # to pull ledger blocks from ordering service
-        useLeaderElection: true
+        useLeaderElection: true //指定leader是自动动态选举还是手动固定配置
         # Statically defines peer to be an organization "leader",
         # where this means that current peer will maintain connection
         # with ordering service and disseminate block across peers in
         # its own organization
-        orgLeader: false
+        orgLeader: false //在自动为false时生效，二者互斥
 
         # ID of this instance
-        endpoint:
+        endpoint:     //本地节点的ID、IP、Port
         # Maximum count of blocks we store in memory
-        maxBlockCountToStore: 100
+        maxBlockCountToStore: 100   //区块缓冲区大小
         # Max time between consecutive message pushes(unit: millisecond)
-        maxPropagationBurstLatency: 10ms
+        maxPropagationBurstLatency: 10ms   //消息推送间隔（10ms）
         # Max number of messages stored until it triggers a push to remote peers
-        maxPropagationBurstSize: 10
+        maxPropagationBurstSize: 10  //消息推送缓冲区大小
         # Number of times a message is pushed to remote peers
-        propagateIterations: 1
+        propagateIterations: 1    //消息推送次数
         # Number of peers selected to push messages to
-        propagatePeerNum: 3
+        propagatePeerNum: 3  //消息推送节点数
         # Determines frequency of pull phases(unit: second)
-        pullInterval: 4s
+        pullInterval: 4s   //消息获取间隔
         # Number of peers to pull from
-        pullPeerNum: 3
+        pullPeerNum: 3  //消息获取节点数
         # Determines frequency of pulling state info messages from peers(unit: second)
-        requestStateInfoInterval: 4s
+        requestStateInfoInterval: 4s   //状态消息获取间隔
         # Determines frequency of pushing state info messages to peers(unit: second)
-        publishStateInfoInterval: 4s
+        publishStateInfoInterval: 4s  //状态消息推送间隔
         # Maximum time a stateInfo message is kept until expired
-        stateInfoRetentionInterval:
+        stateInfoRetentionInterval:    //状态消息存活周期
         # Time from startup certificates are included in Alive messages(unit: second)
-        publishCertPeriod: 10s
+        publishCertPeriod: 10s   //存活消息中推送证书的周期
         # Should we skip verifying block messages or not
-        skipBlockVerification: false
+        skipBlockVerification: false  //是否认证块消息
         # Dial timeout(unit: second)
-        dialTimeout: 3s
+        dialTimeout: 3s  //建立连接时间超时
         # Connection timeout(unit: second)
-        connTimeout: 2s
+        connTimeout: 2s  //连接超时
         # Buffer size of received messages
-        recvBuffSize: 20
+        recvBuffSize: 20  //接收消息缓冲区大小
         # Buffer size of sending messages
-        sendBuffSize: 20
+        sendBuffSize: 20 //发送消息缓冲区大小
         # Time to wait before pull engine processes incoming digests (unit: second)
-        digestWaitTime: 1s
+        digestWaitTime: 1s  //摘要消息处理超时时间
         # Time to wait before pull engine removes incoming nonce (unit: second)
-        requestWaitTime: 1s
+        requestWaitTime: 1s  //请求消息超时处理时间
         # Time to wait before pull engine ends pull (unit: second)
-        responseWaitTime: 2s
+        responseWaitTime: 2s   //消息响应超时时间
         # Alive check interval(unit: second)
-        aliveTimeInterval: 5s
+        aliveTimeInterval: 5s  //存活消息间隔时间
         # Alive expiration timeout(unit: second)
-        aliveExpirationTimeout: 25s
+        aliveExpirationTimeout: 25s  //存活消息超时时间
         # Reconnect interval(unit: second)
-        reconnectInterval: 25s
+        reconnectInterval: 25s  //重新连接间隔时间
         # This is an endpoint that is published to peers outside of the organization.
         # If this isn't set, the peer will not be known to other organizations.
-        externalEndpoint:
+        externalEndpoint:   //外部标识
 
         # Leader election service configuration
         election:
             # Longest time peer wait for stable membership during leader election startup (unit: second)
-            startupGracePeriod: 15s
+            startupGracePeriod: 15s   //最长节点稳定状态时间
             # Interval gossip membership sampled to check its stability (unit: second)
-            membershipSampleInterval: 1s
+            membershipSampleInterval: 1s  //抽样检查节点稳定状态时间
             # Time pass since last declaration message before peer decide to go to election (unit: second)
-            leaderAliveThreshold: 10s
+            leaderAliveThreshold: 10s  //选举时间间隔，10秒/次
             # Time between peer sends propose message and declare itself as a leader (sends declaration message) (unit: second)
-            leaderElectionDuration: 5s
+            leaderElectionDuration: 5s   //节点发送选举声明间期时间
 
     # Sync related configuration
     sync:
