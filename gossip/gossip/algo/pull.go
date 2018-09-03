@@ -267,7 +267,9 @@ func (engine *PullEngine) Remove(seqs ...string) {
 }
 
 // OnHello notifies the engine a hello has arrived
+//收到对方hello请求后给出应答处理，主要为对当前所拥有的状态报告给对方
 func (engine *PullEngine) OnHello(nonce uint64, context interface{}) {
+	//判断消息结束
 	engine.incomingNONCES.Add(nonce)
 
 	requestWaitTime := util.GetDurationOrDefault("peer.gossip.requestWaitTime", defRequestWaitTime)
@@ -275,6 +277,8 @@ func (engine *PullEngine) OnHello(nonce uint64, context interface{}) {
 		engine.incomingNONCES.Remove(nonce)
 	})
 
+	//遍历对当前节点的状态消息，过滤一些不需要的消息，
+	//并将相应的消息digest send给对方
 	a := engine.state.ToArray()
 	var digest []string
 	filter := engine.digFilter(context)
@@ -292,6 +296,7 @@ func (engine *PullEngine) OnHello(nonce uint64, context interface{}) {
 }
 
 // OnReq notifies the engine a request has arrived
+//对方请求需要同步哪些消息
 func (engine *PullEngine) OnReq(items []string, nonce uint64, context interface{}) {
 	if !engine.incomingNONCES.Exists(nonce) {
 		return
@@ -315,6 +320,7 @@ func (engine *PullEngine) OnReq(items []string, nonce uint64, context interface{
 }
 
 // OnRes notifies the engine a response has arrived
+//对resq过程的消息处理，将收到的消息更新本地
 func (engine *PullEngine) OnRes(items []string, nonce uint64) {
 	if !engine.outgoingNONCES.Exists(nonce) || !engine.isAcceptingResponses() {
 		return

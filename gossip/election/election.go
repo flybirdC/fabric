@@ -198,13 +198,17 @@ func (le *leaderElectionSvcImpl) handleMessage(msg Msg) {
 	le.Lock()
 	defer le.Unlock()
 
+	//消息为提议类型
 	if msg.IsProposal() {
+		//加入提议队列，用于选举leader
 		le.proposals.Add(string(msg.SenderID()))
+		//消息队列为声明类型，表示存在有节点声明为leader节点
 	} else if msg.IsDeclaration() {
 		atomic.StoreInt32(&le.leaderExists, int32(1))
 		if le.sleeping && len(le.interruptChan) == 0 {
 			le.interruptChan <- struct{}{}
 		}
+		//判断当前leader收到的id与当前自己id进行对比，如果小于接收id则停止成为leader
 		if bytes.Compare(msg.SenderID(), le.id) < 0 && le.IsLeader() {
 			le.stopBeingLeader()
 		}
@@ -260,7 +264,7 @@ func (le *leaderElectionSvcImpl) run() {
 		}
 	}
 }
-
+//节点选举
 func (le *leaderElectionSvcImpl) leaderElection() {
 	le.logger.Debug(le.id, ": Entering")
 	defer le.logger.Debug(le.id, ": Exiting")
@@ -294,6 +298,7 @@ func (le *leaderElectionSvcImpl) leaderElection() {
 	}
 	// If we got here, there is no one that proposed being a leader
 	// that's a better candidate than us.
+	//循环比较最终peerID都大于选举集合中的ID则成为leader
 	le.beLeader()
 	atomic.StoreInt32(&le.leaderExists, int32(1))
 }

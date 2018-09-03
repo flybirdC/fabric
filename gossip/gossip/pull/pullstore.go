@@ -252,6 +252,7 @@ func (p *pullMediatorImpl) SelectPeers() []string {
 // Hello sends a hello message to initiate the protocol
 // and returns an NONCE that is expected to be returned
 // in the digest message.
+//构造hello消息发送给对方
 func (p *pullMediatorImpl) Hello(dest string, nonce uint64) {
 	helloMsg := &proto.GossipMessage{
 		Channel: p.config.Channel,
@@ -299,6 +300,7 @@ func (p *pullMediatorImpl) SendDigest(digest []string, nonce uint64, context int
 
 // SendReq sends an array of items to a certain remote PullEngine identified
 // by a string
+//向对方请求需要同步哪些消息
 func (p *pullMediatorImpl) SendReq(dest string, items []string, nonce uint64) {
 	req := &proto.GossipMessage{
 		Channel: p.config.Channel,
@@ -324,6 +326,7 @@ func (p *pullMediatorImpl) SendReq(dest string, items []string, nonce uint64) {
 }
 
 // SendRes sends an array of items to a remote PullEngine identified by a context.
+//将对方的消息给与回执
 func (p *pullMediatorImpl) SendRes(items []string, context interface{}, nonce uint64) {
 	items2return := []*proto.Envelope{}
 	p.RLock()

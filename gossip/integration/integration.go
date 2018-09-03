@@ -28,7 +28,7 @@ func newConfig(selfEndpoint string, externalEndpoint string, certs *common.TLSCe
 	if err != nil {
 		return nil, errors.Wrapf(err, "misconfigured endpoint %s", selfEndpoint)
 	}
-
+	//节点对外服务的端口
 	port, err := strconv.ParseInt(p, 10, 64)
 	if err != nil {
 		return nil, errors.Wrapf(err, "misconfigured endpoint %s, failed to parse port number", selfEndpoint)
@@ -58,12 +58,16 @@ func newConfig(selfEndpoint string, externalEndpoint string, certs *common.TLSCe
 }
 
 // NewGossipComponent creates a gossip component that attaches itself to the given gRPC server
+//工具函数，连接gRPC服务
 func NewGossipComponent(peerIdentity []byte, endpoint string, s *grpc.Server,
 	secAdv api.SecurityAdvisor, cryptSvc api.MessageCryptoService,
 	secureDialOpts api.PeerSecureDialOpts, certs *common.TLSCertificates, bootPeers ...string) (gossip.Gossip, error) {
 
+	//peer.gossip.externalEndpoint为节点被组织外节点感知时的地址
 	externalEndpoint := viper.GetString("peer.gossip.externalEndpoint")
 
+	//endpoint，取自peer.address，即节点对外服务的地址
+	//bootPeers取自peer.gossip.bootstrap，即启动节点后所进行gossip连接的初始节点，可为多个
 	conf, err := newConfig(endpoint, externalEndpoint, certs, bootPeers...)
 	if err != nil {
 		return nil, errors.WithStack(err)

@@ -1375,6 +1375,7 @@ func (m *PrivateDataMessage) GetPayload() *PrivatePayload {
 }
 
 // Payload contains a block
+//交易数据结构，属性：交易序列、交易内容、私有内容
 type Payload struct {
 	SeqNum      uint64   `protobuf:"varint,1,opt,name=seq_num,json=seqNum" json:"seq_num,omitempty"`
 	Data        []byte   `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`

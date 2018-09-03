@@ -38,17 +38,22 @@ var (
 type gossipSvc gossip.Gossip
 
 // GossipService encapsulates gossip and state capabilities into single interface
+//gossip接口服务定义
 type GossipService interface {
 	gossip.Gossip
 
 	// DistributePrivateData distributes private data to the peers in the collections
 	// according to policies induced by the PolicyStore and PolicyParser
+	//分发私有节点数据依据PolicyStore和PolicyParser中的策略
 	DistributePrivateData(chainID string, txID string, privateData *rwset.TxPvtReadWriteSet) error
 	// NewConfigEventer creates a ConfigProcessor which the channelconfig.BundleSource can ultimately route config updates to
+	//绑定同步通道
 	NewConfigEventer() ConfigProcessor
 	// InitializeChannel allocates the state provider and should be invoked once per channel per execution
+	//初始化通道状态
 	InitializeChannel(chainID string, endpoints []string, support Support)
 	// AddPayload appends message payload to for given chain
+	//数据上链
 	AddPayload(chainID string, payload *gproto.Payload) error
 }
 
@@ -85,13 +90,13 @@ func (p privateHandler) close() {
 type gossipServiceImpl struct {
 	gossipSvc
 	privateHandlers map[string]privateHandler
-	chains          map[string]state.GossipStateProvider
-	leaderElection  map[string]election.LeaderElectionService
-	deliveryService map[string]deliverclient.DeliverService
+	chains          map[string]state.GossipStateProvider  //链
+	leaderElection  map[string]election.LeaderElectionService  //选举服务
+	deliveryService map[string]deliverclient.DeliverService  //交付服务
 	deliveryFactory DeliveryServiceFactory
 	lock            sync.RWMutex
-	mcs             api.MessageCryptoService
-	peerIdentity    []byte
+	mcs             api.MessageCryptoService  //信息加密
+	peerIdentity    []byte //peerID
 	secAdv          api.SecurityAdvisor
 }
 
@@ -106,6 +111,7 @@ func (jcm *joinChannelMessage) SequenceNumber() uint64 {
 }
 
 // Members returns the organizations of the channel
+//返回频道组织
 func (jcm *joinChannelMessage) Members() []api.OrgIdentityType {
 	members := make([]api.OrgIdentityType, len(jcm.members2AnchorPeers))
 	i := 0
@@ -117,6 +123,7 @@ func (jcm *joinChannelMessage) Members() []api.OrgIdentityType {
 }
 
 // AnchorPeersOf returns the anchor peers of the given organization
+//返回组织锚节点
 func (jcm *joinChannelMessage) AnchorPeersOf(org api.OrgIdentityType) []api.AnchorPeer {
 	return jcm.members2AnchorPeers[string(org)]
 }
@@ -124,6 +131,7 @@ func (jcm *joinChannelMessage) AnchorPeersOf(org api.OrgIdentityType) []api.Anch
 var logger = util.GetLogger(util.LoggingServiceModule, "")
 
 // InitGossipService initialize gossip service
+//初始化gossip服务，调用工厂
 func InitGossipService(peerIdentity []byte, endpoint string, s *grpc.Server, certs *gossipCommon.TLSCertificates,
 	mcs api.MessageCryptoService, secAdv api.SecurityAdvisor, secureDialOpts api.PeerSecureDialOpts, bootPeers ...string) error {
 	// TODO: Remove this.
@@ -136,12 +144,14 @@ func InitGossipService(peerIdentity []byte, endpoint string, s *grpc.Server, cer
 
 // InitGossipServiceCustomDeliveryFactory initialize gossip service with customize delivery factory
 // implementation, might be useful for testing and mocking purposes
+//工厂模式实现初始化gossip
 func InitGossipServiceCustomDeliveryFactory(peerIdentity []byte, endpoint string, s *grpc.Server,
 	certs *gossipCommon.TLSCertificates, factory DeliveryServiceFactory, mcs api.MessageCryptoService,
 	secAdv api.SecurityAdvisor, secureDialOpts api.PeerSecureDialOpts, bootPeers ...string) error {
 	var err error
 	var gossip gossip.Gossip
 	once.Do(func() {
+		//peer.gossip.endpoint，本节点在组织内的gossip id，或者使用peerEndpoint.Address
 		if overrideEndpoint := viper.GetString("peer.gossip.endpoint"); overrideEndpoint != "" {
 			endpoint = overrideEndpoint
 		}
@@ -201,7 +211,7 @@ func (g *gossipServiceImpl) NewConfigEventer() ConfigProcessor {
 // interfaces required by gossip service
 type Support struct {
 	Validator txvalidator.Validator
-	Committer committer.Committer
+	Committer committer.Committer  //认证节点
 	Store     privdata2.TransientStore
 	Cs        privdata.CollectionStore
 }
@@ -214,6 +224,7 @@ type DataStoreSupport struct {
 }
 
 // InitializeChannel allocates the state provider and should be invoked once per channel per execution
+//初始化通道
 func (g *gossipServiceImpl) InitializeChannel(chainID string, endpoints []string, support Support) {
 	g.lock.Lock()
 	defer g.lock.Unlock()
@@ -245,6 +256,7 @@ func (g *gossipServiceImpl) InitializeChannel(chainID string, endpoints []string
 		coordinator: coordinator,
 		distributor: privdata2.NewDistributor(chainID, g),
 	}
+	//构造GossipStateProviderImpl，并启动goroutine处理从orderer或其他节点接收的block
 	g.chains[chainID] = state.NewGossipStateProvider(chainID, servicesAdapter, coordinator)
 	if g.deliveryService[chainID] == nil {
 		var err error
@@ -263,6 +275,7 @@ func (g *gossipServiceImpl) InitializeChannel(chainID string, endpoints []string
 		//
 		// are mutual exclusive, setting both to true is not defined, hence
 		// peer will panic and terminate
+		//选择：进行节点选举或设当前节点为组织内leader
 		leaderElection := viper.GetBool("peer.gossip.useLeaderElection")
 		isStaticOrgLeader := viper.GetBool("peer.gossip.orgLeader")
 
@@ -272,9 +285,11 @@ func (g *gossipServiceImpl) InitializeChannel(chainID string, endpoints []string
 
 		if leaderElection {
 			logger.Debug("Delivery uses dynamic leader election mechanism, channel", chainID)
+			//选举代表节点
 			g.leaderElection[chainID] = g.newLeaderElectionComponent(chainID, g.onStatusChangeFactory(chainID, support.Committer))
 		} else if isStaticOrgLeader {
 			logger.Debug("This peer is configured to connect to ordering service for blocks delivery, channel", chainID)
+			//如果指定本节点为代表节点，则启动Deliver client
 			g.deliveryService[chainID].StartDeliverForChannel(chainID, support.Committer, func() {})
 		} else {
 			logger.Debug("This peer is not configured to connect to ordering service for blocks delivery, channel", chainID)
@@ -335,6 +350,7 @@ func (g *gossipServiceImpl) updateEndpoints(chainID string, endpoints []string) 
 }
 
 // AddPayload appends message payload to for given chain
+//添加交易数据
 func (g *gossipServiceImpl) AddPayload(chainID string, payload *gproto.Payload) error {
 	g.lock.RLock()
 	defer g.lock.RUnlock()
@@ -350,16 +366,16 @@ func (g *gossipServiceImpl) Stop() {
 		logger.Info("Stopping chain", chainID)
 		if le, exists := g.leaderElection[chainID]; exists {
 			logger.Infof("Stopping leader election for %s", chainID)
-			le.Stop()
+			le.Stop()  //停止选举
 		}
-		g.chains[chainID].Stop()
-		g.privateHandlers[chainID].close()
+		g.chains[chainID].Stop()  //停止chain同步
+		g.privateHandlers[chainID].close()  //关闭数据同步服务
 
 		if g.deliveryService[chainID] != nil {
-			g.deliveryService[chainID].Stop()
+			g.deliveryService[chainID].Stop()  //停止发送数据服务
 		}
 	}
-	g.gossipSvc.Stop()
+	g.gossipSvc.Stop()  //关闭gossip接口服务
 }
 
 func (g *gossipServiceImpl) newLeaderElectionComponent(chainID string, callback func(bool)) election.LeaderElectionService {
