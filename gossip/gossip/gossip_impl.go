@@ -64,6 +64,7 @@ type gossipServiceImpl struct {
 }
 
 // NewGossipService creates a gossip instance attached to a gRPC server
+//创建gossip实例并关联gPRC服务
 func NewGossipService(conf *Config, s *grpc.Server, secAdvisor api.SecurityAdvisor,
 	mcs api.MessageCryptoService, selfIdentity api.PeerIdentityType,
 	secureDialOpts api.PeerSecureDialOpts) Gossip {
@@ -93,9 +94,10 @@ func NewGossipService(conf *Config, s *grpc.Server, secAdvisor api.SecurityAdvis
 		g.certPuller.Remove(string(pkiID))
 	})
 
-	if s == nil {
+	if s == nil { //创建并启动gRPC Server，以及注册GossipServer实例
 		g.comm, err = createCommWithServer(conf.BindPort, g.idMapper, selfIdentity, secureDialOpts)
 	} else {
+		//将GossipServer实例注册至peerServer
 		g.comm, err = createCommWithoutServer(s, conf.TLSCerts, g.idMapper, selfIdentity, secureDialOpts)
 	}
 
@@ -329,7 +331,7 @@ func (g *gossipServiceImpl) acceptMessages(incMsgs <-chan proto.ReceivedMessage)
 			g.toDieChan <- s
 			return
 		case msg := <-incMsgs:
-			g.handleMessage(msg)
+			g.handleMessage(msg)  //此处会调取gc.HandleMessage(m)，处理转发消息
 		}
 	}
 }
@@ -358,6 +360,7 @@ func (g *gossipServiceImpl) handleMessage(m proto.ReceivedMessage) {
 			// If we're not in the channel, we should still forward to peers of our org
 			// in case it's a StateInfo message
 			if g.isInMyorg(discovery.NetworkMember{PKIid: m.GetConnectionInfo().ID}) && msg.IsStateInfoMsg() {
+				//转发给其他节点，最终会调用func (g *gossipServiceImpl) gossipBatch(msgs []*proto.SignedGossipMessage)实现批量分发
 				if g.stateInfoMsgStore.Add(msg) {
 					g.emitter.Add(&emittedGossipMessage{
 						SignedGossipMessage: msg,
@@ -1351,3 +1354,5 @@ func extractChannels(a []*emittedGossipMessage) []common.ChainID {
 	}
 	return channels
 }
+
+

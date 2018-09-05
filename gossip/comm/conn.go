@@ -28,7 +28,7 @@ const (
 	blockingSend    = blockingBehavior(true)
 	nonBlockingSend = blockingBehavior(false)
 )
-
+//单例模式创建conn实例
 type connFactory interface {
 	createConnection(endpoint string, pkiID common.PKIidType) (*connection, error)
 }

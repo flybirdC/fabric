@@ -58,6 +58,7 @@ type GossipService interface {
 }
 
 // DeliveryServiceFactory factory to create and initialize delivery service instance
+//
 type DeliveryServiceFactory interface {
 	// Returns an instance of delivery client
 	Service(g GossipService, endpoints []string, msc api.MessageCryptoService) (deliverclient.DeliverService, error)

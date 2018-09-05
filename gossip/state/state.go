@@ -29,10 +29,13 @@ import (
 // GossipStateProvider is the interface to acquire sequences of the ledger blocks
 // capable to full fill missing blocks by running state replication and
 // sending request to get missing block to other nodes
+//通过状态复制填充缺少的块，以及发送请求从其他节点获取缺少的块
 type GossipStateProvider interface {
+	//添加块
 	AddPayload(payload *proto.Payload) error
 
 	// Stop terminates state transfer object
+	//停止状态复制
 	Stop()
 }
 
@@ -119,6 +122,7 @@ type ServicesMediator struct {
 // GossipStateProviderImpl the implementation of the GossipStateProvider interface
 // the struct to handle in memory sliding window of
 // new ledger block to be acquired by hyper ledger
+//接口实现
 type GossipStateProviderImpl struct {
 	// Chain id
 	chainID string
@@ -131,7 +135,7 @@ type GossipStateProviderImpl struct {
 	commChan <-chan proto.ReceivedMessage
 
 	// Queue of payloads which wasn't acquired yet
-	payloads PayloadsBuffer
+	payloads PayloadsBuffer //队列缓存
 
 	ledger ledgerResources
 
@@ -735,9 +739,10 @@ func (s *GossipStateProviderImpl) hasRequiredHeight(height uint64) func(peer dis
 }
 
 // AddPayload add new payload into state.
+//提交新的交易到状态中
 func (s *GossipStateProviderImpl) AddPayload(payload *proto.Payload) error {
 	blockingMode := blocking
-	if viper.GetBool("peer.gossip.nonBlockingCommitMode") {
+	if viper.GetBool("peer.gossip.nonBlockingCommitMode") {   //非阻塞提交模式
 		blockingMode = false
 	}
 	return s.addPayload(payload, blockingMode)
@@ -765,7 +770,7 @@ func (s *GossipStateProviderImpl) addPayload(payload *proto.Payload, blockingMod
 		time.Sleep(enqueueRetryInterval)
 	}
 
-	s.payloads.Push(payload)
+	s.payloads.Push(payload)  //加入缓存
 	return nil
 }
 

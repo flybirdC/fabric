@@ -52,6 +52,7 @@ func (c *commImpl) SetDialOpts(opts ...grpc.DialOption) {
 }
 
 // NewCommInstanceWithServer creates a comm instance that creates an underlying gRPC server
+//创建并启动gRPC Server，以及注册GossipServer实例
 func NewCommInstanceWithServer(port int, idMapper identity.Mapper, peerIdentity api.PeerIdentityType,
 	secureDialOpts api.PeerSecureDialOpts, dialOpts ...grpc.DialOption) (Comm, error) {
 
@@ -96,7 +97,7 @@ func NewCommInstanceWithServer(port int, idMapper identity.Mapper, peerIdentity 
 
 	return commInst, nil
 }
-
+//将GossipServer实例注册至peerServer
 // NewCommInstance creates a new comm instance that binds itself to the given gRPC server
 func NewCommInstance(s *grpc.Server, certs *common.TLSCertificates, idStore identity.Mapper,
 	peerIdentity api.PeerIdentityType, secureDialOpts api.PeerSecureDialOpts,
@@ -137,6 +138,7 @@ type commImpl struct {
 	dialTimeout    time.Duration
 }
 
+//创建与服务端连接
 func (c *commImpl) createConnection(endpoint string, expectedPKIID common.PKIidType) (*connection, error) {
 	var err error
 	var cc *grpc.ClientConn
@@ -379,7 +381,7 @@ func (c *commImpl) Stop() {
 	c.logger.Debug("Closed subscriptions, waiting for goroutines to stop...")
 	c.stopWG.Wait()
 }
-
+//获取PKI_ID
 func (c *commImpl) GetPKIid() common.PKIidType {
 	return c.PKIID
 }
@@ -654,7 +656,7 @@ type stream interface {
 	Recv() (*proto.Envelope, error)
 	grpc.Stream
 }
-
+//创建GRPC连接属性
 func createGRPCLayer(port int) (*grpc.Server, net.Listener, api.PeerSecureDialOpts, *common.TLSCertificates) {
 	var s *grpc.Server
 	var ll net.Listener

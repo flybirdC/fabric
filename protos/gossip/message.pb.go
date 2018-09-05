@@ -42,6 +42,10 @@ It has these top-level messages:
 	PvtDataPayload
 	Acknowledgement
 */
+
+//GossipClient接口定义和实现，GossipServer接口定义
+
+
 package gossip
 
 import proto "github.com/golang/protobuf/proto"
@@ -1883,7 +1887,7 @@ var _ grpc.ClientConn
 const _ = grpc.SupportPackageIsVersion4
 
 // Client API for Gossip service
-
+//Gossip服务客户端API
 type GossipClient interface {
 	// GossipStream is the gRPC stream used for sending and receiving messages
 	GossipStream(ctx context.Context, opts ...grpc.CallOption) (Gossip_GossipStreamClient, error)
@@ -1891,14 +1895,17 @@ type GossipClient interface {
 	Ping(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*Empty, error)
 }
 
+//client实例
 type gossipClient struct {
 	cc *grpc.ClientConn
 }
 
+//创建实例单例
 func NewGossipClient(cc *grpc.ClientConn) GossipClient {
 	return &gossipClient{cc}
 }
 
+//流初始化与封装
 func (c *gossipClient) GossipStream(ctx context.Context, opts ...grpc.CallOption) (Gossip_GossipStreamClient, error) {
 	stream, err := grpc.NewClientStream(ctx, &_Gossip_serviceDesc.Streams[0], c.cc, "/gossip.Gossip/GossipStream", opts...)
 	if err != nil {
@@ -1940,7 +1947,7 @@ func (c *gossipClient) Ping(ctx context.Context, in *Empty, opts ...grpc.CallOpt
 }
 
 // Server API for Gossip service
-
+//gossip server API 函数
 type GossipServer interface {
 	// GossipStream is the gRPC stream used for sending and receiving messages
 	GossipStream(Gossip_GossipStreamServer) error

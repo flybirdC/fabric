@@ -123,7 +123,7 @@ func (p *batchingEmitterImpl) Size() int {
 	defer p.lock.Unlock()
 	return len(p.buff)
 }
-
+//加入信息批量转发
 func (p *batchingEmitterImpl) Add(message interface{}) {
 	if p.iterations == 0 {
 		return
