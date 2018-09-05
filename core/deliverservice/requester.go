@@ -33,7 +33,7 @@ type blocksRequester struct {
 	chainID string
 	client  blocksprovider.BlocksDeliverer
 }
-
+//请求块，根据对比最新高度
 func (b *blocksRequester) RequestBlocks(ledgerInfoProvider blocksprovider.LedgerInfo) error {
 	height, err := ledgerInfoProvider.LedgerHeight()
 	if err != nil {

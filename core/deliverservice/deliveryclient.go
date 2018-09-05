@@ -46,28 +46,33 @@ func getReConnectTotalTimeThreshold() time.Duration {
 
 // DeliverService used to communicate with orderers to obtain
 // new blocks and send them to the committer service
+//从order拉块
 type DeliverService interface {
 	// StartDeliverForChannel dynamically starts delivery of new blocks from ordering service
 	// to channel peers.
 	// When the delivery finishes, the finalizer func is called
+	//从orderer接收通道的新块，接收完毕调用终结器
 	StartDeliverForChannel(chainID string, ledgerInfo blocksprovider.LedgerInfo, finalizer func()) error
 
 	// StopDeliverForChannel dynamically stops delivery of new blocks from ordering service
 	// to channel peers.
+	//停止从orderer接收通道的新快
 	StopDeliverForChannel(chainID string) error
 
 	// UpdateEndpoints
 	UpdateEndpoints(chainID string, endpoints []string) error
 
 	// Stop terminates delivery service and closes the connection
+	//终止所有通道Deliver
 	Stop()
 }
 
 // deliverServiceImpl the implementation of the delivery service
 // maintains connection to the ordering service and maps of
 // blocks providers
+//deliver服务接口实现
 type deliverServiceImpl struct {
-	conf           *Config
+	conf           *Config //配置信息
 	blockProviders map[string]blocksprovider.BlocksProvider
 	lock           sync.RWMutex
 	stopping       bool
@@ -79,16 +84,21 @@ type deliverServiceImpl struct {
 // and how it disseminates the messages to other peers
 type Config struct {
 	// ConnFactory returns a function that creates a connection to an endpoint
+	//创建grpc连接
 	ConnFactory func(channelID string) func(endpoint string) (*grpc.ClientConn, error)
 	// ABCFactory creates an AtomicBroadcastClient out of a connection
+	//创建广播同步
 	ABCFactory func(*grpc.ClientConn) orderer.AtomicBroadcastClient
 	// CryptoSvc performs cryptographic actions like message verification and signing
 	// and identity validation
+	//执行加密操作
 	CryptoSvc api.MessageCryptoService
 	// Gossip enables to enumerate peers in the channel, send a message to peers,
 	// and add a block to the gossip state transfer layer
+	//探测通道内节点并发送要更新新块状态
 	Gossip blocksprovider.GossipServiceAdapter
 	// Endpoints specifies the endpoints of the ordering service
+	//排序服务地址和端口
 	Endpoints []string
 }
 
@@ -96,6 +106,7 @@ type Config struct {
 // delivery service instance. It tries to establish connection to
 // the specified in the configuration ordering service, in case it
 // fails to dial to it, return nil
+//创建deliver服务
 func NewDeliverService(conf *Config) (DeliverService, error) {
 	ds := &deliverServiceImpl{
 		conf:           conf,
@@ -106,7 +117,7 @@ func NewDeliverService(conf *Config) (DeliverService, error) {
 	}
 	return ds, nil
 }
-
+//更新块
 func (d *deliverServiceImpl) UpdateEndpoints(chainID string, endpoints []string) error {
 	// Use chainID to obtain blocks provider and pass endpoints
 	// for update
@@ -117,7 +128,7 @@ func (d *deliverServiceImpl) UpdateEndpoints(chainID string, endpoints []string)
 	}
 	return errors.New(fmt.Sprintf("Channel with %s id was not found", chainID))
 }
-
+//校验config
 func (d *deliverServiceImpl) validateConfiguration() error {
 	conf := d.conf
 	if len(conf.Endpoints) == 0 {
@@ -142,6 +153,7 @@ func (d *deliverServiceImpl) validateConfiguration() error {
 // initializes the grpc stream for given chainID, creates blocks provider instance
 // that spawns in go routine to read new blocks starting from the position provided by ledger
 // info instance.
+//从orderer接收通道的新块，接收完毕调用终结器
 func (d *deliverServiceImpl) StartDeliverForChannel(chainID string, ledgerInfo blocksprovider.LedgerInfo, finalizer func()) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
@@ -162,7 +174,7 @@ func (d *deliverServiceImpl) StartDeliverForChannel(chainID string, ledgerInfo b
 	}
 	return nil
 }
-
+//发送块
 func (d *deliverServiceImpl) launchBlockProvider(chainID string, finalizer func()) {
 	d.lock.RLock()
 	pb := d.blockProviders[chainID]
@@ -176,6 +188,7 @@ func (d *deliverServiceImpl) launchBlockProvider(chainID string, finalizer func(
 }
 
 // StopDeliverForChannel stops blocks delivery for channel by stopping channel block provider
+//停止从orderer接收通道的新块
 func (d *deliverServiceImpl) StopDeliverForChannel(chainID string) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
@@ -197,6 +210,7 @@ func (d *deliverServiceImpl) StopDeliverForChannel(chainID string) error {
 }
 
 // Stop all service and release resources
+//所有通道调取client.Stop()
 func (d *deliverServiceImpl) Stop() {
 	d.lock.Lock()
 	defer d.lock.Unlock()
@@ -207,7 +221,7 @@ func (d *deliverServiceImpl) Stop() {
 		client.Stop()
 	}
 }
-
+//构造blocksRequester，并返回blocksRequester.client
 func (d *deliverServiceImpl) newClient(chainID string, ledgerInfoProvider blocksprovider.LedgerInfo) *broadcastClient {
 	requester := &blocksRequester{
 		tls:     comm.TLSEnabled(),

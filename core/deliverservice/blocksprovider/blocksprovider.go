@@ -123,6 +123,7 @@ func NewBlocksProvider(chainID string, client streamClient, gossip GossipService
 
 // DeliverBlocks used to pull out blocks from the ordering service to
 // distributed them across peers
+//从order获取块，然后peer分发
 func (b *blocksProviderImpl) DeliverBlocks() {
 	errorStatusCounter := 0
 	statusCounter := 0
