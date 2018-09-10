@@ -21,26 +21,31 @@ import (
 	"hash"
 )
 
-// Key represents a cryptographic key
+// Key represents a cryptographic key key接口
 type Key interface {
 
 	// Bytes converts this key to its byte representation,
 	// if this operation is allowed.
+	//将key转换成bytes数组
 	Bytes() ([]byte, error)
 
 	// SKI returns the subject key identifier of this key.
+	//返回key的SKI，全称Subject Key Identifier，主题密钥标识符
 	SKI() []byte
 
 	// Symmetric returns true if this key is a symmetric key,
 	// false is this key is asymmetric
+	//是否对称密钥，是为true，否则为false
 	Symmetric() bool
 
 	// Private returns true if this key is a private key,
 	// false otherwise.
+	//是否为私钥
 	Private() bool
 
 	// PublicKey returns the corresponding public key part of an asymmetric public/private key pair.
 	// This method returns an error in symmetric key schemes.
+	//返回非对称密钥中的公钥，如果为对称密钥则返回错误
 	PublicKey() (Key, error)
 }
 
@@ -99,27 +104,32 @@ type DecrypterOpts interface{}
 // the implementation of cryptographic standards and algorithms.
 type BCCSP interface {
 
-	// KeyGen generates a key using opts.
+	// KeyGen generates a key using opts.生成key
 	KeyGen(opts KeyGenOpts) (k Key, err error)
 
 	// KeyDeriv derives a key from k using opts.
 	// The opts argument should be appropriate for the primitive used.
+	//派生key
 	KeyDeriv(k Key, opts KeyDerivOpts) (dk Key, err error)
 
 	// KeyImport imports a key from its raw representation using opts.
 	// The opts argument should be appropriate for the primitive used.
+	//导入key
 	KeyImport(raw interface{}, opts KeyImportOpts) (k Key, err error)
 
 	// GetKey returns the key this CSP associates to
 	// the Subject Key Identifier ski.
+	//获取key
 	GetKey(ski []byte) (k Key, err error)
 
 	// Hash hashes messages msg using options opts.
 	// If opts is nil, the default hash function will be used.
+	//hash msg
 	Hash(msg []byte, opts HashOpts) (hash []byte, err error)
 
 	// GetHash returns and instance of hash.Hash using options opts.
 	// If opts is nil, the default hash function will be returned.
+	//返回hash实例
 	GetHash(opts HashOpts) (h hash.Hash, err error)
 
 	// Sign signs digest using key k.
@@ -128,17 +138,21 @@ type BCCSP interface {
 	// Note that when a signature of a hash of a larger message is needed,
 	// the caller is responsible for hashing the larger message and passing
 	// the hash (as digest).
+	//签名
 	Sign(k Key, digest []byte, opts SignerOpts) (signature []byte, err error)
 
 	// Verify verifies signature against key k and digest
 	// The opts argument should be appropriate for the algorithm used.
+	//校验签名
 	Verify(k Key, signature, digest []byte, opts SignerOpts) (valid bool, err error)
 
 	// Encrypt encrypts plaintext using key k.
 	// The opts argument should be appropriate for the algorithm used.
+	//加密
 	Encrypt(k Key, plaintext []byte, opts EncrypterOpts) (ciphertext []byte, err error)
 
 	// Decrypt decrypts ciphertext using key k.
 	// The opts argument should be appropriate for the algorithm used.
+	//解密
 	Decrypt(k Key, ciphertext []byte, opts DecrypterOpts) (plaintext []byte, err error)
 }

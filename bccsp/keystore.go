@@ -23,12 +23,15 @@ type KeyStore interface {
 
 	// ReadOnly returns true if this KeyStore is read only, false otherwise.
 	// If ReadOnly is true then StoreKey will fail.
+	//密钥库是否只读，只读时StoreKey将失败
 	ReadOnly() bool
 
 	// GetKey returns a key object whose SKI is the one passed.
+	///如果SKI通过，返回Key
 	GetKey(ski []byte) (k Key, err error)
 
 	// StoreKey stores the key k in this KeyStore.
 	// If this KeyStore is read only then the method will fail.
+	//将key存储到keystorezhong中，如果keystore为只读属性则失败
 	StoreKey(k Key) (err error)
 }
