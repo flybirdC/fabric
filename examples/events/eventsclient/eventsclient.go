@@ -68,6 +68,7 @@ type deliverClient interface {
 
 // eventsClient client to get connected to the
 // events peer delivery system
+//事件服务
 type eventsClient struct {
 	client      deliverClient
 	signer      crypto.LocalSigner

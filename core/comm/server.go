@@ -21,33 +21,45 @@ import (
 // GRPCServer defines an interface representing a GRPC-based server
 type GRPCServer interface {
 	// Address returns the listen address for the GRPCServer
+	//返回监听地址
 	Address() string
 	// Start starts the underlying grpc.Server
+	//启动基层grpc服务
 	Start() error
 	// Stop stops the underlying grpc.Server
+	//停止基层grpc服务
 	Stop()
 	// Server returns the grpc.Server instance for the GRPCServer
+	//返回grpc服务实例
 	Server() *grpc.Server
 	// Listener returns the net.Listener instance for the GRPCServer
+	//返回监听实例
 	Listener() net.Listener
 	// ServerCertificate returns the tls.Certificate used by the grpc.Server
+	//返回gprc使用的cert
 	ServerCertificate() tls.Certificate
 	// TLSEnabled is a flag indicating whether or not TLS is enabled for this
 	// GRPCServer instance
+	//实例是否使用了tls
 	TLSEnabled() bool
 	// MutualTLSRequired is a flag indicating whether or not client certificates
 	// are required for this GRPCServer instance
+	//服务是否必须tls
 	MutualTLSRequired() bool
 	// AppendClientRootCAs appends PEM-encoded X509 certificate authorities to
 	// the list of authorities used to verify client certificates
+	//增加x509 cert 认证到用于验证客户端的CA列表
 	AppendClientRootCAs(clientRoots [][]byte) error
 	// RemoveClientRootCAs removes PEM-encoded X509 certificate authorities from
 	// the list of authorities used to verify client certificates
+	//移除客户端列表CA
 	RemoveClientRootCAs(clientRoots [][]byte) error
 	// SetClientRootCAs sets the list of authorities used to verify client
 	// certificates based on a list of PEM-encoded X509 certificate authorities
+	//建立客户端CA列表用于验证CA
 	SetClientRootCAs(clientRoots [][]byte) error
 	// SetServerCertificate assigns the current TLS certificate to be the peer's server certificate
+	//建立服务CA给节点peer
 	SetServerCertificate(tls.Certificate)
 }
 

@@ -512,7 +512,7 @@ func registerChaincodeSupport(grpcServer comm.GRPCServer, ccEndpoint string, ca 
 	scc.RegisterSysCCs()
 	pb.RegisterChaincodeSupportServer(grpcServer.Server(), ccSrv)
 }
-
+//创建服务，返回服务实例
 func createEventHubServer(serverConfig comm.ServerConfig) (comm.GRPCServer, error) {
 	var lis net.Listener
 	var err error

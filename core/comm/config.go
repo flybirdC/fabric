@@ -63,13 +63,17 @@ type ClientConfig struct {
 
 // SecureOptions defines the security parameters (e.g. TLS) for a
 // GRPCServer instance
+//TLS安全配置项
 type SecureOptions struct {
 	// PEM-encoded X509 public key to be used for TLS communication
+	//在core.yaml文件中指定，读取的tls目录下server.cert文件数据存储于此
 	Certificate []byte
 	// PEM-encoded private key to be used for TLS communication
+	//在core.yaml文件中指定，读取tls，存server.key
 	Key []byte
 	// Set of PEM-encoded X509 certificate authorities used by clients to
 	// verify server certificates
+	//core.yaml文件指定，读存ca.cert
 	ServerRootCAs [][]byte
 	// Set of PEM-encoded X509 certificate authorities used by servers to
 	// verify client certificates

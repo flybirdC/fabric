@@ -910,7 +910,7 @@ var _ grpc.ClientConn
 const _ = grpc.SupportPackageIsVersion4
 
 // Client API for Events service
-
+//事件服务
 type EventsClient interface {
 	// event chatting using Event
 	Chat(ctx context.Context, opts ...grpc.CallOption) (Events_ChatClient, error)
