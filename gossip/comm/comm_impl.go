@@ -116,26 +116,26 @@ func NewCommInstance(s *grpc.Server, certs *common.TLSCertificates, idStore iden
 }
 
 type commImpl struct {
-	tlsCerts       *common.TLSCertificates
-	pubSub         *util.PubSub
-	peerIdentity   api.PeerIdentityType
-	idMapper       identity.Mapper
-	logger         *logging.Logger
-	opts           []grpc.DialOption
-	secureDialOpts func() []grpc.DialOption
-	connStore      *connectionStore
-	PKIID          []byte
-	deadEndpoints  chan common.PKIidType
-	msgPublisher   *ChannelDeMultiplexer
-	lock           *sync.Mutex
-	lsnr           net.Listener
-	gSrv           *grpc.Server
-	exitChan       chan struct{}
-	stopWG         sync.WaitGroup
-	subscriptions  []chan proto.ReceivedMessage
-	port           int
-	stopping       int32
-	dialTimeout    time.Duration
+	tlsCerts       *common.TLSCertificates  //TLS证书
+	pubSub         *util.PubSub //
+	peerIdentity   api.PeerIdentityType  //得到peerID
+	idMapper       identity.Mapper  //id关系映射管理器
+	logger         *logging.Logger //log信息（第三方）
+	opts           []grpc.DialOption //grpc操作
+	secureDialOpts func() []grpc.DialOption //grpc安全操作
+	connStore      *connectionStore //连接管理器
+	PKIID          []byte //peer的PKI_ID
+	deadEndpoints  chan common.PKIidType //peer的dead节点id
+	msgPublisher   *ChannelDeMultiplexer //管道阅读者
+	lock           *sync.Mutex //线程锁
+	lsnr           net.Listener //监听器
+	gSrv           *grpc.Server //grpc服务实例
+	exitChan       chan struct{} //关闭协程参数
+	stopWG         sync.WaitGroup //线程等待，关闭
+	subscriptions  []chan proto.ReceivedMessage //得到消息集
+	port           int //peer 端口
+	stopping       int32 //停止
+	dialTimeout    time.Duration //超时
 }
 
 //创建与服务端连接
@@ -206,7 +206,7 @@ func (c *commImpl) createConnection(endpoint string, expectedPKIID common.PKIidT
 	cc.Close()
 	return nil, errors.WithStack(err)
 }
-
+//发送消息
 func (c *commImpl) Send(msg *proto.SignedGossipMessage, peers ...*RemotePeer) {
 	if c.isStopping() || len(peers) == 0 {
 		return
@@ -219,7 +219,7 @@ func (c *commImpl) Send(msg *proto.SignedGossipMessage, peers ...*RemotePeer) {
 		}(peer, msg)
 	}
 }
-
+//发送给peer（endpoint 地址）
 func (c *commImpl) sendToEndpoint(peer *RemotePeer, msg *proto.SignedGossipMessage, shouldBlock blockingBehavior) {
 	if c.isStopping() {
 		return
@@ -245,6 +245,7 @@ func (c *commImpl) isStopping() bool {
 	return atomic.LoadInt32(&c.stopping) == int32(1)
 }
 
+//grpc关联上下文
 func (c *commImpl) Probe(remotePeer *RemotePeer) error {
 	var dialOpts []grpc.DialOption
 	endpoint := remotePeer.Endpoint
@@ -271,7 +272,7 @@ func (c *commImpl) Probe(remotePeer *RemotePeer) error {
 	c.logger.Debugf("Returning %v", err)
 	return err
 }
-
+//通信握手
 func (c *commImpl) Handshake(remotePeer *RemotePeer) (api.PeerIdentityType, error) {
 	var dialOpts []grpc.DialOption
 	dialOpts = append(dialOpts, c.secureDialOpts()...)
@@ -487,7 +488,7 @@ func (c *commImpl) authenticateRemotePeer(stream stream, initiator bool) (*proto
 
 	return connInfo, nil
 }
-
+//发送消息给远程节点，等待消息应答
 // SendWithAck sends a message to remote peers, waiting for acknowledgement from minAck of them, or until a certain timeout expires
 func (c *commImpl) SendWithAck(msg *proto.SignedGossipMessage, timeout time.Duration, minAck int, peers ...*RemotePeer) AggregatedSendResult {
 	if len(peers) == 0 {
@@ -545,6 +546,7 @@ func (c *commImpl) SendWithAck(msg *proto.SignedGossipMessage, timeout time.Dura
 	return ackOperation.send(msg, minAck, peers...)
 }
 
+//gprc 数据流包装
 func (c *commImpl) GossipStream(stream proto.Gossip_GossipStreamServer) error {
 	if c.isStopping() {
 		return fmt.Errorf("Shutting down")
@@ -584,10 +586,12 @@ func (c *commImpl) GossipStream(stream proto.Gossip_GossipStreamServer) error {
 	return conn.serviceConnection()
 }
 
+//空应答ping探测
 func (c *commImpl) Ping(context.Context, *proto.Empty) (*proto.Empty, error) {
 	return &proto.Empty{}, nil
 }
 
+//断开连接
 func (c *commImpl) disconnect(pkiID common.PKIidType) {
 	if c.isStopping() {
 		return
@@ -596,6 +600,7 @@ func (c *commImpl) disconnect(pkiID common.PKIidType) {
 	c.connStore.closeByPKIid(pkiID)
 }
 
+//判定并设置是server还是client
 func readWithTimeout(stream interface{}, timeout time.Duration, address string) (*proto.SignedGossipMessage, error) {
 	incChan := make(chan *proto.SignedGossipMessage, 1)
 	errChan := make(chan error, 1)
@@ -632,6 +637,7 @@ func readWithTimeout(stream interface{}, timeout time.Duration, address string) 
 	}
 }
 
+//连接消息创建，封peer的tlscerthash、ID、PkiID
 func (c *commImpl) createConnectionMsg(pkiID common.PKIidType, certHash []byte, cert api.PeerIdentityType, signer proto.Signer) (*proto.SignedGossipMessage, error) {
 	m := &proto.GossipMessage{
 		Tag:   proto.GossipMessage_EMPTY,

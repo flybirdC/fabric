@@ -17,6 +17,7 @@ import (
 )
 
 // Mock which aims to simulate socket
+//模拟socket
 type socketMock struct {
 	// socket endpoint
 	endpoint string

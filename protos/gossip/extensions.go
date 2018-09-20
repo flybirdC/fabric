@@ -482,6 +482,7 @@ func (s *SecretEnvelope) InternalEndpoint() string {
 
 // SignedGossipMessage contains a GossipMessage
 // and the Envelope from which it came from
+//封装的gossipmsg和envelope信息
 type SignedGossipMessage struct {
 	*Envelope
 	*GossipMessage

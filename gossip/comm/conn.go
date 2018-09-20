@@ -32,7 +32,7 @@ const (
 type connFactory interface {
 	createConnection(endpoint string, pkiID common.PKIidType) (*connection, error)
 }
-
+//连接管理器存储
 type connectionStore struct {
 	logger           *logging.Logger        // logger
 	isClosing        bool                   // whether this connection store is shutting down
@@ -43,6 +43,7 @@ type connectionStore struct {
 	// used to prevent concurrent connection establishment to the same remote endpoint
 }
 
+//创建连接管理器
 func newConnStore(connFactory connFactory, logger *logging.Logger) *connectionStore {
 	return &connectionStore{
 		connFactory:      connFactory,
@@ -52,7 +53,7 @@ func newConnStore(connFactory connFactory, logger *logging.Logger) *connectionSt
 		logger:           logger,
 	}
 }
-
+//获取并初始化一个连接
 func (cs *connectionStore) getConnection(peer *RemotePeer) (*connection, error) {
 	cs.RLock()
 	isClosing := cs.isClosing
@@ -84,6 +85,7 @@ func (cs *connectionStore) getConnection(peer *RemotePeer) (*connection, error) 
 	}
 	cs.RUnlock()
 
+	//创建连接
 	createdConnection, err := cs.connFactory.createConnection(endpoint, pkiID)
 
 	destinationLock.Unlock()
@@ -118,6 +120,7 @@ func (cs *connectionStore) getConnection(peer *RemotePeer) (*connection, error) 
 	conn = createdConnection
 	cs.pki2Conn[string(createdConnection.pkiID)] = conn
 
+	//开启连接服务
 	go conn.serviceConnection()
 
 	return conn, nil
@@ -171,7 +174,7 @@ func (cs *connectionStore) onConnected(serverStream proto.Gossip_GossipStreamSer
 
 	return cs.registerConn(connInfo, serverStream)
 }
-
+//注册连接服务
 func (cs *connectionStore) registerConn(connInfo *proto.ConnectionInfo, serverStream proto.Gossip_GossipStreamServer) *connection {
 	conn := newConnection(nil, nil, nil, serverStream)
 	conn.pkiID = connInfo.ID
@@ -189,7 +192,7 @@ func (cs *connectionStore) closeByPKIid(pkiID common.PKIidType) {
 		delete(cs.pki2Conn, string(pkiID))
 	}
 }
-
+//返回初始化连接单例
 func newConnection(cl proto.GossipClient, c *grpc.ClientConn, cs proto.Gossip_GossipStreamClient, ss proto.Gossip_GossipStreamServer) *connection {
 	connection := &connection{
 		outBuff:      make(chan *msgSending, util.GetIntOrDefault("peer.gossip.sendBuffSize", defSendBuffSize)),
@@ -203,6 +206,7 @@ func newConnection(cl proto.GossipClient, c *grpc.ClientConn, cs proto.Gossip_Go
 	return connection
 }
 
+//connection属性
 type connection struct {
 	cancel       context.CancelFunc
 	info         *proto.ConnectionInfo
@@ -250,7 +254,7 @@ func (conn *connection) close() {
 func (conn *connection) toDie() bool {
 	return atomic.LoadInt32(&(conn.stopFlag)) == int32(1)
 }
-
+//发送信封消息
 func (conn *connection) send(msg *proto.SignedGossipMessage, onErr func(error), shouldBlock blockingBehavior) {
 	if conn.toDie() {
 		conn.logger.Debug("Aborting send() to ", conn.info.Endpoint, "because connection is closing")
@@ -274,7 +278,7 @@ func (conn *connection) send(msg *proto.SignedGossipMessage, onErr func(error), 
 	}
 	conn.outBuff <- m
 }
-
+//创建服务连接，创建读写流
 func (conn *connection) serviceConnection() error {
 	errChan := make(chan error, 1)
 	msgChan := make(chan *proto.SignedGossipMessage, util.GetIntOrDefault("peer.gossip.recvBuffSize", defRecvBuffSize))

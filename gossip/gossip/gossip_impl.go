@@ -314,6 +314,7 @@ func (g *gossipServiceImpl) start() {
 		return !(isConn || isEmpty || isPrivateData)
 	}
 
+	//初始化channel消息选择器
 	incMsgs := g.comm.Accept(msgSelector)
 
 	go g.acceptMessages(incMsgs)

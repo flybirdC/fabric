@@ -98,14 +98,14 @@ func (p *batchingEmitterImpl) decrementCounters() {
 func (p *batchingEmitterImpl) toDie() bool {
 	return atomic.LoadInt32(&(p.stopFlag)) == int32(1)
 }
-
+//消息发送器
 type batchingEmitterImpl struct {
 	iterations int
-	burstSize  int
-	delay      time.Duration
+	burstSize  int  //决定消息发送数量
+	delay      time.Duration  //发送时间间隔，10s
 	cb         emitBatchCallback
 	lock       *sync.Mutex
-	buff       []*batchedMessage
+	buff       []*batchedMessage  //10条一批
 	stopFlag   int32
 }
 

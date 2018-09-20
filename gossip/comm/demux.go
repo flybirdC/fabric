@@ -16,6 +16,7 @@ import (
 // ChannelDeMultiplexer is a struct that can receive channel registrations (AddChannel)
 // and publications (DeMultiplex) and it broadcasts the publications to registrations
 // according to their predicate
+//接收频道注册信息
 type ChannelDeMultiplexer struct {
 	channels []*channel
 	lock     *sync.RWMutex
@@ -23,6 +24,7 @@ type ChannelDeMultiplexer struct {
 }
 
 // NewChannelDemultiplexer creates a new ChannelDeMultiplexer
+//创建该通道订阅者实例
 func NewChannelDemultiplexer() *ChannelDeMultiplexer {
 	return &ChannelDeMultiplexer{
 		channels: make([]*channel, 0),
@@ -30,7 +32,7 @@ func NewChannelDemultiplexer() *ChannelDeMultiplexer {
 		closed:   int32(0),
 	}
 }
-
+//通道接口入口属性
 type channel struct {
 	pred common.MessageAcceptor
 	ch   chan interface{}
@@ -56,6 +58,7 @@ func (m *ChannelDeMultiplexer) Close() {
 }
 
 // AddChannel registers a channel with a certain predicate
+//添加通道
 func (m *ChannelDeMultiplexer) AddChannel(predicate common.MessageAcceptor) chan interface{} {
 	m.lock.Lock()
 	defer m.lock.Unlock()
@@ -66,6 +69,7 @@ func (m *ChannelDeMultiplexer) AddChannel(predicate common.MessageAcceptor) chan
 
 // DeMultiplex broadcasts the message to all channels that were returned
 // by AddChannel calls and that hold the respected predicates.
+//广播信息给所有通道
 func (m *ChannelDeMultiplexer) DeMultiplex(msg interface{}) {
 	defer func() {
 		recover()

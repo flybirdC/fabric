@@ -10,6 +10,7 @@ package gossip;
 
 
 // Gossip
+//消息的收发底层服务
 service Gossip {
 
     // GossipStream is the gRPC stream used for sending and receiving messages

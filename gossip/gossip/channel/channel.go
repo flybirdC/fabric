@@ -489,6 +489,8 @@ func (gc *gossipChannel) ConfigureChannel(joinMsg api.JoinChannelMessage) {
 }
 
 // HandleMessage processes a message sent by a remote peer
+//处理六种消息
+//处理六种消息
 func (gc *gossipChannel) HandleMessage(msg proto.ReceivedMessage) {
 	if !gc.verifyMsg(msg) {
 		gc.logger.Warning("Failed verifying message:", msg.GetGossipMessage().GossipMessage)

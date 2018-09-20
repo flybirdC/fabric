@@ -83,6 +83,7 @@ func (sr SendResult) Error() string {
 }
 
 // AggregatedSendResult represents a slice of SendResults
+//提供切片数据封装
 type AggregatedSendResult []SendResult
 
 // AckCount returns the number of successful acknowledgements
@@ -125,6 +126,7 @@ func (ar AggregatedSendResult) String() string {
 }
 
 // String converts a RemotePeer to a string
+//数据类型转换
 func (p *RemotePeer) String() string {
 	return fmt.Sprintf("%s, PKIid:%v", p.Endpoint, p.PKIID)
 }

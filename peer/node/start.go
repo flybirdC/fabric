@@ -224,6 +224,7 @@ func serve(args []string) error {
 		logger.Panicf("Failed serializing self identity: %v", err)
 	}
 
+	//gossip peer 信息密钥服务
 	messageCryptoService := peergossip.NewMCS(
 		peer.NewChannelPolicyManagerGetter(),
 		localmsp.NewSigner(),
@@ -265,7 +266,7 @@ func serve(args []string) error {
 		certs.TLSServerCert.Store(&serverCert)
 		certs.TLSClientCert.Store(&clientCert)
 	}
-
+	//关联开启gossip服务
 	err = service.InitGossipService(serializedIdentity, peerEndpoint.Address, peerServer.Server(), certs,
 		messageCryptoService, secAdv, secureDialOpts, bootstrap...)
 	if err != nil {

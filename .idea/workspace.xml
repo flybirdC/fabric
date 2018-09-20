@@ -2,14 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b0b5205-98f9-4fdc-817f-bec0eaceda23" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/fabric.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/fabric.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/flogging/grpclogger.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/flogging/grpclogger.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/flogging/logging.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/flogging/logging.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/comm/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/comm/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/comm/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/comm/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/events/eventsclient/eventsclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/examples/events/eventsclient/eventsclient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/comm/comm.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/comm/comm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/comm/comm_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/comm/comm_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/comm/conn.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/comm/conn.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/comm/demux.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/comm/demux.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/comm/mock/mock_comm.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/comm/mock/mock_comm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/gossip/batcher.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/gossip/batcher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/gossip/channel/channel.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/gossip/channel/channel.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gossip/gossip/gossip_impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/gossip/gossip/gossip_impl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/peer/gossip/mcs.go" beforeDir="false" afterPath="$PROJECT_DIR$/peer/gossip/mcs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/peer/node/start.go" beforeDir="false" afterPath="$PROJECT_DIR$/peer/node/start.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/peer/events.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/protos/peer/events.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/gossip/extensions.go" beforeDir="false" afterPath="$PROJECT_DIR$/protos/gossip/extensions.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/gossip/message.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/gossip/message.proto" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,53 +41,64 @@
     <session id="1273766354">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="31" />
+          <entry key="project.closed" value="40" />
           <entry key="project.open.time.0" value="7" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.3" value="2" />
-          <entry key="project.open.time.4" value="4" />
-          <entry key="project.open.time.5" value="14" />
-          <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="31" />
+          <entry key="project.open.time.4" value="5" />
+          <entry key="project.open.time.5" value="15" />
+          <entry key="project.open.time.6" value="4" />
+          <entry key="project.open.time.7" value="4" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="41" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="Makefile" value="1" />
-          <entry key="go" value="140" />
+          <entry key="Makefile" value="2" />
+          <entry key="crt" value="1" />
+          <entry key="go" value="287" />
           <entry key="gradle" value="1" />
           <entry key="in" value="2" />
-          <entry key="md" value="7" />
+          <entry key="java" value="1" />
+          <entry key="md" value="10" />
           <entry key="mk" value="1" />
-          <entry key="pem" value="3" />
-          <entry key="png" value="3" />
-          <entry key="proto" value="7" />
+          <entry key="pem" value="5" />
+          <entry key="png" value="22" />
+          <entry key="proto" value="12" />
           <entry key="puml" value="7" />
+          <entry key="py" value="1" />
+          <entry key="rst" value="8" />
           <entry key="sh" value="4" />
-          <entry key="yaml" value="5" />
+          <entry key="yaml" value="6" />
           <entry key="yml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Bash" value="3" />
-          <entry key="Go" value="140" />
-          <entry key="Image" value="3" />
-          <entry key="PLAIN_TEXT" value="23" />
+          <entry key="Go" value="287" />
+          <entry key="Image" value="22" />
+          <entry key="PLAIN_TEXT" value="42" />
+          <entry key="PROTO" value="3" />
           <entry key="PlantUML file" value="7" />
-          <entry key="YAML" value="6" />
+          <entry key="YAML" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="693" />
+          <entry key="go" value="1437" />
+          <entry key="proto" value="14" />
           <entry key="puml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="693" />
+          <entry key="Go" value="1437" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="PROTO" value="12" />
           <entry key="PlantUML file" value="2" />
         </counts>
       </usages-collector>
@@ -90,80 +107,102 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/comm/producer.go">
+        <entry file="file://$PROJECT_DIR$/gossip/gossip/gossip_impl.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2137" />
+            <state relative-caret-position="219">
+              <caret line="320" lean-forward="true" selection-start-line="320" selection-end-line="321" selection-end-column="13" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/comm/connection.go">
+        <entry file="file://$PROJECT_DIR$/gossip/comm/demux.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-684" />
+            <state relative-caret-position="-768">
+              <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+              <folding>
+                <element signature="e#99#180#0" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/comm/server.go">
+        <entry file="file://$PROJECT_DIR$/gossip/gossip/batcher.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+            <state relative-caret-position="271">
+              <caret line="107" column="23" selection-start-line="107" selection-start-column="23" selection-end-line="107" selection-end-column="23" />
+              <folding>
+                <element signature="e#101#168#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/comm/config.go">
+        <entry file="file://$PROJECT_DIR$/gossip/comm/comm_impl.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-85">
-              <caret line="68" column="50" lean-forward="true" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
+            <state relative-caret-position="171">
+              <caret line="125" column="25" selection-start-line="125" selection-start-column="25" selection-end-line="125" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protos/peer/admin.pb.go">
+        <entry file="file://$PROJECT_DIR$/gossip/comm/comm.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="210" column="1" lean-forward="true" selection-start-line="210" selection-start-column="1" selection-end-line="210" selection-end-column="1" />
+            <state relative-caret-position="893">
+              <caret line="47" column="25" lean-forward="true" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+              <folding>
+                <element signature="e#101#288#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/comm/creds.go">
+        <entry file="file://$PROJECT_DIR$/protos/gossip/message.proto">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-826">
-              <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            <state relative-caret-position="171">
+              <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/committer/committer.go">
+        <entry file="file://$PROJECT_DIR$/gossip/comm/crypto.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-513" />
+            <state relative-caret-position="-1086" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/committer/committer_impl.go">
+        <entry file="file://$PROJECT_DIR$/gossip/comm/conn.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2052" />
+            <state relative-caret-position="3411">
+              <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
+              <folding>
+                <element signature="e#99#392#0" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/committer/txvalidator/validator.go">
+        <entry file="file://$PROJECT_DIR$/protos/gossip/message.pb.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-228" />
+            <state relative-caret-position="181">
+              <caret line="1958" column="16" selection-start-line="1958" selection-start-column="16" selection-end-line="1958" selection-end-column="16" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/comm/client.go">
+        <entry file="file://$PROJECT_DIR$/gossip/identity/identity.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3676" />
+            <state relative-caret-position="143">
+              <caret line="50" column="6" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="10" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -183,7 +222,17 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>CORE_PEER_GOSSIP_USELEADERELECTION</find>
+      <find>getConnection</find>
+      <find>GetHistoryForKey</find>
+      <find>Next(</find>
+      <find>Next</find>
+      <find>ackSendOperation</find>
+      <find>incMsgs := g.comm.Accept(msgSelector)</find>
     </findStrings>
+    <dirStrings>
+      <dir>C:\Users\flybird\go\src\github.com\hyperledger\fabric</dir>
+      <dir>C:\Users\flybird\go\src\github.com\hyperledger\fabric\gossip\gossip</dir>
+    </dirStrings>
   </component>
   <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
@@ -205,13 +254,8 @@
         <option value="$PROJECT_DIR$/gossip/gossip/algo/pull.go" />
         <option value="$PROJECT_DIR$/gossip/integration/integration.go" />
         <option value="$PROJECT_DIR$/gossip/gossip/gossip.go" />
-        <option value="$PROJECT_DIR$/gossip/gossip/batcher.go" />
         <option value="$PROJECT_DIR$/gossip/state/state.go" />
-        <option value="$PROJECT_DIR$/gossip/gossip/gossip_impl.go" />
         <option value="$PROJECT_DIR$/protos/gossip/message.pb.go" />
-        <option value="$PROJECT_DIR$/gossip/comm/comm.go" />
-        <option value="$PROJECT_DIR$/gossip/comm/comm_impl.go" />
-        <option value="$PROJECT_DIR$/gossip/comm/conn.go" />
         <option value="$PROJECT_DIR$/gossip/service/gossip_service.go" />
         <option value="$PROJECT_DIR$/core/deliverservice/deliveryclient.go" />
         <option value="$PROJECT_DIR$/core/deliverservice/requester.go" />
@@ -228,7 +272,19 @@
         <option value="$PROJECT_DIR$/protos/peer/events.pb.go" />
         <option value="$PROJECT_DIR$/core/comm/config.go" />
         <option value="$PROJECT_DIR$/core/comm/server.go" />
+        <option value="$PROJECT_DIR$/peer/gossip/sa.go" />
+        <option value="$PROJECT_DIR$/peer/gossip/mcs.go" />
         <option value="$PROJECT_DIR$/peer/node/start.go" />
+        <option value="$PROJECT_DIR$/gossip/gossip/channel/channel.go" />
+        <option value="$PROJECT_DIR$/protos/gossip/extensions.go" />
+        <option value="$PROJECT_DIR$/gossip/comm/comm_impl.go" />
+        <option value="$PROJECT_DIR$/gossip/comm/comm.go" />
+        <option value="$PROJECT_DIR$/gossip/comm/conn.go" />
+        <option value="$PROJECT_DIR$/gossip/comm/demux.go" />
+        <option value="$PROJECT_DIR$/gossip/comm/mock/mock_comm.go" />
+        <option value="$PROJECT_DIR$/gossip/gossip/gossip_impl.go" />
+        <option value="$PROJECT_DIR$/protos/gossip/message.proto" />
+        <option value="$PROJECT_DIR$/gossip/gossip/batcher.go" />
       </list>
     </option>
   </component>
@@ -238,11 +294,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="19" />
-    <option name="y" value="43" />
-    <option name="width" value="1884" />
-    <option name="height" value="1005" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="18" />
+    <option name="y" value="10" />
+    <option name="width" value="1719" />
+    <option name="height" value="1020" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -250,6 +306,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -260,36 +317,100 @@
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
               <item name="comm" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="comm" type="462c0819:PsiDirectoryNode" />
+              <item name="mock" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="identity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+              <item name="integration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
               <item name="peer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="peer" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="peer" type="462c0819:PsiDirectoryNode" />
+              <item name="node" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="peer" type="462c0819:PsiDirectoryNode" />
+              <item name="version" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="protos" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="protos" type="462c0819:PsiDirectoryNode" />
+              <item name="gossip" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="peerServer&#9;null&#9;null&#10;eventprocessor&#9;null&#9;null&#10;Events_ChatServer &#9;null&#9;null&#10;createEventHubServer&#9;null&#9;null&#10;NewGRPCServerFromListener&#9;null&#9;null&#10;ServerConfig&#9;null&#9;null&#10;EventsClient&#9;null&#9;null&#10;configtx.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/examples/e2e_cli/configtx.yaml&#10;defaultOrdererAddresses&#9;null&#9;null&#10;ConsortiumKey&#9;null&#9;null&#10;configgroup&#9;null&#9;null&#10;configGroup&#9;null&#9;null&#10;leveldb&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/ledger/util/leveldbhelper/leveldb_helper.go&#10;cobra&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric-ca/vendor/github.com/spf13/cobra/cobra.go&#10;DeliverBlocks&#9;null&#9;null&#10;blocksRequester&#9;null&#9;null&#10;StartDeliverForChannel&#9;null&#9;null&#10;deliverServiceImpl&#9;null&#9;null&#10;Config &#9;null&#9;null&#10; DeliverService&#9;null&#9;null&#10; DeliveryServiceFactory &#9;null&#9;null&#10;DeliveryServiceFactory&#9;null&#9;null&#10;connectionStore&#9;null&#9;null&#10;connection&#9;null&#9;null&#10;NewCommInstance&#9;null&#9;null&#10;connFactory&#9;null&#9;null&#10;GossipClient&#9;null&#9;null&#10; GossipStateProviderImpl&#9;null&#9;null&#10;GossipStateProvider&#9;null&#9;null&#10;gossipBatch&#9;null&#9;null&#10; NewGossipService&#9;null&#9;null&#10;NewGossipService&#9;null&#9;null&#10;gossipServiceImpl&#9;null&#9;null&#10;Gossip&#9;null&#9;null&#10;newConfig&#9;null&#9;null&#10; NewGossipComponent&#9;null&#9;null&#10;AddPayload&#9;null&#9;null&#10;InitializeChannel&#9;null&#9;null&#10;gossipSvc&#9;null&#9;null&#10;PolicyParser&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/cauthdsl/policyparser.go&#10; GossipService&#9;null&#9;null&#10;GossipService &#9;null&#9;null&#10;OnReq&#9;null&#9;null&#10;SendRes&#9;null&#9;null&#10;Onhello&#9;null&#9;null&#10;Hello&#9;null&#9;null&#10; blockfileMgr&#9;null&#9;null&#10;blocksItr&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/ledger/blkstorage/fsblkstorage/blocks_itr.go&#10;indexBlock&#9;null&#9;null&#10; txindexInfo&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="core.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/core.yaml&#10;docker&#9;null&#9;null&#10;InitGossipService&#9;null&#9;null&#10;DeliverBlocks&#9;null&#9;null&#10;TestDissemination&#9;null&#9;null&#10;NewGossipService&#9;null&#9;null&#10;HandleMessage&#9;null&#9;null&#10;.MessageAcceptor&#9;null&#9;null&#10;service.InitGossipService&#9;null&#9;null&#10;his&#9;null&#9;null&#10;globalEventsServer&#9;null&#9;null&#10;peerServer&#9;null&#9;null&#10;eventprocessor&#9;null&#9;null&#10;Events_ChatServer &#9;null&#9;null&#10;createEventHubServer&#9;null&#9;null&#10;NewGRPCServerFromListener&#9;null&#9;null&#10;ServerConfig&#9;null&#9;null&#10;EventsClient&#9;null&#9;null&#10;configtx.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/examples/e2e_cli/configtx.yaml&#10;defaultOrdererAddresses&#9;null&#9;null&#10;ConsortiumKey&#9;null&#9;null&#10;configgroup&#9;null&#9;null&#10;configGroup&#9;null&#9;null&#10;leveldb&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/ledger/util/leveldbhelper/leveldb_helper.go&#10;cobra&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric-ca/vendor/github.com/spf13/cobra/cobra.go&#10;blocksRequester&#9;null&#9;null&#10;StartDeliverForChannel&#9;null&#9;null&#10;deliverServiceImpl&#9;null&#9;null&#10;Config &#9;null&#9;null&#10; DeliverService&#9;null&#9;null&#10; DeliveryServiceFactory &#9;null&#9;null&#10;DeliveryServiceFactory&#9;null&#9;null&#10;connectionStore&#9;null&#9;null&#10;connection&#9;null&#9;null&#10;NewCommInstance&#9;null&#9;null&#10;connFactory&#9;null&#9;null&#10;GossipClient&#9;null&#9;null&#10; GossipStateProviderImpl&#9;null&#9;null&#10;GossipStateProvider&#9;null&#9;null&#10;gossipBatch&#9;null&#9;null&#10; NewGossipService&#9;null&#9;null&#10;gossipServiceImpl&#9;null&#9;null&#10;Gossip&#9;null&#9;null&#10;newConfig&#9;null&#9;null&#10; NewGossipComponent&#9;null&#9;null&#10;AddPayload&#9;null&#9;null&#10;InitializeChannel&#9;null&#9;null&#10;gossipSvc&#9;null&#9;null&#10;PolicyParser&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/cauthdsl/policyparser.go&#10; GossipService&#9;null&#9;null" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../stockchain" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -330,14 +451,14 @@
     </configuration>
   </component>
   <component name="ToolWindowManager">
-    <frame x="13" y="29" width="1256" height="670" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3539232" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.39935327" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49919742" weight="0.32984293" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49919742" weight="0.34196892" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3283582" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -385,259 +506,361 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/endorser/java.go">
+    <entry file="file://$PROJECT_DIR$/peer/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="228">
+          <caret line="81" column="25" selection-start-line="81" selection-start-column="25" selection-end-line="81" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/shim_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/mockstub.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/inprocstream.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/handler.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/endorser/endorser.go">
+    <entry file="file://$PROJECT_DIR$/peer/node/node.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="465" selection-start-line="465" selection-end-line="465" />
+        <state relative-caret-position="228">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/peer/gossip/mcs.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-798" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/peer/gossip/sa.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="303">
+          <caret line="81" column="28" selection-start-line="81" selection-start-column="28" selection-end-line="81" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/peer/node/start.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="579" column="14" lean-forward="true" selection-start-line="579" selection-start-column="14" selection-end-line="579" selection-end-column="14" />
+        <state relative-caret-position="4237">
+          <caret line="269" column="23" selection-start-line="269" selection-start-column="18" selection-end-line="269" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/peer/peer.go">
+    <entry file="file://$PROJECT_DIR$/gossip/service/gossip_service.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="53" column="45" lean-forward="true" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+        <state relative-caret-position="285">
+          <caret line="37" column="24" selection-start-line="37" selection-start-column="24" selection-end-line="37" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/gossip.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="22" column="5" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/container/dockercontroller/dockercontroller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/fsouza/go-dockerclient/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/github.com/fsouza/go-dockerclient/client.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-95">
+          <caret line="166" column="16" selection-start-line="166" selection-start-column="16" selection-end-line="166" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/certstore.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2048" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/channel/channel.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1558">
+          <caret line="493" column="51" lean-forward="true" selection-start-line="493" selection-start-column="51" selection-end-line="493" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/filter/filter.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="65" column="22" lean-forward="true" selection-start-line="65" selection-start-column="22" selection-end-line="65" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/discovery/discovery.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/discovery/discovery_impl.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1007">
+          <caret line="69" column="16" selection-start-line="69" selection-start-column="16" selection-end-line="69" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/discovery/discovery_test.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/msg.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
           <folding>
-            <element signature="e#99#1770#0" expanded="true" />
+            <element signature="e#99#196#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/peer/config.go">
+    <entry file="file://$PROJECT_DIR$/gossip/api/channel.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3363" />
+        <state relative-caret-position="912">
+          <caret line="50" column="16" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protos/peer/admin.proto">
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/pull/pullstore.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-726" />
+        <state relative-caret-position="257">
+          <caret line="292" column="56" selection-start-line="292" selection-start-column="56" selection-end-line="292" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/google.golang.org/grpc/clientconn.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8903">
+          <caret line="539" column="5" selection-start-line="539" selection-start-column="5" selection-end-line="539" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ledger/kvledger/history/historydb/histmgr_helper.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ledger/kvledger/history/historydb/historydb.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="35" column="18" selection-start-line="35" selection-start-column="18" selection-end-line="35" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ledger/kvledger/history/historydb/historyleveldb/historyleveldb_query_executer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1083">
+          <caret line="70" column="35" selection-start-line="70" selection-start-column="31" selection-end-line="70" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/ledger/blkstorage/fsblkstorage/blocks_itr.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1235">
+          <caret line="69" column="22" selection-start-line="69" selection-start-column="22" selection-end-line="69" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/chaincode/go/map/map.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2945">
+          <caret line="163" column="38" selection-start-line="163" selection-start-column="30" selection-end-line="163" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/interfaces_stable.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/chaincode/shim/java/src/main/java/org/hyperledger/fabric/shim/impl/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7562">
+          <caret line="398" column="18" selection-start-line="398" selection-start-column="18" selection-end-line="398" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/chaincode/handler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7961">
+          <caret line="441" column="96" selection-start-line="441" selection-start-column="96" selection-end-line="441" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/ledger/kvledger/kv_ledger.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="230" column="31" selection-start-line="230" selection-start-column="31" selection-end-line="230" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sampleconfig/core.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://C:/Go/src/sync/rwmutex.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/common/common.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="32" column="43" lean-forward="true" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/mock/mock_comm.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2910">
+          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
+          <folding>
+            <element signature="e#99#352#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/common/cert.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="15" column="6" lean-forward="true" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/util/misc.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="79" column="5" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/util/pubsub.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="27" column="31" selection-start-line="27" selection-start-column="31" selection-end-line="27" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/api/crypto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="63" column="5" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
+          <folding>
+            <element signature="e#98#190#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/net/net.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="362" column="5" selection-start-line="362" selection-start-column="5" selection-end-line="362" selection-end-column="5" />
+          <folding>
+            <element signature="e#3035#3114#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protos/gossip/extensions.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7467" />
+        <state relative-caret-position="-1510">
+          <caret line="334" column="42" selection-start-line="334" selection-start-column="42" selection-end-line="334" selection-end-column="42" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protos/gossip/extensions_test.go">
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/gossip_impl.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-225">
+        <state relative-caret-position="219">
+          <caret line="320" lean-forward="true" selection-start-line="320" selection-end-line="321" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/ack.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
           <folding>
-            <element signature="e#593#753#0" expanded="true" />
+            <element signature="e#99#254#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/google.golang.org/grpc/server.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1880">
+          <caret line="319" column="17" selection-start-line="319" selection-start-column="17" selection-end-line="319" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protos/gossip/message.pb.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-570" />
+        <state relative-caret-position="181">
+          <caret line="1958" column="16" selection-start-line="1958" selection-start-column="16" selection-end-line="1958" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/identity/identity.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="50" column="6" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/comm_impl.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="125" column="25" selection-start-line="125" selection-start-column="25" selection-end-line="125" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/conn.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3411">
+          <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
+          <folding>
+            <element signature="e#99#392#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/comm.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="47" column="25" lean-forward="true" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+          <folding>
+            <element signature="e#101#288#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protos/gossip/message.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6445" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/common/collection.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1049" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/common/block.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1187" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/common/ledger.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-175" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/common/ledger.pb.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-916" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/msp/identities.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-342" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/msp/msp_config.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3192" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/msp/msp_principal.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2037" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/Custom-Events-High-level-specification.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1538" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/blocks-2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/flow-2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/Next-Consensus-Architecture-Proposal.md">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/Next-Ledger-Architecture-Proposal.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1881" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/Release-Process.md">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proposals/r1/System-Chaincode-Specification.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1368" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/release/templates/get-docker-images.in">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-61" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/core.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-912" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/admincerts/admincert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/tlscacerts/tlsroot.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/signcerts/peer.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/bootstrap.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-968" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/gen-manifests.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1315" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unit-test/run.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1596" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unit-test/docker-compose.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/peer/main.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/images/peer/Dockerfile.in">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/peer/events.pb.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="972" column="5" selection-start-line="972" selection-start-column="5" selection-end-line="972" selection-end-column="5" />
+        <state relative-caret-position="171">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/events/producer/events.go">
+    <entry file="file://$PROJECT_DIR$/gossip/comm/crypto.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2569">
-          <caret line="200" column="2" lean-forward="true" selection-start-line="200" selection-start-column="2" selection-end-line="200" selection-end-column="2" />
+        <state relative-caret-position="-1086" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/comm/demux.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-768">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+          <folding>
+            <element signature="e#99#180#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/producer.go">
+    <entry file="file://$PROJECT_DIR$/gossip/gossip/batcher.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2137" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/client.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3676" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/creds.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-826">
-          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/committer/committer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-513" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/committer/txvalidator/validator.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-228" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protos/peer/admin.pb.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="210" column="1" lean-forward="true" selection-start-line="210" selection-start-column="1" selection-end-line="210" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/committer/committer_impl.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2052" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/connection.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-684" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-85">
-          <caret line="68" column="50" lean-forward="true" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/comm/server.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="11" column="12" lean-forward="true" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        <state relative-caret-position="271">
+          <caret line="107" column="23" selection-start-line="107" selection-start-column="23" selection-end-line="107" selection-end-column="23" />
+          <folding>
+            <element signature="e#101#168#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
