@@ -57,7 +57,7 @@ func (g *GossipMock) UpdateChannelMetadata(metadata []byte, chainID common.Chain
 func (g *GossipMock) Gossip(msg *proto.GossipMessage) {
 	g.Called(msg)
 }
-
+//消息过滤
 func (g *GossipMock) Accept(acceptor common.MessageAcceptor, passThrough bool) (<-chan *proto.GossipMessage, <-chan proto.ReceivedMessage) {
 	args := g.Called(acceptor, passThrough)
 	if args.Get(0) == nil {

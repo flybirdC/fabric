@@ -58,7 +58,7 @@ func (m *ChannelDeMultiplexer) Close() {
 }
 
 // AddChannel registers a channel with a certain predicate
-//添加通道
+//将信息加入注册通道
 func (m *ChannelDeMultiplexer) AddChannel(predicate common.MessageAcceptor) chan interface{} {
 	m.lock.Lock()
 	defer m.lock.Unlock()

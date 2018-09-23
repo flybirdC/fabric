@@ -89,6 +89,7 @@ func NewGossipService(conf *Config, s *grpc.Server, secAdvisor api.SecurityAdvis
 	}
 	g.stateInfoMsgStore = g.newStateInfoMsgStore()
 
+	//绑定peer的id映射关系，传参id--->gossip  api
 	g.idMapper = identity.NewIdentityMapper(mcs, selfIdentity, func(pkiID common.PKIidType, identity api.PeerIdentityType) {
 		g.comm.CloseConn(&comm.RemotePeer{PKIID: pkiID})
 		g.certPuller.Remove(string(pkiID))
@@ -107,6 +108,7 @@ func NewGossipService(conf *Config, s *grpc.Server, secAdvisor api.SecurityAdvis
 	}
 
 	g.chanState = newChannelState(g)
+	//注册消息发送器emitter
 	g.emitter = newBatchingEmitter(conf.PropagateIterations,
 		conf.MaxPropagationBurstSize, conf.MaxPropagationBurstLatency,
 		g.sendGossipBatch)
@@ -440,7 +442,7 @@ func (g *gossipServiceImpl) validateMsg(msg proto.ReceivedMessage) bool {
 	}
 	return true
 }
-
+//传送消息集
 func (g *gossipServiceImpl) sendGossipBatch(a []interface{}) {
 	msgs2Gossip := make([]*emittedGossipMessage, len(a))
 	for i, e := range a {
@@ -461,16 +463,17 @@ func (g *gossipServiceImpl) sendGossipBatch(a []interface{}) {
 // to the same set of peers.
 // The rest of the messages that have no restrictions on their destinations can be sent
 // to any group of peers.
+//对消息和消息类型进行封装
 func (g *gossipServiceImpl) gossipBatch(msgs []*emittedGossipMessage) {
 	if g.disc == nil {
 		g.logger.Error("Discovery has not been initialized yet, aborting!")
 		return
 	}
 
-	var blocks []*emittedGossipMessage
-	var stateInfoMsgs []*emittedGossipMessage
-	var orgMsgs []*emittedGossipMessage
-	var leadershipMsgs []*emittedGossipMessage
+	var blocks []*emittedGossipMessage   //块消息
+	var stateInfoMsgs []*emittedGossipMessage   //状态消息
+	var orgMsgs []*emittedGossipMessage  //组织消息
+	var leadershipMsgs []*emittedGossipMessage  //节点选举消息
 
 	isABlock := func(o interface{}) bool {
 		return o.(*emittedGossipMessage).IsDataMsg()
@@ -993,6 +996,7 @@ func (sa *discoverySecurityAdapter) ValidateAliveMsg(m *proto.SignedGossipMessag
 	var identity api.PeerIdentityType
 
 	// If identity is included inside AliveMessage
+	//调用idmapper进行签名
 	if am.Identity != nil {
 		identity = api.PeerIdentityType(am.Identity)
 		claimedPKIID := am.Membership.PkiId

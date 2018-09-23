@@ -60,7 +60,7 @@ func (aso *ackSendOperation) send(msg *proto.SignedGossipMessage, minAckNum int,
 	}
 	return results
 }
-
+//获取签名相关属性数据
 func interceptAcks(nextHandler handler, remotePeerID common.PKIidType, pubSub *util.PubSub) func(*proto.SignedGossipMessage) {
 	return func(m *proto.SignedGossipMessage) {
 		if m.IsAck() {

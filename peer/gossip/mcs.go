@@ -82,6 +82,7 @@ func (s *mspMessageCryptoService) ValidateIdentity(peerIdentity api.PeerIdentity
 // is supposed to be the serialized version of MSP identity.
 // This method does not validate peerIdentity.
 // This validation is supposed to be done appropriately during the execution flow.
+//sha2-256计算得到pkiID
 func (s *mspMessageCryptoService) GetPKIidOfCert(peerIdentity api.PeerIdentityType) common.PKIidType {
 	// Validate arguments
 	if len(peerIdentity) == 0 {
@@ -105,6 +106,7 @@ func (s *mspMessageCryptoService) GetPKIidOfCert(peerIdentity api.PeerIdentityTy
 	raw := append(mspIdRaw, sid.IdBytes...)
 
 	// Hash
+	//调用bccsp的sha256
 	digest, err := factory.GetDefault().Hash(raw, &bccsp.SHA256Opts{})
 	if err != nil {
 		mcsLogger.Errorf("Failed computing digest of serialized identity [% x]: [%s]", peerIdentity, err)

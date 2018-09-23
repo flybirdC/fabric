@@ -283,16 +283,13 @@ func (conn *connection) serviceConnection() error {
 	errChan := make(chan error, 1)
 	msgChan := make(chan *proto.SignedGossipMessage, util.GetIntOrDefault("peer.gossip.recvBuffSize", defRecvBuffSize))
 	defer close(msgChan)
-
 	// Call stream.Recv() asynchronously in readFromStream(),
 	// and wait for either the Recv() call to end,
 	// or a signal to close the connection, which exits
 	// the method and makes the Recv() call to fail in the
 	// readFromStream() method
 	go conn.readFromStream(errChan, msgChan)
-
 	go conn.writeToStream()
-
 	for !conn.toDie() {
 		select {
 		case stop := <-conn.stopChan:

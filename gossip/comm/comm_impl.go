@@ -138,7 +138,7 @@ type commImpl struct {
 	dialTimeout    time.Duration //超时
 }
 
-//创建与服务端连接
+//创建客户端，并连接服务端
 func (c *commImpl) createConnection(endpoint string, expectedPKIID common.PKIidType) (*connection, error) {
 	var err error
 	var cc *grpc.ClientConn
@@ -219,7 +219,7 @@ func (c *commImpl) Send(msg *proto.SignedGossipMessage, peers ...*RemotePeer) {
 		}(peer, msg)
 	}
 }
-//发送给peer（endpoint 地址）
+//将消息发送给peer（endpoint 地址）
 func (c *commImpl) sendToEndpoint(peer *RemotePeer, msg *proto.SignedGossipMessage, shouldBlock blockingBehavior) {
 	if c.isStopping() {
 		return
@@ -316,7 +316,6 @@ func (c *commImpl) Accept(acceptor common.MessageAcceptor) <-chan proto.Received
 		c.logger.Warning("Accept() called but comm module is stopping, returning empty channel")
 		return specificChan
 	}
-
 	c.lock.Lock()
 	c.subscriptions = append(c.subscriptions, specificChan)
 	c.lock.Unlock()
@@ -326,10 +325,8 @@ func (c *commImpl) Accept(acceptor common.MessageAcceptor) <-chan proto.Received
 		defer func() {
 			recover()
 		}()
-
 		c.stopWG.Add(1)
 		defer c.stopWG.Done()
-
 		for {
 			select {
 			case msg := <-genericChan:
@@ -546,7 +543,7 @@ func (c *commImpl) SendWithAck(msg *proto.SignedGossipMessage, timeout time.Dura
 	return ackOperation.send(msg, minAck, peers...)
 }
 
-//gprc 数据流包装
+//gprc 数据流包装，发送消息
 func (c *commImpl) GossipStream(stream proto.Gossip_GossipStreamServer) error {
 	if c.isStopping() {
 		return fmt.Errorf("Shutting down")
@@ -565,7 +562,7 @@ func (c *commImpl) GossipStream(stream proto.Gossip_GossipStreamServer) error {
 	if conn == nil {
 		return nil
 	}
-
+	//从通道中注册签名初始化消息
 	h := func(m *proto.SignedGossipMessage) {
 		c.msgPublisher.DeMultiplex(&ReceivedMessageImpl{
 			conn:                conn,
@@ -574,7 +571,7 @@ func (c *commImpl) GossipStream(stream proto.Gossip_GossipStreamServer) error {
 			connInfo:            connInfo,
 		})
 	}
-
+	//建立连接，从handler分发
 	conn.handler = interceptAcks(h, connInfo.ID, c.pubSub)
 
 	defer func() {

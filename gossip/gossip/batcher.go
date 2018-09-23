@@ -21,12 +21,14 @@ type emitBatchCallback func([]interface{})
 // If the batchingEmitter's stored message count reaches a certain capacity, that also triggers a message dispatch
 type batchingEmitter interface {
 	// Add adds a message to be batched
+	//添加消息
 	Add(interface{})
 
 	// Stop stops the component
 	Stop()
 
 	// Size returns the amount of pending messages to be emitted
+	//发送消息总数
 	Size() int
 }
 
@@ -81,7 +83,7 @@ func (p *batchingEmitterImpl) emit() {
 	p.cb(msgs2beEmitted)
 	p.decrementCounters()
 }
-
+//递减消息，清空（边发送边递减）
 func (p *batchingEmitterImpl) decrementCounters() {
 	n := len(p.buff)
 	for i := 0; i < n; i++ {

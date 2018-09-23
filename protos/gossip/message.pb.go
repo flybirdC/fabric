@@ -291,7 +291,7 @@ type GossipMessage struct {
 	// determines to which peers it is allowed
 	// to forward the message
 	Tag GossipMessage_Tag `protobuf:"varint,3,opt,name=tag,enum=gossip.GossipMessage_Tag" json:"tag,omitempty"`
-	// Types that are valid to be assigned to Content:
+	// Types that are valid to be assigned to Content:21种
 	//	*GossipMessage_AliveMsg
 	//	*GossipMessage_MemReq
 	//	*GossipMessage_MemRes

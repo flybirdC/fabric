@@ -25,6 +25,7 @@ var (
 
 // Mapper holds mappings between pkiID
 // to certificates(identities) of peers
+//掌管节点证书和pkiID的关系
 type Mapper interface {
 	// Put associates an identity to its given pkiID, and returns an error
 	// in case the given pkiID doesn't match the identity
@@ -65,6 +66,7 @@ type identityMapperImpl struct {
 }
 
 // NewIdentityMapper method, all we need is a reference to a MessageCryptoService
+//通过与gossip/api关联拿到pkiid和消息密钥
 func NewIdentityMapper(mcs api.MessageCryptoService, selfIdentity api.PeerIdentityType, onPurge purgeTrigger) Mapper {
 	selfPKIID := mcs.GetPKIidOfCert(selfIdentity)
 	idMapper := &identityMapperImpl{
@@ -112,7 +114,7 @@ func (is *identityMapperImpl) Put(pkiID common.PKIidType, identity api.PeerIdent
 	if err := is.mcs.ValidateIdentity(identity); err != nil {
 		return err
 	}
-
+	//得到id
 	id := is.mcs.GetPKIidOfCert(identity)
 	if !bytes.Equal(pkiID, id) {
 		return errors.New("identity doesn't match the computed pkiID")
@@ -137,7 +139,7 @@ func (is *identityMapperImpl) Put(pkiID common.PKIidType, identity api.PeerIdent
 			is.delete(pkiID, identity)
 		})
 	}
-
+	//存储id
 	is.pkiID2Cert[string(id)] = newStoredIdentity(pkiID, identity, expirationTimer)
 	return nil
 }
