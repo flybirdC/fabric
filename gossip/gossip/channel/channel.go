@@ -43,9 +43,12 @@ type Config struct {
 }
 
 // GossipChannel defines an object that deals with all channel-related messages
+//处理所有通道相关消息
+
 type GossipChannel interface {
 
 	// GetPeers returns a list of peers with metadata as published by them
+	//返回peer列表
 	GetPeers() []discovery.NetworkMember
 
 	// PeerFilter receives a SubChannelSelectionCriteria and returns a RoutingFilter that selects
@@ -85,6 +88,7 @@ type GossipChannel interface {
 
 // Adapter enables the gossipChannel
 // to communicate with gossipServiceImpl.
+//channel与gossipServiceImpl的中间件
 type Adapter interface {
 	// GetConf returns the configuration that this GossipChannel will posses
 	GetConf() Config
@@ -133,7 +137,7 @@ type gossipChannel struct {
 	blockMsgStore             msgstore.MessageStore
 	stateInfoMsgStore         *stateInfoCache
 	leaderMsgStore            msgstore.MessageStore
-	chainID                   common.ChainID
+	chainID                   common.ChainID  //频道ID
 	blocksPuller              pull.Mediator
 	logger                    *logging.Logger
 	stateInfoPublishScheduler *time.Ticker
@@ -489,7 +493,6 @@ func (gc *gossipChannel) ConfigureChannel(joinMsg api.JoinChannelMessage) {
 }
 
 // HandleMessage processes a message sent by a remote peer
-//处理六种消息
 //处理六种消息
 func (gc *gossipChannel) HandleMessage(msg proto.ReceivedMessage) {
 	if !gc.verifyMsg(msg) {

@@ -106,26 +106,28 @@ func NewGossipService(conf *Config, s *grpc.Server, secAdvisor api.SecurityAdvis
 		lgr.Error("Failed instntiating communication layer:", err)
 		return nil
 	}
-
+	//启动频道状态服务
 	g.chanState = newChannelState(g)
 	//注册消息发送器emitter
 	g.emitter = newBatchingEmitter(conf.PropagateIterations,
 		conf.MaxPropagationBurstSize, conf.MaxPropagationBurstLatency,
 		g.sendGossipBatch)
-
+	//启动节点探测组件
 	g.discAdapter = g.newDiscoveryAdapter()
 	g.disSecAdap = g.newDiscoverySecurityAdapter()
 	g.disc = discovery.NewDiscoveryService(g.selfNetworkMember(), g.discAdapter, g.disSecAdap, g.disclosurePolicy)
 	g.logger.Info("Creating gossip service with self membership of", g.selfNetworkMember())
 
+	//启动证书管理器
 	g.certPuller = g.createCertStorePuller()
 	g.certStore = newCertStore(g.certPuller, g.idMapper, selfIdentity, mcs)
 
 	if g.conf.ExternalEndpoint == "" {
 		g.logger.Warning("External endpoint is empty, peer will not be accessible outside of its organization")
 	}
-
+	//启动节点扫描和通信服务
 	go g.start()
+	//启动与目标节点的通信连接
 	go g.connect2BootstrapPeers()
 
 	return g
@@ -300,6 +302,7 @@ func (g *gossipServiceImpl) syncDiscovery() {
 }
 
 func (g *gossipServiceImpl) start() {
+	//启动节点扫描
 	go g.syncDiscovery()
 	go g.handlePresumedDead()
 
@@ -318,12 +321,12 @@ func (g *gossipServiceImpl) start() {
 
 	//初始化channel消息选择器
 	incMsgs := g.comm.Accept(msgSelector)
-
+	//启动节点消息接收
 	go g.acceptMessages(incMsgs)
 
 	g.logger.Info("Gossip instance", g.conf.ID, "started")
 }
-
+//接收消息
 func (g *gossipServiceImpl) acceptMessages(incMsgs <-chan proto.ReceivedMessage) {
 	defer g.logger.Debug("Exiting")
 	g.stopSignal.Add(1)

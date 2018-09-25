@@ -17,6 +17,7 @@ import (
 // peer's cryptographic layer and is used by the gossip component to verify,
 // and authenticate remote peers and data they send, as well as to verify
 // received blocks from the ordering service.
+//连接gossip组件和密钥层，被组件使用进行验证服务：目标节点的数据发送验证和从order服务中接收block的验证
 type MessageCryptoService interface {
 
 	// GetPKIidOfCert returns the PKI-ID of a peer's identity

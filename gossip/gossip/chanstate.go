@@ -93,6 +93,7 @@ func (cs *channelState) getGossipChannelByChainID(chainID common.ChainID) channe
 	return cs.channels[string(chainID)]
 }
 
+//将频道信息加入
 func (cs *channelState) joinChannel(joinMsg api.JoinChannelMessage, chainID common.ChainID) {
 	if cs.isStopping() {
 		return

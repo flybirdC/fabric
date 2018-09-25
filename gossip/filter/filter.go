@@ -3,7 +3,7 @@ Copyright IBM Corp. All Rights Reserved.
 
 SPDX-License-Identifier: Apache-2.0
 */
-
+//用于discovery
 package filter
 
 import (
@@ -23,6 +23,7 @@ var SelectNonePolicy = func(discovery.NetworkMember) bool {
 }
 
 // SelectAllPolicy selects all members given
+//选择所有的成员
 var SelectAllPolicy = func(discovery.NetworkMember) bool {
 	return true
 }

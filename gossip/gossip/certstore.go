@@ -20,6 +20,7 @@ import (
 )
 
 // certStore supports pull dissemination of identity messages
+//支持拉取消息的身份许可
 type certStore struct {
 	selfIdentity api.PeerIdentityType
 	idMapper     identity.Mapper
@@ -28,6 +29,7 @@ type certStore struct {
 	mcs          api.MessageCryptoService
 }
 
+//初始化，在gossipservice中调用
 func newCertStore(puller pull.Mediator, idMapper identity.Mapper, selfIdentity api.PeerIdentityType, mcs api.MessageCryptoService) *certStore {
 	selfPKIID := idMapper.GetPKIidOfCert(selfIdentity)
 	logger := util.GetLogger(util.LoggingGossipModule, string(selfPKIID))

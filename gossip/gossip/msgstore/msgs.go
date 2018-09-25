@@ -3,7 +3,7 @@ Copyright IBM Corp. All Rights Reserved.
 
 SPDX-License-Identifier: Apache-2.0
 */
-
+//消息存储模块，为每一个channel提供消息存储
 package msgstore
 
 import (
