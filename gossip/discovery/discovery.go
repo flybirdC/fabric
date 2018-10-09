@@ -69,15 +69,17 @@ type CommService interface {
 }
 
 // NetworkMember is a peer's representation
+//提供节点的基础信息
 type NetworkMember struct {
 	Endpoint         string
 	Metadata         []byte
 	PKIid            common.PKIidType
 	InternalEndpoint string
-	Properties       *proto.Properties
+	Properties       *proto.Properties   //提供账本高度和频道指针
 }
 
 // String returns a string representation of the NetworkMember
+//打印基础信息
 func (n *NetworkMember) String() string {
 	return fmt.Sprintf("Endpoint: %s, InternalEndpoint: %s, PKI-ID: %v, Metadata: %v", n.Endpoint, n.InternalEndpoint, n.PKIid, n.Metadata)
 }

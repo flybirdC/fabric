@@ -87,11 +87,12 @@ type gossipDiscoveryImpl struct {
 	toDieFlag        int32
 	port             int
 	logger           *logging.Logger
-	disclosurePolicy DisclosurePolicy
+	disclosurePolicy DisclosurePolicy   //？与filter关联？
 	pubsub           *util.PubSub
 }
 
 // NewDiscoveryService returns a new discovery service with the comm module passed and the crypto service passed
+//入口，关联comm和crypto服务
 func NewDiscoveryService(self NetworkMember, comm CommService, crypt CryptoService, disPol DisclosurePolicy) Discovery {
 	d := &gossipDiscoveryImpl{
 		self:             self,
@@ -308,7 +309,7 @@ func (d *gossipDiscoveryImpl) handleMessages() {
 		}
 	}
 }
-
+//处理三类信息（对应三个if分支，很清晰）：alive消息AliveMessage，成员关系请求消息MembershipRequest，成员关系应答消息MembershipResponse
 func (d *gossipDiscoveryImpl) handleMsgFromComm(msg proto.ReceivedMessage) {
 	if msg == nil {
 		return

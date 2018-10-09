@@ -47,6 +47,7 @@ type MembershipService interface {
 }
 
 // Config defines the configuration of the pull mediator
+//mediator属性
 type Config struct {
 	ID                string
 	PullInterval      time.Duration // Duration between pull invocations
@@ -74,6 +75,7 @@ func (df EgressDigestFilter) byContext() algo.DigestFilter {
 
 // PullAdapter defines methods of the pullStore to interact
 // with various modules of gossip
+//方法类集合
 type PullAdapter struct {
 	Sndr             Sender
 	MemSvc           MembershipService
@@ -108,6 +110,7 @@ type Mediator interface {
 }
 
 // pullMediatorImpl is an implementation of Mediator
+//实现
 type pullMediatorImpl struct {
 	sync.RWMutex
 	*PullAdapter
@@ -119,6 +122,7 @@ type pullMediatorImpl struct {
 }
 
 // NewPullMediator returns a new Mediator
+//初始化mediator的入口函数
 func NewPullMediator(config Config, adapter *PullAdapter) Mediator {
 	egressDigFilter := adapter.EgressDigFilter
 
@@ -151,7 +155,7 @@ func NewPullMediator(config Config, adapter *PullAdapter) Mediator {
 	return p
 
 }
-
+//处理四种消息
 func (p *pullMediatorImpl) HandleMessage(m proto.ReceivedMessage) {
 	if m.GetGossipMessage() == nil || !m.GetGossipMessage().IsPullMsg() {
 		return
@@ -277,6 +281,7 @@ func (p *pullMediatorImpl) Hello(dest string, nonce uint64) {
 
 // SendDigest sends a digest to a remote PullEngine.
 // The context parameter specifies the remote engine to send to.
+//构造digest消息发送给对方
 func (p *pullMediatorImpl) SendDigest(digest []string, nonce uint64, context interface{}) {
 	digMsg := &proto.GossipMessage{
 		Channel: p.config.Channel,
@@ -300,7 +305,7 @@ func (p *pullMediatorImpl) SendDigest(digest []string, nonce uint64, context int
 
 // SendReq sends an array of items to a certain remote PullEngine identified
 // by a string
-//向对方请求需要同步哪些消息
+//向对方请求需要同步哪些消息，构造req消息发送
 func (p *pullMediatorImpl) SendReq(dest string, items []string, nonce uint64) {
 	req := &proto.GossipMessage{
 		Channel: p.config.Channel,
