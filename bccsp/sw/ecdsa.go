@@ -24,7 +24,9 @@ import (
 	"github.com/hyperledger/fabric/bccsp/utils"
 )
 
+//使用椭圆曲线进行加密
 func signECDSA(k *ecdsa.PrivateKey, digest []byte, opts bccsp.SignerOpts) (signature []byte, err error) {
+	//使用椭圆曲线对信息摘要进行签名
 	r, s, err := ecdsa.Sign(rand.Reader, k, digest)
 	if err != nil {
 		return nil, err
@@ -34,7 +36,7 @@ func signECDSA(k *ecdsa.PrivateKey, digest []byte, opts bccsp.SignerOpts) (signa
 	if err != nil {
 		return nil, err
 	}
-
+//返回加密串
 	return utils.MarshalECDSASignature(r, s)
 }
 

@@ -69,6 +69,7 @@ func init() {
 }
 
 //InitConfig initializes viper config
+//初始化viper的配置文件
 func InitConfig(cmdRoot string) error {
 	err := config.InitViper(nil, cmdRoot)
 	if err != nil {
@@ -117,6 +118,7 @@ func SetBCCSPKeystorePath() {
 }
 
 // GetDefaultSigner return a default Signer(Default/PERR) for cli
+//返回peer的在cli终端处执行的签名者
 func GetDefaultSigner() (msp.SigningIdentity, error) {
 	signer, err := mspmgmt.GetLocalMSP().GetDefaultSigningIdentity()
 	if err != nil {

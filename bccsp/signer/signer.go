@@ -84,5 +84,6 @@ func (s *bccspCryptoSigner) Public() crypto.PublicKey {
 // the caller is responsible for hashing the larger message and passing
 // the hash (as digest) and the hash function (as opts) to Sign.
 func (s *bccspCryptoSigner) Sign(rand io.Reader, digest []byte, opts crypto.SignerOpts) (signature []byte, err error) {
+	//传入交易发送者的私钥，私钥生成的信息摘要，
 	return s.csp.Sign(s.key, digest, opts)
 }

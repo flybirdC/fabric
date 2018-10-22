@@ -25,12 +25,12 @@ func (msp *bccspmsp) validateIdentity(id *identity) error {
 	if err != nil {
 		return errors.WithMessage(err, "could not obtain certification chain")
 	}
-
+	//检验是否是废弃证书
 	err = msp.validateIdentityAgainstChain(id, validationChain)
 	if err != nil {
 		return errors.WithMessage(err, "could not validate identity against certification chain")
 	}
-
+	//检验是否有组织单元（必须在组织里）
 	err = msp.internalValidateIdentityOusFunc(id)
 	if err != nil {
 		return errors.WithMessage(err, "could not validate identity's OUs")
@@ -79,7 +79,7 @@ func (msp *bccspmsp) validateIdentityAgainstChain(id *identity, validationChain 
 
 func (msp *bccspmsp) validateCertAgainstChain(cert *x509.Certificate, validationChain []*x509.Certificate) error {
 	// here we know that the identity is valid; now we have to check whether it has been revoked
-
+	//检验是否被废弃了
 	// identify the SKI of the CA that signed this cert
 	SKI, err := getSubjectKeyIdentifierFromCert(validationChain[1])
 	if err != nil {

@@ -66,7 +66,7 @@ func newIdentity(cert *x509.Certificate, pk bccsp.Key, msp *bccspmsp) (Identity,
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed getting hash function options")
 	}
-
+	//
 	digest, err := msp.bccsp.Hash(cert.Raw, hashOpt)
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed hashing raw certificate to compute the id of the IdentityIdentifier")
@@ -204,7 +204,7 @@ func (id *identity) getHashOpt(hashFamily string) (bccsp.HashOpts, error) {
 	}
 	return nil, errors.Errorf("hash familiy not recognized [%s]", hashFamily)
 }
-
+//
 type signingidentity struct {
 	// we embed everything from a base identity
 	identity
@@ -223,20 +223,22 @@ func newSigningIdentity(cert *x509.Certificate, pk bccsp.Key, signer crypto.Sign
 }
 
 // Sign produces a signature over msg, signed by this instance
+//对交易信息进行签名
 func (id *signingidentity) Sign(msg []byte) ([]byte, error) {
 	//mspIdentityLogger.Infof("Signing message")
 
 	// Compute Hash
+	//计算哈希，得到hash摘要
 	hashOpt, err := id.getHashOpt(id.msp.cryptoConfig.SignatureHashFamily)
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed getting hash function options")
 	}
-
+	//digest为hash摘要
 	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
 	if err != nil {
 		return nil, errors.WithMessage(err, "failed computing digest")
 	}
-
+	//不满32byte补0
 	if len(msg) < 32 {
 		mspIdentityLogger.Debugf("Sign: plaintext: %X \n", msg)
 	} else {

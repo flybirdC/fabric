@@ -210,6 +210,7 @@ func GetLocalMSP() msp.MSP {
 }
 
 // GetIdentityDeserializer returns the IdentityDeserializer for the given chain
+//返回给定链的序列化身份
 func GetIdentityDeserializer(chainID string) msp.IdentityDeserializer {
 	if chainID == "" {
 		return GetLocalMSP()

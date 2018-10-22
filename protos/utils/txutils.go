@@ -294,8 +294,10 @@ func CreateProposalResponseFailure(hdrbytes []byte, payl []byte, response *peer.
 }
 
 // GetSignedProposal returns a signed proposal given a Proposal message and a signing identity
+//返回签名提议和签名身份
 func GetSignedProposal(prop *peer.Proposal, signer msp.SigningIdentity) (*peer.SignedProposal, error) {
 	// check for nil argument
+	//核对参数内容
 	if prop == nil || signer == nil {
 		return nil, fmt.Errorf("Nil arguments")
 	}
@@ -304,7 +306,7 @@ func GetSignedProposal(prop *peer.Proposal, signer msp.SigningIdentity) (*peer.S
 	if err != nil {
 		return nil, err
 	}
-
+	//将交易内容签名
 	signature, err := signer.Sign(propBytes)
 	if err != nil {
 		return nil, err

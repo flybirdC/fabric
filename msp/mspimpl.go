@@ -115,6 +115,7 @@ func newBccspMsp(version MSPVersion) (MSP, error) {
 	return theMsp, nil
 }
 
+//
 func (msp *bccspmsp) getCertFromPem(idBytes []byte) (*x509.Certificate, error) {
 	if idBytes == nil {
 		return nil, errors.New("getCertFromPem error: nil idBytes")
@@ -135,7 +136,7 @@ func (msp *bccspmsp) getCertFromPem(idBytes []byte) (*x509.Certificate, error) {
 
 	return cert, nil
 }
-
+//从配置属性获取身份
 func (msp *bccspmsp) getIdentityFromConf(idBytes []byte) (Identity, bccsp.Key, error) {
 	// get a cert
 	cert, err := msp.getCertFromPem(idBytes)
@@ -153,19 +154,21 @@ func (msp *bccspmsp) getIdentityFromConf(idBytes []byte) (Identity, bccsp.Key, e
 
 	return mspId, certPubK, nil
 }
-
+//从配置信息得到签名身份，即通过私钥进行签名
 func (msp *bccspmsp) getSigningIdentityFromConf(sidInfo *m.SigningIdentityInfo) (SigningIdentity, error) {
 	if sidInfo == nil {
 		return nil, errors.New("getIdentityFromBytes error: nil sidInfo")
 	}
 
 	// Extract the public part of the identity
+	//获取到公钥和身份
 	idPub, pubKey, err := msp.getIdentityFromConf(sidInfo.PublicSigner)
 	if err != nil {
 		return nil, err
 	}
 
 	// Find the matching private key in the BCCSP keystore
+	//找到匹配的私钥
 	privKey, err := msp.bccsp.GetKey(pubKey.SKI())
 	// Less Secure: Attempt to import Private Key from KeyInfo, if BCCSP was not able to find the key
 	if err != nil {
@@ -173,7 +176,7 @@ func (msp *bccspmsp) getSigningIdentityFromConf(sidInfo *m.SigningIdentityInfo) 
 		if sidInfo.PrivateSigner == nil || sidInfo.PrivateSigner.KeyMaterial == nil {
 			return nil, errors.New("KeyMaterial not found in SigningIdentityInfo")
 		}
-
+		//公钥序列化，私钥进行椭圆曲线签名
 		pemKey, _ := pem.Decode(sidInfo.PrivateSigner.KeyMaterial)
 		privKey, err = msp.bccsp.KeyImport(pemKey.Bytes, &bccsp.ECDSAPrivateKeyImportOpts{Temporary: true})
 		if err != nil {
@@ -182,6 +185,7 @@ func (msp *bccspmsp) getSigningIdentityFromConf(sidInfo *m.SigningIdentityInfo) 
 	}
 
 	// get the peer signer
+	//得到签名者持有的私钥
 	peerSigner, err := signer.New(msp.bccsp, privKey)
 	if err != nil {
 		return nil, errors.WithMessage(err, "getIdentityFromBytes error: Failed initializing bccspCryptoSigner")
@@ -193,6 +197,7 @@ func (msp *bccspmsp) getSigningIdentityFromConf(sidInfo *m.SigningIdentityInfo) 
 // Setup sets up the internal data structures
 // for this MSP, given an MSPConfig ref; it
 // returns nil in case of success or an error otherwise
+//建立配置文件数据
 func (msp *bccspmsp) Setup(conf1 *m.MSPConfig) error {
 	if conf1 == nil {
 		return errors.New("Setup error: nil conf reference")
@@ -224,6 +229,7 @@ func (msp *bccspmsp) GetType() ProviderType {
 }
 
 // GetIdentifier returns the MSP identifier for this instance
+//得到msp的id
 func (msp *bccspmsp) GetIdentifier() (string, error) {
 	return msp.name, nil
 }
@@ -262,6 +268,7 @@ func (msp *bccspmsp) GetSigningIdentity(identifier *IdentityIdentifier) (Signing
 // to this MSP's roots of trust; it returns
 // nil in case the identity is valid or an
 // error otherwise
+//根据msp根证书验证提供的identity是否是可信任的，返回nil通过，error失败
 func (msp *bccspmsp) Validate(id Identity) error {
 	mspLogger.Debugf("MSP %s validating identity", msp.name)
 
@@ -280,14 +287,16 @@ func (msp *bccspmsp) Validate(id Identity) error {
 // associated to the specified MSPRole.
 // This function does not check the certifiers identifier.
 // Appropriate validation needs to be enforced before.
+//核查identity是否属于组织单元
 func (msp *bccspmsp) hasOURole(id Identity, mspRole m.MSPRole_MSPRoleType) error {
 	// Check NodeOUs
+	//检查组织单元是否开启true
 	if !msp.ouEnforcement {
 		return errors.New("NodeOUs not activated. Cannot tell apart identities.")
 	}
 
 	mspLogger.Debugf("MSP %s checking if the identity is a client", msp.name)
-
+	//核查是否为提供背书节点的客户端
 	switch id := id.(type) {
 	// If this identity is of this specific type,
 	// this is how I can validate it given the
@@ -309,7 +318,7 @@ func (msp *bccspmsp) hasOURoleInternal(id *identity, mspRole m.MSPRole_MSPRoleTy
 	default:
 		return fmt.Errorf("Invalid MSPRoleType. It must be CLIENT, PEER or ORDERER")
 	}
-
+	//保证id在组织单元内
 	for _, OU := range id.GetOrganizationalUnits() {
 		if OU.OrganizationalUnitIdentifier == nodeOUValue {
 			return nil
@@ -321,6 +330,7 @@ func (msp *bccspmsp) hasOURoleInternal(id *identity, mspRole m.MSPRole_MSPRoleTy
 
 // DeserializeIdentity returns an Identity given the byte-level
 // representation of a SerializedIdentity struct
+//序列化
 func (msp *bccspmsp) DeserializeIdentity(serializedID []byte) (Identity, error) {
 	mspLogger.Infof("Obtaining identity")
 
@@ -484,6 +494,7 @@ func (msp *bccspmsp) getCertificationChain(id Identity) ([]*x509.Certificate, er
 }
 
 // getCertificationChainForBCCSPIdentity returns the certification chain of the passed bccsp identity within this msp
+//返回链的x509根证书列表
 func (msp *bccspmsp) getCertificationChainForBCCSPIdentity(id *identity) ([]*x509.Certificate, error) {
 	if id == nil {
 		return nil, errors.New("Invalid bccsp identity. Must be different from nil.")
@@ -495,6 +506,7 @@ func (msp *bccspmsp) getCertificationChainForBCCSPIdentity(id *identity) ([]*x50
 	}
 
 	// CAs cannot be directly used as identities..
+	//ca不能直接被用作id
 	if id.cert.IsCA {
 		return nil, errors.New("An X509 certificate with Basic Constraint: " +
 			"Certificate Authority equals true cannot be used as an identity")
@@ -530,6 +542,7 @@ func (msp *bccspmsp) getValidationChain(cert *x509.Certificate, isIntermediateCh
 	}
 
 	// we expect a chain of length at least 2
+	//证书链的长度至少为2
 	if len(validationChain) < 2 {
 		return nil, errors.Errorf("expected a chain of length at least 2, got %d", len(validationChain))
 	}
@@ -580,6 +593,7 @@ func (msp *bccspmsp) getCertificationChainIdentifierFromChain(chain []*x509.Cert
 // sanitizeCert ensures that x509 certificates signed using ECDSA
 // do have signatures in Low-S. If this is not the case, the certificate
 // is regenerated to have a Low-S signature.
+//确定证书使用的ecdsa
 func (msp *bccspmsp) sanitizeCert(cert *x509.Certificate) (*x509.Certificate, error) {
 	if isECDSASignedCert(cert) {
 		// Lookup for a parent certificate to perform the sanitization

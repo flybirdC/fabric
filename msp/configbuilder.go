@@ -76,7 +76,7 @@ func readPemFile(file string) ([]byte, error) {
 
 	return bytes, nil
 }
-
+//遍历peer节点的msp找到公钥证书并将其内容封装进二位byte数组
 func getPemMaterialFromDir(dir string) ([][]byte, error) {
 	mspLogger.Debugf("Reading directory %s", dir)
 
@@ -90,7 +90,7 @@ func getPemMaterialFromDir(dir string) ([][]byte, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "could not read directory %s", dir)
 	}
-
+	//遍历文件夹找到绝对路径
 	for _, f := range files {
 		fullName := filepath.Join(dir, f.Name())
 
@@ -163,18 +163,22 @@ func GetLocalMspConfigWithType(dir string, bccspConfig *factory.FactoryOpts, ID,
 		return nil, errors.Errorf("unknown MSP type '%s'", mspType)
 	}
 }
-
+//
 func GetLocalMspConfig(dir string, bccspConfig *factory.FactoryOpts, ID string) (*msp.MSPConfig, error) {
+	//取到节点的公钥私钥，以及将私钥关联椭圆曲线算法
 	signcertDir := filepath.Join(dir, signcerts)
 	keystoreDir := filepath.Join(dir, keystore)
 	bccspConfig = SetupBCCSPKeystoreConfig(bccspConfig, keystoreDir)
 
+	//初始化加密算法工厂集合
 	err := factory.InitFactories(bccspConfig)
 	if err != nil {
 		return nil, errors.WithMessage(err, "could not initialize BCCSP Factories")
 	}
-
+	//传入公钥参数（公钥那一串数值），该函数遍历peer节点的msp找到公钥证书并将其内容封装进二位byte数组=signcert
+	//得到了公钥串
 	signcert, err := getPemMaterialFromDir(signcertDir)
+	//判断是否已正确读取了公钥
 	if err != nil || len(signcert) == 0 {
 		return nil, errors.Wrapf(err, "could not load a valid signer certificate from directory %s", signcertDir)
 	}
@@ -184,6 +188,9 @@ func GetLocalMspConfig(dir string, bccspConfig *factory.FactoryOpts, ID string) 
 	2) BCCSP's KeyStore has the private key that matches SKI of
 	   signing cert
 	*/
+	/*
+	至此，得到公钥字符串并且私钥匹配了椭圆曲线算法
+	 */
 
 	sigid := &msp.SigningIdentityInfo{PublicSigner: signcert[0], PrivateSigner: nil}
 

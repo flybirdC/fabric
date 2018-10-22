@@ -94,7 +94,7 @@ func initSysCCs() {
 	scc.DeploySysCCs("")
 	logger.Infof("Deployed system chaincodes")
 }
-
+//账本启动
 func serve(args []string) error {
 	// currently the peer only works with the standard MSP
 	// because in certain scenarios the MSP has to make sure

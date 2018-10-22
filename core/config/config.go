@@ -135,6 +135,7 @@ const OfficialPath = "/etc/hyperledger/fabric"
 // the configuration we need.  If v == nil, we will initialize the global
 // Viper instance
 //----------------------------------------------------------------------------------
+//
 func InitViper(v *viper.Viper, configName string) error {
 	var altPath = os.Getenv("FABRIC_CFG_PATH")
 	if altPath != "" {

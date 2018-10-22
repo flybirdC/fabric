@@ -57,7 +57,7 @@ type cachedMSP struct {
 
 	spcMutex sync.Mutex // synchronize access to cache
 }
-
+//
 func (c *cachedMSP) DeserializeIdentity(serializedIdentity []byte) (msp.Identity, error) {
 	c.dicMutex.Lock()
 	cached, ok := c.deserializeIdentityCache.Get(string(serializedIdentity))

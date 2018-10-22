@@ -63,7 +63,7 @@ type ProposalFailedErr string
 func (e ProposalFailedErr) Error() string {
 	return fmt.Sprintf("proposal failed (err: %s)", string(e))
 }
-
+//初始化链码
 func getJoinCCSpec() (*pb.ChaincodeSpec, error) {
 	if genesisBlockPath == common.UndefinedParamValue {
 		return nil, errors.New("Must supply genesis block file")
@@ -86,25 +86,29 @@ func getJoinCCSpec() (*pb.ChaincodeSpec, error) {
 }
 
 func executeJoin(cf *ChannelCmdFactory) (err error) {
+	//得到初始化的链码对象
 	spec, err := getJoinCCSpec()
 	if err != nil {
 		return err
 	}
 
 	// Build the ChaincodeInvocationSpec message
+	//构建链码调取信息
 	invocation := &pb.ChaincodeInvocationSpec{ChaincodeSpec: spec}
 
+	//序列化msp签名身份对象，得到identity的接口方法
 	creator, err := cf.Signer.Serialize()
 	if err != nil {
 		return fmt.Errorf("Error serializing identity for %s: %s", cf.Signer.GetIdentifier(), err)
 	}
-
+	//得到信息包对象声明
 	var prop *pb.Proposal
+	//该包加入到当前chain
 	prop, _, err = putils.CreateProposalFromCIS(pcommon.HeaderType_CONFIG, "", invocation, creator)
 	if err != nil {
 		return fmt.Errorf("Error creating proposal for join %s", err)
 	}
-
+	//得到当前签名提议
 	var signedProp *pb.SignedProposal
 	signedProp, err = putils.GetSignedProposal(prop, cf.Signer)
 	if err != nil {
@@ -112,6 +116,7 @@ func executeJoin(cf *ChannelCmdFactory) (err error) {
 	}
 
 	var proposalResp *pb.ProposalResponse
+	//获取到签名的signedProp后，将签名申请发送给背书节点
 	proposalResp, err = cf.EndorserClient.ProcessProposal(context.Background(), signedProp)
 	if err != nil {
 		return ProposalFailedErr(err.Error())
@@ -127,7 +132,7 @@ func executeJoin(cf *ChannelCmdFactory) (err error) {
 	logger.Info("Successfully submitted proposal to join channel")
 	return nil
 }
-
+//关联cobra命令，判断创世块、背书节点、排序节点必须存在
 func join(cmd *cobra.Command, args []string, cf *ChannelCmdFactory) error {
 	if genesisBlockPath == common.UndefinedParamValue {
 		return errors.New("Must supply genesis block path")

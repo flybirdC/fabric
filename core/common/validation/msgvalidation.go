@@ -93,12 +93,14 @@ func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *comm
 	}
 
 	// validate the header
+	//验证交易格式信息头格式是否正确
 	chdr, shdr, err := validateCommonHeader(hdr)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
 	// validate the signature
+	//验证交易者签名和身份id
 	err = checkSignatureFromCreator(shdr.Creator, signedProp.Signature, signedProp.ProposalBytes, chdr.ChannelId)
 	if err != nil {
 		// log the exact message on the peer but return a generic error message to
@@ -153,6 +155,7 @@ func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *comm
 // given a creator, a message and a signature,
 // this function returns nil if the creator
 // is a valid cert and the signature is valid
+//验证交易提案者cert和signature格式
 func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, ChainID string) error {
 	putilsLogger.Debugf("begin")
 
@@ -160,13 +163,14 @@ func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, Chai
 	if creatorBytes == nil || sig == nil || msg == nil {
 		return errors.New("nil arguments")
 	}
-
+	//根据链id获取了一个本地的msp管理者
 	mspObj := mspmgmt.GetIdentityDeserializer(ChainID)
 	if mspObj == nil {
 		return errors.Errorf("could not get msp for channel [%s]", ChainID)
 	}
 
 	// get the identity of the creator
+	//
 	creator, err := mspObj.DeserializeIdentity(creatorBytes)
 	if err != nil {
 		return errors.WithMessage(err, "MSP error")

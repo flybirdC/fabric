@@ -84,6 +84,7 @@ func main() {
 	mainCmd.AddCommand(clilogging.Cmd(nil))
 	mainCmd.AddCommand(channel.Cmd(nil))
 
+	//初始化core.yaml
 	err := common.InitConfig(cmdRoot)
 	if err != nil { // Handle errors reading the config file
 		logger.Errorf("Fatal error when initializing %s config : %s", cmdRoot, err)

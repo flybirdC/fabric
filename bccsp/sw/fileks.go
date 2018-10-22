@@ -38,6 +38,7 @@ import (
 // The key store can be encrypted if a non-empty password is specifiec.
 // It can be also be set as read only. In this case, any store operation
 // will be forbidden
+//得到了私钥及其相关属性
 func NewFileBasedKeyStore(pwd []byte, path string, readOnly bool) (bccsp.KeyStore, error) {
 	ks := &fileBasedKeyStore{}
 	return ks, ks.Init(pwd, path, readOnly)

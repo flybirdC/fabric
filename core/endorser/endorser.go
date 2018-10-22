@@ -399,9 +399,11 @@ func (e *Endorser) endorseProposal(ctx context.Context, chainID string, txid str
 }
 
 //preProcess checks the tx proposal headers, uniqueness and ACL
+//预检查核对交易提案头信息，唯一性和ACL
 func (e *Endorser) preProcess(signedProp *pb.SignedProposal) (*validateResult, error) {
 	vr := &validateResult{}
 	// at first, we check whether the message is valid
+	//首先核对信息格式是否正确
 	prop, hdr, hdrExt, err := validation.ValidateProposalMessage(signedProp)
 
 	if err != nil {
@@ -469,12 +471,15 @@ func (e *Endorser) preProcess(signedProp *pb.SignedProposal) (*validateResult, e
 }
 
 // ProcessProposal process the Proposal
+//处理交易提案
 func (e *Endorser) ProcessProposal(ctx context.Context, signedProp *pb.SignedProposal) (*pb.ProposalResponse, error) {
+	//得到提交交易的peer address
 	addr := util.ExtractRemoteAddress(ctx)
 	endorserLogger.Debug("Entering: Got request from", addr)
 	defer endorserLogger.Debugf("Exit: request from", addr)
 
 	//0 -- check and validate
+	//检验
 	vr, err := e.preProcess(signedProp)
 	if err != nil {
 		resp := vr.resp

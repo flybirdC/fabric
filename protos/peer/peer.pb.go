@@ -71,7 +71,7 @@ var _ grpc.ClientConn
 const _ = grpc.SupportPackageIsVersion4
 
 // Client API for Endorser service
-
+//背书节点API服务的client端
 type EndorserClient interface {
 	ProcessProposal(ctx context.Context, in *SignedProposal, opts ...grpc.CallOption) (*ProposalResponse, error)
 }
