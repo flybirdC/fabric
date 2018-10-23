@@ -3,6 +3,12 @@ OrdererOrgs:
   Domain: wangchong.com
   Specs:
   - Hostname: orderer
+  Template:
+    Count: 1
+  Users:
+    Count: 1
+
+
 PeerOrgs:
 - Name: Org1
   Domain: org1.wangchong.com
@@ -13,6 +19,6 @@ PeerOrgs:
 - Name: Org2
   Domain: org2.wangchong.com
   Template:
-    Count: 1
+    Count: 2
   Users:
     Count: 1

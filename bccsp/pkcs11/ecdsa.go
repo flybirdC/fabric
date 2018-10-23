@@ -36,7 +36,7 @@ func (csp *impl) signECDSA(k ecdsaPrivateKey, digest []byte, opts bccsp.SignerOp
 
 	return utils.MarshalECDSASignature(r, s)
 }
-
+//验签
 func (csp *impl) verifyECDSA(k ecdsaPublicKey, signature, digest []byte, opts bccsp.SignerOpts) (valid bool, err error) {
 	r, s, err := utils.UnmarshalECDSASignature(signature)
 	if err != nil {

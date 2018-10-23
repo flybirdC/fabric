@@ -268,7 +268,7 @@ func (msp *bccspmsp) GetSigningIdentity(identifier *IdentityIdentifier) (Signing
 // to this MSP's roots of trust; it returns
 // nil in case the identity is valid or an
 // error otherwise
-//根据msp根证书验证提供的identity是否是可信任的，返回nil通过，error失败
+//通过msp root cert验证证书的有效性，使用接收者的msp对象对发送者的identity身份进行验证
 func (msp *bccspmsp) Validate(id Identity) error {
 	mspLogger.Debugf("MSP %s validating identity", msp.name)
 
@@ -330,7 +330,7 @@ func (msp *bccspmsp) hasOURoleInternal(id *identity, mspRole m.MSPRole_MSPRoleTy
 
 // DeserializeIdentity returns an Identity given the byte-level
 // representation of a SerializedIdentity struct
-//序列化
+//反序列化
 func (msp *bccspmsp) DeserializeIdentity(serializedID []byte) (Identity, error) {
 	mspLogger.Infof("Obtaining identity")
 
@@ -534,7 +534,7 @@ func (msp *bccspmsp) getUniqueValidationChain(cert *x509.Certificate, opts x509.
 
 	return validationChains[0], nil
 }
-
+//获得证书链，0为发送者证书，1为父级证书
 func (msp *bccspmsp) getValidationChain(cert *x509.Certificate, isIntermediateChain bool) ([]*x509.Certificate, error) {
 	validationChain, err := msp.getUniqueValidationChain(cert, msp.getValidityOptsForCert(cert))
 	if err != nil {

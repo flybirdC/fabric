@@ -468,6 +468,7 @@ func (csp *impl) Sign(k bccsp.Key, digest []byte, opts bccsp.SignerOpts) (signat
 }
 
 // Verify verifies signature against key k and digest
+//验证签名
 func (csp *impl) Verify(k bccsp.Key, signature, digest []byte, opts bccsp.SignerOpts) (valid bool, err error) {
 	// Validate arguments
 	if k == nil {

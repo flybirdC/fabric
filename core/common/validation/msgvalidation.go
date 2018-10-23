@@ -126,7 +126,7 @@ func ValidateProposalMessage(signedProp *pb.SignedProposal) (*pb.Proposal, *comm
 	if err != nil {
 		return nil, nil, nil, err
 	}
-
+	//验证交易类型
 	// continue the validation in a way that depends on the type specified in the header
 	switch common.HeaderType(chdr.Type) {
 	case common.HeaderType_PEER_RESOURCE_UPDATE:
@@ -170,7 +170,7 @@ func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, Chai
 	}
 
 	// get the identity of the creator
-	//
+	//根据creatorBytes中的mspid，获取（接收者）对应MSP对象，然后根据（发送者）creatorBytes中的证书，再生成一个发送者的identity对象
 	creator, err := mspObj.DeserializeIdentity(creatorBytes)
 	if err != nil {
 		return errors.WithMessage(err, "MSP error")
@@ -179,6 +179,7 @@ func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, Chai
 	putilsLogger.Debugf("creator is %s", creator.GetIdentifier())
 
 	// ensure that creator is a valid certificate
+	//确定证书的可行性
 	err = creator.Validate()
 	if err != nil {
 		return errors.WithMessage(err, "creator certificate is not valid")
@@ -187,6 +188,7 @@ func checkSignatureFromCreator(creatorBytes []byte, sig []byte, msg []byte, Chai
 	putilsLogger.Debugf("creator is valid")
 
 	// validate the signature
+	//验证签名
 	err = creator.Verify(msg, sig)
 	if err != nil {
 		return errors.WithMessage(err, "creator's signature over the proposal is not valid")

@@ -146,15 +146,17 @@ func NewSerializedIdentity(mspID string, certPEM []byte) ([]byte, error) {
 // Verify checks against a signature and a message
 // to determine whether this identity produced the
 // signature; it returns nil if so or an error otherwise
+//验证签名
 func (id *identity) Verify(msg []byte, sig []byte) error {
 	// mspIdentityLogger.Infof("Verifying signature")
 
 	// Compute Hash
+	//计算hash
 	hashOpt, err := id.getHashOpt(id.msp.cryptoConfig.SignatureHashFamily)
 	if err != nil {
 		return errors.WithMessage(err, "failed getting hash function options")
 	}
-
+	//得到digest
 	digest, err := id.msp.bccsp.Hash(msg, hashOpt)
 	if err != nil {
 		return errors.WithMessage(err, "failed computing digest")
@@ -164,7 +166,7 @@ func (id *identity) Verify(msg []byte, sig []byte) error {
 		mspIdentityLogger.Debugf("Verify: digest = %s", hex.Dump(digest))
 		mspIdentityLogger.Debugf("Verify: sig = %s", hex.Dump(sig))
 	}
-
+	//
 	valid, err := id.msp.bccsp.Verify(id.pk, sig, digest, nil)
 	if err != nil {
 		return errors.WithMessage(err, "could not determine the validity of the signature")
