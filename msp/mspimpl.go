@@ -30,63 +30,81 @@ type validateIdentityOUsFuncType func(id *identity) error
 
 // This is an instantiation of an MSP that
 // uses BCCSP for its cryptographic primitives.
+//关联证书和加密算法
 type bccspmsp struct {
 	// version specifies the behaviour of this msp
 	version MSPVersion
 	// The following function pointers are used to change the behaviour
 	// of this MSP depending on its version.
 	// internalSetupFunc is the pointer to the setup function
+	//该指针根据MSP的版本改变MSP行为
 	internalSetupFunc mspSetupFuncType
 
 	// internalValidateIdentityOusFunc is the pointer to the function to validate identity's OUs
+	//验证身份的组织单元
 	internalValidateIdentityOusFunc validateIdentityOUsFuncType
 
 	// list of CA certs we trust
+	//可信任的根CA证书列表
 	rootCerts []Identity
 
 	// list of intermediate certs we trust
+	//可信任的中间证书列表
 	intermediateCerts []Identity
 
 	// list of CA TLS certs we trust
+	//可信任的根tls证书列表
 	tlsRootCerts [][]byte
 
 	// list of intermediate TLS certs we trust
+	//可信任的tls中间证书列表
 	tlsIntermediateCerts [][]byte
 
 	// certificationTreeInternalNodesMap whose keys correspond to the raw material
 	// (DER representation) of a certificate casted to a string, and whose values
 	// are boolean. True means that the certificate is an internal node of the certification tree.
 	// False means that the certificate corresponds to a leaf of the certification tree.
+	//证书链索引，bool=false则为证书树的叶子节点
 	certificationTreeInternalNodesMap map[string]bool
 
 	// list of signing identities
+	//签名身份接口
 	signer SigningIdentity
 
 	// list of admin identities
+	//管理员身份接口列表
 	admins []Identity
 
 	// the crypto provider
+	//加密算法提供者
 	bccsp bccsp.BCCSP
 
 	// the provider identifier for this MSP
+	//MSP身份提供者
 	name string
 
 	// verification options for MSP members
+	//MSP成员的验证选项
 	opts *x509.VerifyOptions
 
 	// list of certificate revocation lists
+	//废弃证书列表
 	CRL []*pkix.CertificateList
 
 	// list of OUs
+	//组织单元列表
 	ouIdentifiers map[string][][]byte
 
 	// cryptoConfig contains
+	//加密算法属性包
 	cryptoConfig *m.FabricCryptoConfig
 
 	// NodeOUs configuration
+	//组织单元配置
 	ouEnforcement bool
 	// These are the OUIdentifiers of the clients, peers and orderers.
 	// They are used to tell apart these entities
+	//组织单元节点属性（clientOU为endorser节点属性，peerOU为commit节点属性）
 	clientOU, peerOU *OUIdentifier
 }
 
@@ -115,7 +133,7 @@ func newBccspMsp(version MSPVersion) (MSP, error) {
 	return theMsp, nil
 }
 
-//
+//从pem得到cert509信息串
 func (msp *bccspmsp) getCertFromPem(idBytes []byte) (*x509.Certificate, error) {
 	if idBytes == nil {
 		return nil, errors.New("getCertFromPem error: nil idBytes")
@@ -154,7 +172,7 @@ func (msp *bccspmsp) getIdentityFromConf(idBytes []byte) (Identity, bccsp.Key, e
 
 	return mspId, certPubK, nil
 }
-//从配置信息得到签名身份，即通过私钥进行签名
+//从配置信息得到签名身份，得到私钥并封装为signingidentity
 func (msp *bccspmsp) getSigningIdentityFromConf(sidInfo *m.SigningIdentityInfo) (SigningIdentity, error) {
 	if sidInfo == nil {
 		return nil, errors.New("getIdentityFromBytes error: nil sidInfo")

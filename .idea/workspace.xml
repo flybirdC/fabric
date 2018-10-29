@@ -3,15 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="9b0b5205-98f9-4fdc-817f-bec0eaceda23" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bccsp/pkcs11/ecdsa.go" beforeDir="false" afterPath="$PROJECT_DIR$/bccsp/pkcs11/ecdsa.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bccsp/pkcs11/impl.go" beforeDir="false" afterPath="$PROJECT_DIR$/bccsp/pkcs11/impl.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/common/validation/msgvalidation.go" beforeDir="false" afterPath="$PROJECT_DIR$/core/common/validation/msgvalidation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabric-deploy/configtxgen" beforeDir="false" afterPath="$PROJECT_DIR$/fabric-deploy/bin/configtxgen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabric-deploy/configtxlator" beforeDir="false" afterPath="$PROJECT_DIR$/fabric-deploy/bin/configtxlator" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabric-deploy/crypto-config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/fabric-deploy/crypto-config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fabric-deploy/idemixgen" beforeDir="false" afterPath="$PROJECT_DIR$/fabric-deploy/bin/idemixgen" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tools/cryptogen/ca/generator.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/tools/cryptogen/ca/generator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/msp/identities.go" beforeDir="false" afterPath="$PROJECT_DIR$/msp/identities.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/msp/msp.go" beforeDir="false" afterPath="$PROJECT_DIR$/msp/msp.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/msp/mspimpl.go" beforeDir="false" afterPath="$PROJECT_DIR$/msp/mspimpl.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/msp/mspimplsetup.go" beforeDir="false" afterPath="$PROJECT_DIR$/msp/mspimplsetup.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/msp/mspimplvalidate.go" beforeDir="false" afterPath="$PROJECT_DIR$/msp/mspimplvalidate.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orderer/common/localconfig/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/orderer/common/localconfig/config.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,64 +35,66 @@
     <session id="1273766354">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="72" />
+          <entry key="project.closed" value="80" />
           <entry key="project.open.time.0" value="7" />
           <entry key="project.open.time.1" value="2" />
-          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.10" value="2" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.3" value="2" />
           <entry key="project.open.time.4" value="7" />
-          <entry key="project.open.time.5" value="25" />
-          <entry key="project.open.time.6" value="17" />
+          <entry key="project.open.time.5" value="28" />
+          <entry key="project.open.time.6" value="19" />
           <entry key="project.open.time.7" value="10" />
           <entry key="project.open.time.8" value="3" />
-          <entry key="project.open.time.9" value="2" />
-          <entry key="project.opened" value="76" />
+          <entry key="project.open.time.9" value="3" />
+          <entry key="project.opened" value="84" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="39f55d7a71514be8b736d7fd16195ff2e163946ac3fe8c70c8f05f3a649a3f4f_sk" value="1" />
           <entry key="4a455f6b8aef35d1a2788e380031b74b1cf83f193aaab0a27fef525f8af3af89_sk" value="1" />
           <entry key="7c73fd300a90b41c79ace8ee5553e1f3ba12b141892d966617731380189d3f4e_sk" value="1" />
           <entry key="8ca90d9a00dbff1c9b2f739d62152271793ec3c7d5a83f717331639706659726_sk" value="1" />
           <entry key="Makefile" value="2" />
           <entry key="b6200632514ed6540d901faa3c1638c530da2397d20347817344feaba48eb39b_sk" value="1" />
-          <entry key="crt" value="3" />
-          <entry key="go" value="518" />
+          <entry key="crt" value="5" />
+          <entry key="go" value="612" />
           <entry key="gradle" value="1" />
           <entry key="html" value="1" />
           <entry key="in" value="2" />
           <entry key="java" value="3" />
-          <entry key="key" value="1" />
-          <entry key="md" value="12" />
+          <entry key="key" value="2" />
+          <entry key="md" value="16" />
           <entry key="mk" value="1" />
-          <entry key="pem" value="28" />
-          <entry key="png" value="94" />
+          <entry key="pem" value="31" />
+          <entry key="png" value="130" />
           <entry key="properties" value="1" />
-          <entry key="proto" value="25" />
+          <entry key="proto" value="27" />
           <entry key="puml" value="7" />
           <entry key="py" value="1" />
-          <entry key="rst" value="40" />
+          <entry key="rst" value="45" />
           <entry key="sh" value="5" />
           <entry key="txt" value="3" />
-          <entry key="yaml" value="44" />
+          <entry key="yaml" value="48" />
           <entry key="yml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Bash" value="4" />
-          <entry key="Go" value="518" />
+          <entry key="Go" value="612" />
           <entry key="HTML" value="1" />
-          <entry key="Image" value="94" />
-          <entry key="PLAIN_TEXT" value="112" />
-          <entry key="PROTO" value="16" />
+          <entry key="Image" value="130" />
+          <entry key="PLAIN_TEXT" value="128" />
+          <entry key="PROTO" value="18" />
           <entry key="PlantUML file" value="7" />
-          <entry key="YAML" value="45" />
+          <entry key="YAML" value="49" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="go" value="3778" />
+          <entry key="go" value="4358" />
           <entry key="proto" value="14" />
           <entry key="puml" value="2" />
           <entry key="yaml" value="4" />
@@ -102,7 +102,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Go" value="3778" />
+          <entry key="Go" value="4358" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="PROTO" value="12" />
           <entry key="PlantUML file" value="2" />
@@ -114,61 +114,85 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous1/config.yaml">
+        <entry file="file://$PROJECT_DIR$/msp/configbuilder.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msp/idemixmsp.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="437">
+              <caret line="35" column="24" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msp/mspimplsetup.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5776">
+              <caret line="315" column="51" selection-start-line="315" selection-start-column="21" selection-end-line="315" selection-end-column="57" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msp/mspimplvalidate.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3724">
+              <caret line="208" column="77" selection-start-line="208" selection-start-column="68" selection-end-line="208" selection-end-column="86" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msp/mspmgrimpl.go">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/users/Admin@wangchong.com/msp/keystore/8ca90d9a00dbff1c9b2f739d62152271793ec3c7d5a83f717331639706659726_sk">
+        <entry file="file://$PROJECT_DIR$/msp/mgmt/mgmt.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1596">
+              <caret line="95" column="24" selection-start-line="95" selection-start-column="24" selection-end-line="95" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/msp/mgmt/principal.go">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/tlsca/4a455f6b8aef35d1a2788e380031b74b1cf83f193aaab0a27fef525f8af3af89_sk">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/msp/mgmt/deserializer.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1045">
+              <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gossip/common/cert.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="209">
+              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/fabric-deploy/crypto-config.yaml">
+        <entry file="file://$PROJECT_DIR$/orderer/common/localconfig/config.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="23" column="12" lean-forward="true" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+            <state relative-caret-position="130">
+              <caret line="189" column="5" selection-start-line="189" selection-start-column="5" selection-end-line="189" selection-end-column="5" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/orderers/orderer.wangchong.com/msp/admincerts/Admin@wangchong.com-cert.pem">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous2/config.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous8/config.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/msp/testdata/badconfigou/config.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/msp/testdata/badadmin/config.yaml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/tlsca/tlsca.wangchong.com-cert.pem">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -194,12 +218,15 @@
       <find>ackSendOperation</find>
       <find>incMsgs := g.comm.Accept(msgSelector)</find>
       <find>Payload</find>
-      <find>peerSigner, err := signer.New(msp.bccsp, privKey)</find>
       <find>digest, err := msp.bccsp.Hash(idPub.(*identity).cert.Raw, hashOpt)</find>
       <find>msp.bccsp.Hash</find>
       <find>putils.GetSignedProposal</find>
       <find>Sign(rand io.Reader, digest []byte, opts SignerOpts) (signature []byte, err error)</find>
       <find>cf.EndorserClient.ProcessProposal</find>
+      <find>sigid := &amp;msp.SigningIdentityInfo{PublicSigner: signcert[0], PrivateSigner: nil}</find>
+      <find>peerSigner, err := signer.New(msp.bccsp, privKey)</find>
+      <find>getCertFromPem</find>
+      <find>deserializeIdentityInternal</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\flybird\go\src\github.com\hyperledger\fabric\gossip\gossip</dir>
@@ -213,10 +240,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/protos/peer/events.pb.go" />
-        <option value="$PROJECT_DIR$/core/comm/config.go" />
-        <option value="$PROJECT_DIR$/core/comm/server.go" />
-        <option value="$PROJECT_DIR$/peer/gossip/sa.go" />
         <option value="$PROJECT_DIR$/protos/gossip/extensions.go" />
         <option value="$PROJECT_DIR$/gossip/comm/comm.go" />
         <option value="$PROJECT_DIR$/gossip/comm/mock/mock_comm.go" />
@@ -245,7 +268,6 @@
         <option value="$PROJECT_DIR$/core/config/config.go" />
         <option value="$PROJECT_DIR$/peer/node/start.go" />
         <option value="$PROJECT_DIR$/docs/source/msp.rst" />
-        <option value="$PROJECT_DIR$/msp/mspimplvalidate.go" />
         <option value="$PROJECT_DIR$/peer/common/common.go" />
         <option value="$PROJECT_DIR$/msp/configbuilder.go" />
         <option value="$PROJECT_DIR$/bccsp/sw/fileks.go" />
@@ -258,12 +280,17 @@
         <option value="$PROJECT_DIR$/msp/mgmt/mgmt.go" />
         <option value="$PROJECT_DIR$/msp/cache/cache.go" />
         <option value="$PROJECT_DIR$/sampleconfig/core.yaml" />
-        <option value="$PROJECT_DIR$/msp/mspimpl.go" />
-        <option value="$PROJECT_DIR$/msp/identities.go" />
         <option value="$PROJECT_DIR$/bccsp/pkcs11/impl.go" />
         <option value="$PROJECT_DIR$/bccsp/pkcs11/ecdsa.go" />
         <option value="$PROJECT_DIR$/core/common/validation/msgvalidation.go" />
         <option value="$PROJECT_DIR$/fabric-deploy/crypto-config.yaml" />
+        <option value="$PROJECT_DIR$/msp/mspimplsetup.go" />
+        <option value="$PROJECT_DIR$/msp/mspimplvalidate.go" />
+        <option value="$PROJECT_DIR$/common/tools/cryptogen/ca/generator.go" />
+        <option value="$PROJECT_DIR$/msp/msp.go" />
+        <option value="$PROJECT_DIR$/msp/mspimpl.go" />
+        <option value="$PROJECT_DIR$/msp/identities.go" />
+        <option value="$PROJECT_DIR$/orderer/common/localconfig/config.go" />
       </list>
     </option>
   </component>
@@ -273,8 +300,8 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="271" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="270" />
     <option name="width" value="1683" />
     <option name="height" value="1020" />
   </component>
@@ -295,52 +322,13 @@
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="bccsp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="fabric-deploy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="fabric-deploy" type="462c0819:PsiDirectoryNode" />
-              <item name="certs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="fabric-deploy" type="462c0819:PsiDirectoryNode" />
-              <item name="certs" type="462c0819:PsiDirectoryNode" />
-              <item name="ordererOrganizations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="fabric-deploy" type="462c0819:PsiDirectoryNode" />
-              <item name="certs" type="462c0819:PsiDirectoryNode" />
-              <item name="ordererOrganizations" type="462c0819:PsiDirectoryNode" />
-              <item name="wangchong.com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="fabric-deploy" type="462c0819:PsiDirectoryNode" />
-              <item name="certs" type="462c0819:PsiDirectoryNode" />
-              <item name="ordererOrganizations" type="462c0819:PsiDirectoryNode" />
-              <item name="wangchong.com" type="462c0819:PsiDirectoryNode" />
-              <item name="users" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="gotools" type="462c0819:PsiDirectoryNode" />
+              <item name="msp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
               <item name="msp" type="462c0819:PsiDirectoryNode" />
+              <item name="cache" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
@@ -358,7 +346,25 @@
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
               <item name="fabric" type="462c0819:PsiDirectoryNode" />
-              <item name="sampleconfig" type="462c0819:PsiDirectoryNode" />
+              <item name="msp" type="462c0819:PsiDirectoryNode" />
+              <item name="mocks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="protos" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="protos" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fabric" type="462c0819:PsiDirectoryNode" />
+              <item name="protos" type="462c0819:PsiDirectoryNode" />
+              <item name="msp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fabric" type="b2602c69:ProjectViewProjectNode" />
@@ -372,7 +378,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="HeaderType_CONFIG&#9;null&#9;null&#10;ValidateProposalMessage&#9;null&#9;null&#10;checkSignatureFromCreator&#9;null&#9;null&#10;DeserializeIdentity&#9;null&#9;null&#10;/ecdsa.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/sw/ecdsa.go&#10;Sign&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/signer/signer.go&#10;signingidentity&#9;null&#9;null&#10;keystore.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/keystore.go&#10;keystore&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/msp/keystore&#10;swfactory.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/factory/swfactory.go&#10;getSigningIdentityFromConf&#9;null&#9;null&#10;start&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/peer/node/start.go&#10;configbuilder&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/msp/configbuilder.go&#10;genesis&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/genesis/genesis.go&#10;anchor&#9;null&#9;null&#10;Anchor&#9;null&#9;null&#10;GossipStateProviderImpl&#9;null&#9;null&#10;handleMsgFromComm&#9;null&#9;null&#10;Payload&#9;null&#9;null&#10;discoverySecurityAdapter&#9;null&#9;null&#10;serializedIdentity&#9;null&#9;null&#10;core.&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/core.yaml&#10; writeToStream&#9;null&#9;null&#10;serviceConnection&#9;null&#9;null&#10;core.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/core.yaml&#10;docker&#9;null&#9;null&#10;InitGossipService&#9;null&#9;null&#10;DeliverBlocks&#9;null&#9;null&#10;TestDissemination&#9;null&#9;null&#10;NewGossipService&#9;null&#9;null&#10;HandleMessage&#9;null&#9;null&#10;.MessageAcceptor&#9;null&#9;null&#10;service.InitGossipService&#9;null&#9;null&#10;his&#9;null&#9;null&#10;globalEventsServer&#9;null&#9;null&#10;peerServer&#9;null&#9;null&#10;eventprocessor&#9;null&#9;null&#10;Events_ChatServer &#9;null&#9;null&#10;createEventHubServer&#9;null&#9;null&#10;NewGRPCServerFromListener&#9;null&#9;null&#10;ServerConfig&#9;null&#9;null&#10;EventsClient&#9;null&#9;null&#10;configtx.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/examples/e2e_cli/configtx.yaml&#10;defaultOrdererAddresses&#9;null&#9;null&#10;ConsortiumKey&#9;null&#9;null&#10;configgroup&#9;null&#9;null&#10;configGroup&#9;null&#9;null&#10;leveldb&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/ledger/util/leveldbhelper/leveldb_helper.go&#10;cobra&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric-ca/vendor/github.com/spf13/cobra/cobra.go&#10;blocksRequester&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="tls&#9;null&#9;null&#10;DeserializeIdentity&#9;null&#9;null&#10;bccspmsp&#9;null&#9;null&#10;ValidateProposalMessage&#9;null&#9;null&#10;checkSignatureFromCreator&#9;null&#9;null&#10;getIdentityFromConf&#9;null&#9;null&#10;getPemMaterialFromDir&#9;null&#9;null&#10;GetDefaultSigner()&#9;null&#9;null&#10;join&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/peer/channel/join.go&#10;HeaderType_CONFIG&#9;null&#9;null&#10;/ecdsa.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/sw/ecdsa.go&#10;Sign&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/signer/signer.go&#10;signingidentity&#9;null&#9;null&#10;keystore.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/keystore.go&#10;keystore&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/msp/keystore&#10;swfactory.go&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/bccsp/factory/swfactory.go&#10;getSigningIdentityFromConf&#9;null&#9;null&#10;start&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/peer/node/start.go&#10;configbuilder&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/msp/configbuilder.go&#10;genesis&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/common/genesis/genesis.go&#10;anchor&#9;null&#9;null&#10;Anchor&#9;null&#9;null&#10;GossipStateProviderImpl&#9;null&#9;null&#10;handleMsgFromComm&#9;null&#9;null&#10;Payload&#9;null&#9;null&#10;discoverySecurityAdapter&#9;null&#9;null&#10;serializedIdentity&#9;null&#9;null&#10;core.&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/core.yaml&#10; writeToStream&#9;null&#9;null&#10;serviceConnection&#9;null&#9;null&#10;core.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/sampleconfig/core.yaml&#10;docker&#9;null&#9;null&#10;InitGossipService&#9;null&#9;null&#10;DeliverBlocks&#9;null&#9;null&#10;TestDissemination&#9;null&#9;null&#10;NewGossipService&#9;null&#9;null&#10;HandleMessage&#9;null&#9;null&#10;.MessageAcceptor&#9;null&#9;null&#10;service.InitGossipService&#9;null&#9;null&#10;his&#9;null&#9;null&#10;globalEventsServer&#9;null&#9;null&#10;peerServer&#9;null&#9;null&#10;eventprocessor&#9;null&#9;null&#10;Events_ChatServer &#9;null&#9;null&#10;createEventHubServer&#9;null&#9;null&#10;NewGRPCServerFromListener&#9;null&#9;null&#10;ServerConfig&#9;null&#9;null&#10;EventsClient&#9;null&#9;null&#10;configtx.yaml&#9;FILE&#9;file://C:/Users/flybird/go/src/github.com/hyperledger/fabric/examples/e2e_cli/configtx.yaml&#10;defaultOrdererAddresses&#9;null&#9;null" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
@@ -385,11 +391,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\flybird\go\src\github.com\hyperledger\fabric\fabric-deploy\bin" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\flybird\go\src\github.com\hyperledger\fabric" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\flybird\go\src\github.com\hyperledger\fabric\fabric-deploy\bin" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -428,10 +434,10 @@
     </configuration>
   </component>
   <component name="ToolWindowManager">
-    <frame x="181" y="0" width="1122" height="680" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26221806" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30072758" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -442,8 +448,8 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4924812" visible="true" weight="0.22519083" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50751877" side_tool="true" visible="true" weight="0.22519083" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.48585287" visible="true" weight="0.21892393" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5141471" side_tool="true" visible="true" weight="0.21892393" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -483,248 +489,292 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protos/gossip/message.proto">
+    <entry file="file://$PROJECT_DIR$/protos/peer/peer.pb.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="275" column="1" lean-forward="true" selection-start-line="275" selection-start-column="1" selection-end-line="275" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/core.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="154" selection-start-line="154" selection-end-line="154" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mspimpl.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="500" column="5" lean-forward="true" selection-start-line="500" selection-start-column="5" selection-end-line="500" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mspimplvalidate.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="23" column="43" lean-forward="true" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/msp.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="153" column="40" lean-forward="true" selection-start-line="153" selection-start-column="40" selection-end-line="153" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/identities.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="169" column="34" lean-forward="true" selection-start-line="169" selection-start-column="34" selection-end-line="169" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/bccsp.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="146" column="7" lean-forward="true" selection-start-line="146" selection-start-column="7" selection-end-line="146" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/ecdsaopts.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-449" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/opts.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5864" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/signer/signer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="87" column="18" lean-forward="true" selection-start-line="87" selection-start-column="18" selection-end-line="87" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/pkcs11/conf.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1646" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/pkcs11/impl.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="488" column="24" lean-forward="true" selection-start-line="488" selection-start-column="24" selection-end-line="488" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/utils/ecdsa.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="97" column="5" selection-start-line="97" selection-start-column="5" selection-end-line="97" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bccsp/pkcs11/ecdsa.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+        <state relative-caret-position="1490">
+          <caret line="87" column="21" selection-start-line="87" selection-start-column="21" selection-end-line="87" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/common/validation/msgvalidation.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
+        <state relative-caret-position="160">
+          <caret line="122" column="18" lean-forward="true" selection-start-line="122" selection-start-column="18" selection-end-line="122" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protos/common/common.pb.go">
+    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/admincerts/admincert.pem">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/msp/admincerts/Admin@org1.wangchong.com-cert.pem">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="328" lean-forward="true" selection-start-line="328" selection-end-line="328" />
+        <state relative-caret-position="266">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mgmt/mgmt.go">
+    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/ca/39f55d7a71514be8b736d7fd16195ff2e163946ac3fe8c70c8f05f3a649a3f4f_sk">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/ca/ca.org1.wangchong.com-cert.pem">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3731">
-          <caret line="10" column="15" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
+        <state relative-caret-position="209">
+          <caret line="11" column="64" lean-forward="true" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mgmt/principal.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-981" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mgmt/deserializer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="45" column="37" lean-forward="true" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/endorser/java.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/mgmt/testtools/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-69">
-          <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/msp_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/nodeous_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/ouconfig_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/revocation_test.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/tls_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="41" column="66" selection-start-line="41" selection-start-column="66" selection-end-line="41" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous3/config.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/config.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/mspid/tlscacerts/ca.example.com-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/mspid/signcerts/peer0-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/mspid/keystore/7c73fd300a90b41c79ace8ee5553e1f3ba12b141892d966617731380189d3f4e_sk">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/mspid/cacerts/ca.example.com-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/mspid/admincerts/peer0-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sampleconfig/msp/cacerts/cacert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/tls/ca.crt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/msp/tlscacerts/tlsca.org1.wangchong.com-cert.pem">
+    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/tls/server.key">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/tls/server.crt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/tls/server.key">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/ca/ca.wangchong.com-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/users/Admin@wangchong.com/msp/cacerts/ca.wangchong.com-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/ca/b6200632514ed6540d901faa3c1638c530da2397d20347817344feaba48eb39b_sk">
+    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/peerOrganizations/org1.wangchong.com/peers/peer0.org1.wangchong.com/tls/ca.crt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+        <state relative-caret-position="266">
+          <caret line="14" column="25" lean-forward="true" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous1/config.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/proposals/r1/blocks-2.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/users/Admin@wangchong.com/msp/keystore/8ca90d9a00dbff1c9b2f739d62152271793ec3c7d5a83f717331639706659726_sk">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/proposals/r1/flow-2.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/tlsca/4a455f6b8aef35d1a2788e380031b74b1cf83f193aaab0a27fef525f8af3af89_sk">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/orderers/orderer.wangchong.com/msp/admincerts/Admin@wangchong.com-cert.pem">
+    <entry file="file://$PROJECT_DIR$/docs/source/commands/cryptogen-commands.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+        <state relative-caret-position="-1539" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/commands/peerchaincode.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous2/config.yaml">
+    <entry file="file://$PROJECT_DIR$/docs/source/commands/fabric-ca-commands.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-111" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/commands/configtxgen.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2116" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/source/architecture.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/tools/cryptogen/metadata/metadata.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/nodeous8/config.yaml">
+    <entry file="file://C:/Go/src/crypto/x509/pkix/pkix.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="243" column="5" selection-start-line="243" selection-start-column="5" selection-end-line="243" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/tools/cryptogen/ca/generator.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="28" column="29" lean-forward="true" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/crypto/x509/verify.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="176" column="7" selection-start-line="176" selection-start-column="7" selection-end-line="176" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/tools/cryptogen/csp/csp.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/badconfigou/config.yaml">
+    <entry file="file://$PROJECT_DIR$/common/tools/cryptogen/msp/generator.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/msp/testdata/badadmin/config.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/msp/cache/cache.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1171">
+          <caret line="62" column="30" lean-forward="true" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/certs/ordererOrganizations/wangchong.com/tlsca/tlsca.wangchong.com-cert.pem">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/msp/mspimpl.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4743">
+          <caret line="639" column="1" lean-forward="true" selection-start-line="639" selection-start-column="1" selection-end-line="639" selection-end-column="1" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fabric-deploy/crypto-config.yaml">
+    <entry file="file://$PROJECT_DIR$/msp/msp.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="501">
+          <caret line="195" column="11" selection-start-line="195" selection-end-line="196" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bccsp/bccsp.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="48" column="23" lean-forward="true" selection-start-line="48" selection-start-column="17" selection-end-line="48" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/crypto/x509/x509.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="632" column="5" selection-start-line="632" selection-start-column="5" selection-end-line="632" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Go/src/crypto/crypto.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="114" column="5" selection-start-line="114" selection-start-column="5" selection-end-line="114" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/identities.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="216" column="21" selection-start-line="216" selection-start-column="21" selection-end-line="216" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/factory.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-544">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/cert.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="54" column="39" selection-start-line="54" selection-start-column="39" selection-end-line="54" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mocks/mocks.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2102" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mgmt/testtools/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-582" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/credential.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1083" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/credrequest.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1622" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/idemix.pb.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-342" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/issuerkey.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2565" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/nymsignature.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1793" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/signature.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4719" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/idemix/util.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1710" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/configbuilder.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="40" column="37" selection-start-line="40" selection-start-column="37" selection-end-line="40" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/idemixmsp.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
-          <caret line="23" column="12" lean-forward="true" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+          <caret line="35" column="24" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mspimplsetup.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5776">
+          <caret line="315" column="51" selection-start-line="315" selection-start-column="21" selection-end-line="315" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mspimplvalidate.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3724">
+          <caret line="208" column="77" selection-start-line="208" selection-start-column="68" selection-end-line="208" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mspmgrimpl.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mgmt/mgmt.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1596">
+          <caret line="95" column="24" selection-start-line="95" selection-start-column="24" selection-end-line="95" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mgmt/principal.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msp/mgmt/deserializer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1045">
+          <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gossip/common/cert.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/orderer/common/localconfig/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="189" column="5" selection-start-line="189" selection-start-column="5" selection-end-line="189" selection-end-column="5" />
         </state>
       </provider>
     </entry>

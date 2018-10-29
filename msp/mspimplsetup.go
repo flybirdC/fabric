@@ -18,7 +18,7 @@ import (
 	m "github.com/hyperledger/fabric/protos/msp"
 	errors "github.com/pkg/errors"
 )
-
+//建立证书身份标识组
 func (msp *bccspmsp) getCertifiersIdentifier(certRaw []byte) ([]byte, error) {
 	// 1. check that certificate is registered in msp.rootCerts or msp.intermediateCerts
 	cert, err := msp.getCertFromPem(certRaw)
@@ -77,7 +77,7 @@ func (msp *bccspmsp) getCertifiersIdentifier(certRaw []byte) ([]byte, error) {
 	return certifiersIdentifier, nil
 
 }
-
+//建立加密算法组
 func (msp *bccspmsp) setupCrypto(conf *m.FabricMSPConfig) error {
 	msp.cryptoConfig = conf.CryptoConfig
 	if msp.cryptoConfig == nil {
@@ -99,7 +99,7 @@ func (msp *bccspmsp) setupCrypto(conf *m.FabricMSPConfig) error {
 
 	return nil
 }
-
+//建立root CA组
 func (msp *bccspmsp) setupCAs(conf *m.FabricMSPConfig) error {
 	// make and fill the set of CA certs - we expect them to be there
 	if len(conf.RootCerts) == 0 {
@@ -161,7 +161,7 @@ func (msp *bccspmsp) setupCAs(conf *m.FabricMSPConfig) error {
 
 	return nil
 }
-
+//建立管理员组
 func (msp *bccspmsp) setupAdmins(conf *m.FabricMSPConfig) error {
 	// make and fill the set of admin certs (if present)
 	msp.admins = make([]Identity, len(conf.Admins))
@@ -176,7 +176,7 @@ func (msp *bccspmsp) setupAdmins(conf *m.FabricMSPConfig) error {
 
 	return nil
 }
-
+//建立CRL废弃证书组
 func (msp *bccspmsp) setupCRLs(conf *m.FabricMSPConfig) error {
 	// setup the CRL (if present)
 	msp.CRL = make([]*pkix.CertificateList, len(conf.RevocationList))

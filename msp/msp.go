@@ -115,6 +115,7 @@ type OUIdentifier struct {
 // and offers solely signature verification capabilities. This is to be used
 // at the peer side when verifying certificates that transactions are signed
 // with, and verifying signatures that correspond to these certificates.///
+//定义操作证书的接口
 type Identity interface {
 
 	// ExpiresAt returns the time at which the Identity expires.
@@ -124,15 +125,18 @@ type Identity interface {
 	ExpiresAt() time.Time
 
 	// GetIdentifier returns the identifier of that identity
+	//获得签名者mspId和id
 	GetIdentifier() *IdentityIdentifier
 
 	// GetMSPIdentifier returns the MSP Id for this instance
+	//获得MSP ID
 	GetMSPIdentifier() string
 
 	// Validate uses the rules that govern this identity to validate it.
 	// E.g., if it is a fabric TCert implemented as identity, validate
 	// will check the TCert signature against the assumed root certificate
 	// authority.
+	//核对签名的根证书
 	Validate() error
 
 	// GetOrganizationalUnits returns zero or more organization units or
@@ -148,9 +152,11 @@ type Identity interface {
 	// TODO: For X.509 based identities, check if we need a dedicated type
 	//       for OU where the Certificate OU is properly namespaced by the
 	//       signer's identity
+	//获得组织单元
 	GetOrganizationalUnits() []*OUIdentifier
 
 	// Verify a signature over some message using this identity as reference
+	//验签
 	Verify(msg []byte, sig []byte) error
 
 	// Serialize converts an identity to bytes

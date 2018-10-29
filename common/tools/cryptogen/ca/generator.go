@@ -24,6 +24,7 @@ import (
 	"github.com/hyperledger/fabric/common/tools/cryptogen/csp"
 )
 
+//CA结构
 type CA struct {
 	Name               string
 	Country            string

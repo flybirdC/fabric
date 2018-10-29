@@ -178,6 +178,7 @@ func (id *identity) Verify(msg []byte, sig []byte) error {
 }
 
 // Serialize returns a byte array representation of this identity
+//返回identity序列化后的字符数组
 func (id *identity) Serialize() ([]byte, error) {
 	// mspIdentityLogger.Infof("Serializing identity %s", id.id)
 
@@ -197,6 +198,7 @@ func (id *identity) Serialize() ([]byte, error) {
 	return idBytes, nil
 }
 
+//返回对应hash算法
 func (id *identity) getHashOpt(hashFamily string) (bccsp.HashOpts, error) {
 	switch hashFamily {
 	case bccsp.SHA2:

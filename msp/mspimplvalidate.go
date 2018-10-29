@@ -21,6 +21,7 @@ import (
 )
 
 func (msp *bccspmsp) validateIdentity(id *identity) error {
+	//是否在证书链中
 	validationChain, err := msp.getCertificationChainForBCCSPIdentity(id)
 	if err != nil {
 		return errors.WithMessage(err, "could not obtain certification chain")

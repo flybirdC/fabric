@@ -70,6 +70,7 @@ type TopLevel struct {
 }
 
 // General contains config which should be common among all orderer types.
+//orderer包含的属性
 type General struct {
 	LedgerType     string
 	ListenAddress  string
@@ -97,6 +98,7 @@ type Keepalive struct {
 }
 
 // TLS contains configuration for TLS connections.
+//tls属性
 type TLS struct {
 	Enabled            bool
 	PrivateKey         string
@@ -185,7 +187,7 @@ type Debug struct {
 	BroadcastTraceDir string
 	DeliverTraceDir   string
 }
-
+//初始化
 var defaults = TopLevel{
 	General: General{
 		LedgerType:     "file",
