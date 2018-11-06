@@ -119,6 +119,7 @@ func NewEndorserServer(privDist privateDataDistributor, s Support) pb.EndorserSe
 }
 
 //call specified chaincode (system or user)
+//回调链码
 func (e *Endorser) callChaincode(ctxt context.Context, chainID string, version string, txid string, signedProp *pb.SignedProposal, prop *pb.Proposal, cis *pb.ChaincodeInvocationSpec, cid *pb.ChaincodeID, txsim ledger.TxSimulator) (*pb.Response, *pb.ChaincodeEvent, error) {
 	endorserLogger.Debugf("[%s][%s] Entry chaincode: %s version: %s", chainID, shorttxid(txid), cid, version)
 	defer endorserLogger.Debugf("[%s][%s] Exit", chainID, shorttxid(txid))
@@ -132,7 +133,7 @@ func (e *Endorser) callChaincode(ctxt context.Context, chainID string, version s
 
 	//is this a system chaincode
 	scc := e.s.IsSysCC(cid.Name)
-
+	//执行链码
 	res, ccevent, err = e.s.Execute(ctxt, chainID, cid.Name, version, txid, scc, signedProp, prop, cis)
 	if err != nil {
 		return nil, nil, err
@@ -245,6 +246,7 @@ func (e *Endorser) disableJavaCCInst(cid *pb.ChaincodeID, cis *pb.ChaincodeInvoc
 }
 
 //simulate the proposal by calling the chaincode
+//模拟提案（于缓存中）
 func (e *Endorser) simulateProposal(ctx context.Context, chainID string, txid string, signedProp *pb.SignedProposal, prop *pb.Proposal, cid *pb.ChaincodeID, txsim ledger.TxSimulator) (resourcesconfig.ChaincodeDefinition, *pb.Response, []byte, *pb.ChaincodeEvent, error) {
 	endorserLogger.Debugf("[%s][%s] Entry chaincode: %s", chainID, shorttxid(txid), cid)
 	defer endorserLogger.Debugf("[%s][%s] Exit", chainID, shorttxid(txid))
@@ -284,6 +286,7 @@ func (e *Endorser) simulateProposal(ctx context.Context, chainID string, txid st
 	var pubSimResBytes []byte
 	var res *pb.Response
 	var ccevent *pb.ChaincodeEvent
+	//回调链码
 	res, ccevent, err = e.callChaincode(ctx, chainID, version, txid, signedProp, prop, cis, cid, txsim)
 	if err != nil {
 		endorserLogger.Errorf("[%s][%s] failed to invoke chaincode %s, error: %+v", chainID, shorttxid(txid), cid, err)
@@ -312,6 +315,7 @@ func (e *Endorser) simulateProposal(ctx context.Context, chainID string, txid st
 }
 
 //endorse the proposal by calling the ESCC
+//通过ESCC系统链背书提案
 func (e *Endorser) endorseProposal(ctx context.Context, chainID string, txid string, signedProp *pb.SignedProposal, proposal *pb.Proposal, response *pb.Response, simRes []byte, event *pb.ChaincodeEvent, visibility []byte, ccid *pb.ChaincodeID, txsim ledger.TxSimulator, cd resourcesconfig.ChaincodeDefinition) (*pb.ProposalResponse, error) {
 	endorserLogger.Debugf("[%s][%s] Entry chaincode: %s", chainID, shorttxid(txid), ccid)
 	defer endorserLogger.Debugf("[%s][%s] Exit", chainID, shorttxid(txid))

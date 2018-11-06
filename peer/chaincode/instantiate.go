@@ -66,28 +66,28 @@ func instantiate(cmd *cobra.Command, cf *ChaincodeCmdFactory) (*protcommon.Envel
 	if err != nil {
 		return nil, err
 	}
-
+	//从已部署的合约中得到当前合约的cds
 	cds, err := getChaincodeDeploymentSpec(spec, false)
 	if err != nil {
 		return nil, fmt.Errorf("Error getting chaincode code %s: %s", chainFuncName, err)
 	}
-
+	//得到节点的签名笔
 	creator, err := cf.Signer.Serialize()
 	if err != nil {
 		return nil, fmt.Errorf("Error serializing identity for %s: %s", cf.Signer.GetIdentifier(), err)
 	}
-
+	//打包生成prop提案信息包
 	prop, _, err := utils.CreateDeployProposalFromCDS(channelID, cds, creator, policyMarshalled, []byte(escc), []byte(vscc), collectionConfigBytes)
 	if err != nil {
 		return nil, fmt.Errorf("Error creating proposal  %s: %s", chainFuncName, err)
 	}
-
+	//封装信息包（提案+签名笔）
 	var signedProp *pb.SignedProposal
 	signedProp, err = utils.GetSignedProposal(prop, cf.Signer)
 	if err != nil {
 		return nil, fmt.Errorf("Error creating signed proposal  %s: %s", chainFuncName, err)
 	}
-
+	//将打包的合约信息发送给背书节点客户端
 	proposalResponse, err := cf.EndorserClient.ProcessProposal(context.Background(), signedProp)
 	if err != nil {
 		return nil, fmt.Errorf("Error endorsing %s: %s", chainFuncName, err)

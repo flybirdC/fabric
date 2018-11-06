@@ -25,6 +25,7 @@ type OrdererClient struct {
 // NewOrdererClientFromEnv creates an instance of an OrdererClient from the
 // global Viper instance
 func NewOrdererClientFromEnv() (*OrdererClient, error) {
+	//得到orderer文件的配置属性
 	address, override, clientConfig, err := configFromEnv("orderer")
 	if err != nil {
 		return nil, errors.WithMessage(err,

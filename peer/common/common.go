@@ -215,6 +215,7 @@ func CheckLogLevel(level string) error {
 	return err
 }
 
+//从配置文件获得属性
 func configFromEnv(prefix string) (address, override string,
 	clientConfig comm.ClientConfig, err error) {
 	address = viper.GetString(prefix + ".address")

@@ -124,7 +124,7 @@ func sanityCheckAndSignConfigTx(envConfigUpdate *cb.Envelope) (*cb.Envelope, err
 	if err != nil {
 		return nil, InvalidCreateTx("Bad config update env")
 	}
-
+	//声明一个新的peer msp签名笔
 	signer := localsigner.NewSigner()
 	sigHeader, err := signer.NewSignatureHeader()
 	if err != nil {
@@ -141,11 +141,11 @@ func sanityCheckAndSignConfigTx(envConfigUpdate *cb.Envelope) (*cb.Envelope, err
 
 	return utils.CreateSignedEnvelope(cb.HeaderType_CONFIG_UPDATE, channelID, signer, configUpdateEnv, 0, 0)
 }
-
+//发送创建链的合约
 func sendCreateChainTransaction(cf *ChannelCmdFactory) error {
 	var err error
 	var chCrtEnv *cb.Envelope
-
+//读取配置文件参数
 	if channelTxFile != "" {
 		if chCrtEnv, err = createChannelFromConfigTx(channelTxFile); err != nil {
 			return err
@@ -155,7 +155,7 @@ func sendCreateChainTransaction(cf *ChannelCmdFactory) error {
 			return err
 		}
 	}
-
+	//检查配置文件交易签名
 	if chCrtEnv, err = sanityCheckAndSignConfigTx(chCrtEnv); err != nil {
 		return err
 	}
@@ -165,7 +165,7 @@ func sendCreateChainTransaction(cf *ChannelCmdFactory) error {
 	if err != nil {
 		return fmt.Errorf("Error getting broadcast client: %s", err)
 	}
-
+	//向orderer节点发送
 	defer broadcastClient.Close()
 	err = broadcastClient.Send(chCrtEnv)
 

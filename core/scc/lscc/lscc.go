@@ -108,14 +108,17 @@ type Support interface {
 //---------- the LSCC -----------------
 
 // LifeCycleSysCC implements chaincode lifecycle and policies around it
+//实现链码生命周期和相关策略
 type lifeCycleSysCC struct {
 	// sccprovider is the interface with which we call
 	// methods of the system chaincode package without
 	// import cycles
+	//系统链码实例
 	sccprovider sysccprovider.SystemChaincodeProvider
 
 	// policyChecker is the interface used to perform
 	// access control
+	//策略检查接口
 	policyChecker policy.PolicyChecker
 
 	// support provides the implementation of several
@@ -610,6 +613,7 @@ func (lscc *lifeCycleSysCC) Init(stub shim.ChaincodeStubInterface) pb.Response {
 //
 // Invoke also implements some query-like functions
 // Get chaincode arguments -  {[]byte("getid"), []byte(<chainname>), []byte(<chaincodename>)}
+//实现链码生命周期的"deploy", "start", "stop", "upgrade"
 func (lscc *lifeCycleSysCC) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	args := stub.GetArgs()
 	if len(args) < 1 {

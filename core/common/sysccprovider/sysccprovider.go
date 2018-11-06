@@ -26,6 +26,7 @@ import (
 // used for different packages to interact with code in the
 // system chaincode package without importing it; more methods
 // should be added below if necessary
+//系统链码接口
 type SystemChaincodeProvider interface {
 	// IsSysCC returns true if the supplied chaincode is a system chaincode
 	IsSysCC(name string) bool

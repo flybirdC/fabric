@@ -38,6 +38,7 @@ var sysccLogger = flogging.MustGetLogger("sccapi")
 // SystemChaincode defines the metadata needed to initialize system chaincode
 // when the fabric comes up. SystemChaincodes are installed by adding an
 // entry in importsysccs.go
+//系统链码
 type SystemChaincode struct {
 	//Unique name of the system chaincode
 	Name string
@@ -68,12 +69,14 @@ type SystemChaincode struct {
 }
 
 // registerSysCC registers the given system chaincode with the peer
+//注册系统链码
 func registerSysCC(syscc *SystemChaincode) (bool, error) {
+	//已在core.yaml中配置系统链码为enable true
 	if !syscc.Enabled || !isWhitelisted(syscc) {
 		sysccLogger.Info(fmt.Sprintf("system chaincode (%s,%s,%t) disabled", syscc.Name, syscc.Path, syscc.Enabled))
 		return false, nil
 	}
-
+	//注册并安装syscc
 	err := inproccontroller.Register(syscc.Path, syscc.Chaincode)
 	if err != nil {
 		//if the type is registered, the instance may not be... keep going
@@ -89,7 +92,9 @@ func registerSysCC(syscc *SystemChaincode) (bool, error) {
 }
 
 // deploySysCC deploys the given system chaincode on a chain
+//acc部署scc
 func deploySysCC(chainID string, syscc *SystemChaincode) error {
+	//检查是否在白名单中
 	if !syscc.Enabled || !isWhitelisted(syscc) {
 		sysccLogger.Info(fmt.Sprintf("system chaincode (%s,%s) disabled", syscc.Name, syscc.Path))
 		return nil
@@ -102,6 +107,7 @@ func deploySysCC(chainID string, syscc *SystemChaincode) error {
 	txid := util.GenerateUUID()
 
 	ctxt := context.Background()
+	//有ID则将其部署到该chainID的链上，无ID则不执行if语句
 	if chainID != "" {
 		lgr := peer.GetLedger(chainID)
 		if lgr == nil {

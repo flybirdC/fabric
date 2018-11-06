@@ -10,6 +10,7 @@ package scc
 
 //RegisterSysCCs is the hook for system chaincodes where system chaincodes are registered with the fabric
 //note the chaincode must still be deployed and launched like a user chaincode will be
+//遍历得到所有系统链码
 func RegisterSysCCs() {
 	for _, sysCC := range systemChaincodes {
 		registerSysCC(sysCC)

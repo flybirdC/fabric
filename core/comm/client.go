@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
+//定义grpc client接口
 type GRPCClient interface {
 	// Certificate returns the tls.Certificate used to make TLS connections
 	// when client certificates are required by the server
@@ -98,6 +99,7 @@ func NewGRPCClient(config ClientConfig) (GRPCClient, error) {
 	return client, nil
 }
 
+//安全解析
 func (client *grpcClient) parseSecureOptions(opts *SecureOptions) error {
 
 	if opts == nil || !opts.UseTLS {

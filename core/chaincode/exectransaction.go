@@ -28,6 +28,7 @@ import (
 )
 
 //Execute - execute proposal, return original response of chaincode
+//执行链码交易
 func Execute(ctxt context.Context, cccid *ccprovider.CCContext, spec interface{}) (*pb.Response, *pb.ChaincodeEvent, error) {
 	var err error
 	var cds *pb.ChaincodeDeploymentSpec
@@ -89,6 +90,7 @@ func Execute(ctxt context.Context, cccid *ccprovider.CCContext, spec interface{}
 
 // ExecuteWithErrorFilter is similar to Execute, but filters error contained in chaincode response and returns Payload of response only.
 // Mostly used by unit-test.
+//执行链码安装
 func ExecuteWithErrorFilter(ctxt context.Context, cccid *ccprovider.CCContext, spec interface{}) ([]byte, *pb.ChaincodeEvent, error) {
 	res, event, err := Execute(ctxt, cccid, spec)
 	if err != nil {

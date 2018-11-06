@@ -75,6 +75,7 @@ func GetChaincodeDefinition(ctxt context.Context, txid string, signedProp *pb.Si
 }
 
 // ExecuteChaincode executes a given chaincode given chaincode name and arguments
+//执行链码
 func ExecuteChaincode(ctxt context.Context, cccid *ccprovider.CCContext, args [][]byte) (*pb.Response, *pb.ChaincodeEvent, error) {
 	var spec *pb.ChaincodeInvocationSpec
 	var err error

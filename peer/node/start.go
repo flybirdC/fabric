@@ -91,6 +91,7 @@ var nodeStartCmd = &cobra.Command{
 //start chaincodes
 func initSysCCs() {
 	//deploy system chaincodes
+	//部署系统链码，scc不属于任何一个链，所以ID为空
 	scc.DeploySysCCs("")
 	logger.Infof("Deployed system chaincodes")
 }
@@ -102,6 +103,7 @@ func serve(args []string) error {
 	// Idemix does not support this *YET* but it can be easily
 	// fixed to support it. For now, we just make sure that
 	// the peer only comes up with the standard MSP
+	//获得本地MSP组件服务关联证书组织
 	mspType := mgmt.GetLocalMSP().GetType()
 	if mspType != msp.FABRIC {
 		panic("Unsupported msp type " + msp.ProviderTypeToString(mspType))
@@ -194,6 +196,7 @@ func serve(args []string) error {
 	if err != nil {
 		logger.Panicf("Failed to create chaincode server: %s", err)
 	}
+	//注册并启动系统链码服务
 	registerChaincodeSupport(ccSrv, ccEndpoint, ca)
 	go ccSrv.Start()
 
@@ -275,6 +278,7 @@ func serve(args []string) error {
 	defer service.GetGossipService().Stop()
 
 	//initialize system chaincodes
+	//初始化系统链码
 	initSysCCs()
 
 	//this brings up all the chains (including testchainid)
@@ -494,6 +498,7 @@ func computeChaincodeEndpoint(peerHostname string) (ccEndpoint string, err error
 //NOTE - when we implement JOIN we will no longer pass the chainID as param
 //The chaincode support will come up without registering system chaincodes
 //which will be registered only during join phase.
+//注册链码服务
 func registerChaincodeSupport(grpcServer comm.GRPCServer, ccEndpoint string, ca accesscontrol.CA) {
 	//get user mode
 	userRunsCC := chaincode.IsDevMode()
@@ -510,6 +515,7 @@ func registerChaincodeSupport(grpcServer comm.GRPCServer, ccEndpoint string, ca 
 	ccSrv := chaincode.NewChaincodeSupport(ccEndpoint, userRunsCC, ccStartupTimeout, ca)
 
 	//Now that chaincode is initialized, register all system chaincodes.
+	//注册所有系统链码
 	scc.RegisterSysCCs()
 	pb.RegisterChaincodeSupportServer(grpcServer.Server(), ccSrv)
 }

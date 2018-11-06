@@ -477,6 +477,7 @@ func (ccl *ccLauncherImpl) launch(ctxt context.Context, notfy chan bool) (interf
 //the targz to create the image if not found. It uses the supplied launcher
 //for launching the chaincode. UTs use the launcher freely to test various
 //conditions such as timeouts, failed launches and other errors
+//注册并等待链码启动服务
 func (chaincodeSupport *ChaincodeSupport) launchAndWaitForRegister(ctxt context.Context, cccid *ccprovider.CCContext, cds *pb.ChaincodeDeploymentSpec, launcher launcherIntf) error {
 	canName := cccid.GetCanonicalName()
 	if canName == "" {
@@ -616,6 +617,7 @@ func (chaincodeSupport *ChaincodeSupport) Stop(context context.Context, cccid *c
 }
 
 // Launch will launch the chaincode if not running (if running return nil) and will wait for handler of the chaincode to get into FSM ready state.
+//链码运行
 func (chaincodeSupport *ChaincodeSupport) Launch(context context.Context, cccid *ccprovider.CCContext, spec interface{}) (*pb.ChaincodeID, *pb.ChaincodeInput, error) {
 	//build the chaincode
 	var cID *pb.ChaincodeID
@@ -628,6 +630,7 @@ func (chaincodeSupport *ChaincodeSupport) Launch(context context.Context, cccid 
 			panic("Launch should be called with deployment or invocation spec")
 		}
 	}
+	//判断，已正确部署了链码
 	if cds != nil {
 		cID = cds.ChaincodeSpec.ChaincodeId
 		cMsg = cds.ChaincodeSpec.Input
@@ -642,6 +645,7 @@ func (chaincodeSupport *ChaincodeSupport) Launch(context context.Context, cccid 
 	var ok bool
 	var err error
 	//if its in the map, there must be a connected stream...nothing to do
+	//判断是否已被launch过
 	if chrte, ok = chaincodeSupport.chaincodeHasBeenLaunched(canName); ok {
 		if !chrte.handler.registered {
 			chaincodeSupport.runningChaincodes.Unlock()
@@ -670,6 +674,7 @@ func (chaincodeSupport *ChaincodeSupport) Launch(context context.Context, cccid 
 	}
 	chaincodeSupport.runningChaincodes.Unlock()
 
+	//Acc安装时进入（非系统链码）
 	if cds == nil {
 		if cccid.Syscc {
 			return cID, cMsg, errors.Errorf("a syscc should be running (it cannot be launched) %s", canName)
@@ -725,16 +730,15 @@ func (chaincodeSupport *ChaincodeSupport) Launch(context context.Context, cccid 
 				chaincodeLogger.Debugf("launchAndWaitForRegister fetched %d bytes from file system", len(cds.CodePackage))
 			}
 		}
-
+		//构建ACC的builder
 		builder := func() (io.Reader, error) { return platforms.GenerateDockerBuild(cds) }
-
+		//注册启动服务
 		err = chaincodeSupport.launchAndWaitForRegister(context, cccid, cds, &ccLauncherImpl{context, chaincodeSupport, cccid, cds, builder})
 		if err != nil {
 			chaincodeLogger.Errorf("launchAndWaitForRegister failed: %+v", err)
 			return cID, cMsg, err
 		}
 	}
-
 	if err == nil {
 		//launch will set the chaincode in Ready state
 		err = chaincodeSupport.sendReady(context, cccid, chaincodeSupport.ccStartupTimeout)

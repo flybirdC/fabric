@@ -1,0 +1,11 @@
+
+OrganizationalUnitIdentifiers:
+- Certificate: "cacerts/cacert.pem"
+  OrganizationalUnitIdentifier: "COP"
+
+NodeOUs:
+  Enable: true
+  ClientOUIdentifier:
+    OrganizationalUnitIdentifier: "OU_client"
+  PeerOUIdentifier:
+    OrganizationalUnitIdentifier: "OU_peer"
