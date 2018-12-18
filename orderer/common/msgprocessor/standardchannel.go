@@ -85,6 +85,7 @@ func (s *StandardChannel) ProcessNormalMsg(env *cb.Envelope) (configSeq uint64, 
 // ProcessConfigUpdateMsg will attempt to apply the config impetus msg to the current configuration, and if successful
 // return the resulting config message and the configSeq the config was computed from.  If the config impetus message
 // is invalid, an error is returned.
+//
 func (s *StandardChannel) ProcessConfigUpdateMsg(env *cb.Envelope) (config *cb.Envelope, configSeq uint64, err error) {
 	logger.Debugf("Processing config update message for channel %s", s.support.ChainID())
 

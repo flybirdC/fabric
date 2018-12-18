@@ -76,6 +76,7 @@ func NewHandlerImpl(sm ChannelSupportRegistrar) Handler {
 }
 
 // Handle starts a service thread for a given gRPC connection and services the broadcast connection
+//为指定的grpc连接开启服务线程，服务广播连接
 func (bh *handlerImpl) Handle(srv ab.AtomicBroadcast_BroadcastServer) error {
 	addr := util.ExtractRemoteAddress(srv.Context())
 	logger.Debugf("Starting new broadcast loop for %s", addr)
@@ -89,7 +90,7 @@ func (bh *handlerImpl) Handle(srv ab.AtomicBroadcast_BroadcastServer) error {
 			logger.Warningf("Error reading from %s: %s", addr, err)
 			return err
 		}
-
+		//过滤重复配置
 		chdr, isConfig, processor, err := bh.sm.BroadcastChannelSupport(msg)
 		if err != nil {
 			channelID := "<malformed_header>"
